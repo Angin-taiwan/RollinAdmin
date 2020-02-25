@@ -17,7 +17,7 @@ require_once 'views/template/header.php';
       <table id="listTable" class="table table-bordered table-hover">
         <thead>
           <tr>
-            <th>BrandID</th>
+            <th>BrandLogo
             <th>BrandName</th>
             <th>Description</th>
           </tr>
@@ -29,7 +29,7 @@ require_once 'views/template/header.php';
           $brands = $brand->getAll();
           foreach ($brands as $brand) {
             echo "<tr>";
-            echo "<td>$brand->BrandID</td>";
+            echo "<td><img src=image/BrandLogo/" .str_replace(' ','',$brand->BrandName). ".jpg /></td>";
             echo "<td>$brand->BrandName</td>";
             echo "<td>$brand->Description</td>";
             echo "</tr>";

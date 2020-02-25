@@ -76,7 +76,7 @@
           <!-- Sidebar Menu -->
           <nav class="mt-2">
             <ul
-              class="nav nav-pills nav-sidebar flex-column nav-child-indent"
+              class="nav nav-pills nav-sidebar flex-column nav-child-indent text-sm"
               data-widget="treeview"
               role="menu"
               data-accordion="false"

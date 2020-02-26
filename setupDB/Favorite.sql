@@ -7,7 +7,7 @@ CREATE DATABASE IF NOT EXISTS rollin DEFAULT character set utf8;
 use Rollin;
 
 --
--- Table structure for table `Brand`
+-- Table structure for table `Favorite`
 --
 
 DROP TABLE IF EXISTS `Favorite`;

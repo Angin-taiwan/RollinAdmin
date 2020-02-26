@@ -37,32 +37,3 @@ INSERT INTO `Brand` (BrandName, Description) VALUES ("Real", "Real is now one of
 
 
 UNLOCK TABLES;
-
-
-CREATE TABLE `Rollin`.`CouponType` (
-  `CouponTypeID` INT NOT NULL AUTO_INCREMENT,
-  `CouponTypeName` VARCHAR(45) NOT NULL COMMENT 'coupon領取方式: 領取,註冊,生日, 周年慶..../輸入折扣碼',
-  PRIMARY KEY (`CouponTypeID`));
-
-CREATE TABLE `Rollin`.`Coupon` (
-  `CouponID` INT NOT NULL AUTO_INCREMENT,
-  `CouponTypeID` INT NOT NULL,
-  `CouponName` VARCHAR(45) NULL DEFAULT NULL,
-  `CouponCode` VARCHAR(15) NULL DEFAULT NULL,
-  `Quantity` INT NOT NULL COMMENT '全店可用數量',
-  `Price` FLOAT NOT NULL COMMENT 'x>1 -price 折價, 0<x<1 *discount 打折',
-  `PriceCondition` INT NULL COMMENT '滿額可用',
-  `StartDate` DATETIME NOT NULL COMMENT '領取/開始使用時間',
-  `EndDate` DATETIME NOT NULL COMMENT '領取結束時間',
-  `ExpEndDate` DATETIME NOT NULL COMMENT '使用結束時間',
-  PRIMARY KEY (`CouponID`),
-  CONSTRAINT `FK_CouponType_Coupon_CouponTypeID` FOREIGN KEY (`CouponTypeID`) REFERENCES `Rollin`.`CouponType` (`CouponTypeID`));
-
-CREATE TABLE `Rollin`.`UserCoupon` (
-  `UserID` INT NOT NULL,
-  `CouponID` INT NOT NULL,
-  `OrderID` INT NULL,
-  PRIMARY KEY (`UserID`, `CouponID`),
-  CONSTRAINT `FK_UserCoupon_User` FOREIGN KEY (`UserID`) REFERENCES `Rollin`.`User` (`UserID`), 
-  CONSTRAINT `FK_UserCoupon_Coupon` FOREIGN KEY (`CouponID`) REFERENCES `Rollin`.`Coupon` (`CouponID`),
-  CONSTRAINT `FK_UserCoupon_Order` FOREIGN KEY (`OrderID`) REFERENCES `Rollin`.`Order` (`OrderID`));

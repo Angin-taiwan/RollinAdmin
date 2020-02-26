@@ -2,7 +2,7 @@
 -- Create database "Rollin" if not exists
 --
 
-CREATE DATABASE IF NOT EXISTS rollin DEFAULT character set utf8;
+CREATE DATABASE IF NOT EXISTS Rollin DEFAULT character set utf8;
 
 use Rollin;
 

@@ -5,6 +5,8 @@ $pageTitle = "Brand List";
 
 require_once 'views/template/header.php';
 
+$brands = $data->getAll();
+
 ?>
 
 <div class="container-fluid">
@@ -24,7 +26,6 @@ require_once 'views/template/header.php';
         </thead>
         <tbody>
           <?php
-          $brands = $data->getAll();
           foreach ($brands as $brand) {
             echo "<tr>";
             echo "<td><img src=image/BrandLogo/" . str_replace(' ', '', $brand->BrandName) . ".jpg /></td>";

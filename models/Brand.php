@@ -6,7 +6,7 @@ class Brand extends DB {
   }
 
   function get($id) {
-    return $this->select("SELECT * FROM Brand WHERE ID = ? ", [$id]);
+    return $this->select("SELECT * FROM Brand WHERE BrandID = ? ", [$id])[0];
   }
 
   function create() {

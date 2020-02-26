@@ -1,5 +1,5 @@
 --
--- Create database "rollin" if not exists
+-- Create database "Rollin" if not exists
 --
 
 CREATE DATABASE IF NOT EXISTS rollin DEFAULT character set utf8;
@@ -11,15 +11,16 @@ use Rollin;
 --
 
 DROP TABLE IF EXISTS `Brand`;
+
 CREATE TABLE `Brand`(
-   BrandID INT NOT NULL AUTO_INCREMENT,
-   BrandName VARCHAR(50) NOT NULL UNIQUE,
+   BrandID 	   INT 			 NOT NULL  AUTO_INCREMENT,
+   BrandName   VARCHAR(50)  NOT NULL  UNIQUE,
    Description VARCHAR(500),
-   PRIMARY KEY ( BrandID  ) 
+   PRIMARY KEY ( BrandID )
 );
 
 --
--- Dumping data for table `brand`
+-- Dumping data for table `Brand`
 --
 
 LOCK TABLES `Brand` WRITE;

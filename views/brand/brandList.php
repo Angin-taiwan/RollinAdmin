@@ -24,12 +24,10 @@ require_once 'views/template/header.php';
         </thead>
         <tbody>
           <?php
-          require_once 'models/Brand.php';
-          $brand = new Brand();
-          $brands = $brand->getAll();
+          $brands = $data->getAll();
           foreach ($brands as $brand) {
             echo "<tr>";
-            echo "<td><img src=image/BrandLogo/" .str_replace(' ','',$brand->BrandName). ".jpg /></td>";
+            echo "<td><img src=image/BrandLogo/" . str_replace(' ', '', $brand->BrandName) . ".jpg /></td>";
             echo "<td><a href=/RollinAdmin/Brand/Detail/$brand->BrandID>$brand->BrandName</a></td>";
             echo "<td>$brand->Description</td>";
             echo "</tr>";

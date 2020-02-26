@@ -20,6 +20,3 @@ CREATE TABLE `Cart`(
    CartQuantity INT 	NOT NULL,
    PRIMARY KEY ( UserID, ProductID, SizeID, ColorID, CartQuantity )
 );
-
-
---- TODO ... FK

@@ -5,9 +5,22 @@ class Brand extends DB {
     return $this->select("SELECT * FROM Brand");
   }
 
-  function getByName($name) {
-    return $this->select("SELECT * FROM Brand WHERE FirstName = ? ", [$name]);
+  function getBrandByID($id) {
+    return $this->select("SELECT * FROM Brand WHERE ID = ? ", [$id]);
   }
+
+  function insertBrand() {
+
+  }
+
+  function updateBrand() {
+    
+  }
+
+  function deleteBrand() {
+    
+  }
+
 }
 
 ?>

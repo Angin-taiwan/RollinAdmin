@@ -7,7 +7,7 @@ require_once 'views/template/header.php';
 
 ?>
 <div class="container-fluid">
-  News Detail, ID = <?= $data->id ?>
+  Brand Detail, ID = <?= $data->id ?>
 </div>
 <!-- /.container-fluid -->
 

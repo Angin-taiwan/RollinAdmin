@@ -13,9 +13,9 @@ use Rollin;
 DROP TABLE IF EXISTS `Brand`;
 CREATE TABLE `Brand`(
    BrandID INT NOT NULL AUTO_INCREMENT,
-   BrandName VARCHAR(50) NOT NULL,
+   BrandName VARCHAR(50) NOT NULL UNIQUE,
    Description VARCHAR(500),
-   PRIMARY KEY ( BrandID )
+   PRIMARY KEY ( BrandID  ) 
 );
 
 --

@@ -17,7 +17,7 @@ require_once 'views/template/header.php';
       <table id="listTable" class="table table-bordered table-hover">
         <thead>
           <tr>
-            <th>BrandLogo
+            <th>BrandLogo</th>
             <th>BrandName</th>
             <th>Description</th>
           </tr>
@@ -30,7 +30,7 @@ require_once 'views/template/header.php';
           foreach ($brands as $brand) {
             echo "<tr>";
             echo "<td><img src=image/BrandLogo/" .str_replace(' ','',$brand->BrandName). ".jpg /></td>";
-            echo "<td>$brand->BrandName</td>";
+            echo "<td><a href=/RollinAdmin/Brand/Detail/$brand->BrandID>$brand->BrandName</a></td>";
             echo "<td>$brand->Description</td>";
             echo "</tr>";
           }

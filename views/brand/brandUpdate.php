@@ -10,6 +10,10 @@ if (isset($_POST['submit'])) {
   $brand->Description = $_POST['Description'];
   $brand->BrandID = $_POST['BrandID'];
   $data->update($brand);
+  if ($brand->BrandID) {
+    header("Location: ../Detail/$brand->BrandID");
+    exit();
+  }
 }
 
 require_once 'views/template/header.php';

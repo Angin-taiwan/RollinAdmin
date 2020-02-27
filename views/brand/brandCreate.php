@@ -10,7 +10,7 @@ if (isset($_POST['submit'])) {
   $brand->Description = $_POST['Description'];
   $brand->BrandID = $data->create($brand);
   if ($brand->BrandID) {
-    header("Location: Update/$brand->BrandID");
+    header("Location: Detail/$brand->BrandID");
     exit();
   }
 }

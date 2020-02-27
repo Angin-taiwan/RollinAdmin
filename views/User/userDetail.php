@@ -9,11 +9,11 @@ require_once 'views/template/header.php';
 
 ?>
 <div class="container-fluid">
-  <div class="col-md-12">
-    <div class="card">
+  <div class="col-md-8 mx-auto">
+    <div class="card p-3">
       <div class="card-body">
-        <table >
-          <thead>
+        <table class="table table-bordered table-hover table-sm">
+          <thead class="table-info">
             <tr>
               <th>欄位</th>
               <th>資料</th>
@@ -57,34 +57,29 @@ require_once 'views/template/header.php';
               <td><?= $users->Country?></td>            
             </tr>
             <tr>
-              <td>城市</td>
-              <td><?= $users->City?></td>            
-            </tr>
-            <tr>
-              <td>行政區</td>
-              <td><?= $users->District?></td>            
-            </tr>
-            <tr>
-              <td>地址</td>
-              <td><?= $users->Address?></td>            
-            </tr>
-            <tr>
               <td>郵遞區號</td>
               <td><?= $users->PostalCode?></td>            
             </tr>
             <tr>
+              <td>地址</td>
+              <td><?= $users->City?><?= $users->District?><?= $users->Address?></td>            
+            </tr>
+            <tr>
               <td>註冊日期</td>
               <td><?= $users->CreateDate?></td>            
+            </tr>           <tr>
+              <td>Coupon</td>
+              <td><?= $users->CreateDate?></td>
+               <!-- 之後再連Coupon資料 -->
             </tr>
-            <?php
-          
-            
-            
-            ?>
+ 
             
           </tbody>
         </table>
-      
+        <span class="float-right mt-4">
+          <a class="btn btn-secondary" href="">返回表單</a>
+          <a class="btn btn-secondary" href="">修改</a>
+        </span>
       </div>
     </div>  
   </div>

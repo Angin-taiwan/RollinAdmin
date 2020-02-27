@@ -16,7 +16,7 @@ require_once 'views/template/header.php';
     </div>
     <div class="card-body">
       <table class="table table-bordered table-hover">
-        <thead>
+        <thead class="table-info">
           <tr>
               <th></th>
               <th>會員ID</th>

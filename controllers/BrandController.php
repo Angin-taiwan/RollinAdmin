@@ -12,7 +12,14 @@ class BrandController extends Controller {
   }
 
   function create() {
-    $this->view("Brand/brandCreate");
+    $brand = $this->model("Brand");
+    $this->view("Brand/brandCreate", $brand);
+  }
+
+  function update($id) {
+    $brand = $this->model("Brand");
+    $brand->id = $id;
+    $this->view("Brand/brandUpdate", $brand);
   }
 
   function detail($id) {

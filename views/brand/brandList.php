@@ -3,9 +3,9 @@
 $pageDir = "Brand";
 $pageTitle = "Brand List";
 
-require_once 'views/template/header.php';
-
 $brands = $data->getAll();
+
+require_once 'views/template/header.php';
 
 ?>
 

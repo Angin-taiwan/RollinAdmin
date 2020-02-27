@@ -37,7 +37,7 @@ if (isset($_POST['delete'])) {
     </div>
     <div class="card-body" style="overflow:auto;">
       <form method="post">
-        <button type="submit" name="delete">刪除</button>
+        <button type="submit" class="btn btn-danger btn-sm mb-2" name="delete">刪除</button>
 
         <table class="table table-bordered table-hover" style="width: auto; table-layout:fit-content; white-space: nowrap">
           <thead>
@@ -77,8 +77,7 @@ if (isset($_POST['delete'])) {
               echo "<td>" . $coupon->StartDate . "</td>";
               echo "<td>" . $coupon->EndDate . "</td>";
               echo "<td>" . $coupon->ExpEndDate . "</td>";
-              echo "<td>" . '<button type="button" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></button>' . "&nbsp;" . '<button type="button" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button>' . "</td>";
-              echo "<td></td>";
+              echo "<td>" . '<a href=/RollinAdmin/Coupon/Detail/'.$coupon->CouponID .'> <button type="button" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></button>' . "&nbsp;" . '</a> <button type="button" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button>' . "</td>";
               echo "</tr>";
             }
             ?>

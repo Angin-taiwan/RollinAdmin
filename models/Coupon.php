@@ -9,6 +9,15 @@ class Coupon extends DB
     return $this->selectDB("SELECT * FROM Coupon");
   }
 
+  function getCouponDetail($id){
+    return $this->selectDB("SELECT * FROM Coupon WHERE CouponID = ?", [$id])[0];
+  }
+
+  function getCouponType(){
+    echo 'llllllllllllllllllllllllll';
+    return $this->selectDB("SELECT * from CouponType");
+  }
+
   function getCouponList($keyword)
   {
     if ($keyword == null)

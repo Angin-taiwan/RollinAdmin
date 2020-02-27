@@ -7,7 +7,8 @@ class ProductController extends Controller {
   }
 
   function list() {
-    $this->view("product/productList");
+    $product = $this->model("Product");
+    $this->view("product/productList", $product);
   }
 
   function create() {

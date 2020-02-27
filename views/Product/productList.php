@@ -25,16 +25,24 @@ $products = $data->getAll();
           <tr>
             <th>ProductID</th>
             <th>ProductName</th>
+            <th>BrandID</th>
+            <th>CategoryID</th>
             <th>Description</th>
+            <th>UnitPrice</th>
+            <th>Last updated</th> <!-- Date -->
           </tr>
         </thead>
         <tbody>
           <?php
           foreach ($products as $pd) {
-            echo "<tr onclick=\"window.location='/RollinAdmin/Brand/Detail/" . $pd->ProductID . "'\">";
+            echo "<tr onclick=\"window.location='/RollinAdmin/Product/Detail/" . $pd->ProductID . "'\">";
             echo "<td> $pd->ProductID </td>";
             echo "<td>$pd->ProductName</td>";
+            echo "<td>$pd->BrandID</td>";
+            echo "<td>$pd->CategoryID</td>";
             echo "<td>$pd->Description</td>";
+            echo "<td>$pd->UnitPrice</td>";
+            echo "<td>$pd->Date</td>";
             echo "</tr>";
           }
           ?>

@@ -7,11 +7,19 @@ class BrandController extends Controller {
   }
 
   function list() {
-    $this->view("Brand/brandList");
+    $brand = $this->model("Brand");
+    $this->view("Brand/brandList", $brand);
   }
 
   function create() {
-    $this->view("Brand/brandCreate");
+    $brand = $this->model("Brand");
+    $this->view("Brand/brandCreate", $brand);
+  }
+
+  function update($id) {
+    $brand = $this->model("Brand");
+    $brand->id = $id;
+    $this->view("Brand/brandUpdate", $brand);
   }
 
   function detail($id) {

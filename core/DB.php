@@ -27,7 +27,7 @@ class DB {
     if ($this->pdo !== null) {$this->pdo = null;}
   }
 
-  function select($sql, $cond = null) {
+  function selectDB($sql, $cond = null) {
     $result = false;
     try {
       $this->stmt = $this->pdo->prepare($sql);
@@ -37,5 +37,40 @@ class DB {
     $this->stmt = null;
     return $result;
   }
+
+  function insertDB($sql, $cond = null) {
+    $result = false;
+    try {
+      $this->stmt = $this->pdo->prepare($sql);
+      $this->stmt->execute($cond);
+      $result = $this->pdo->lastInsertId(); # get the last ID inserted
+    } catch (Exception $ex) {die($ex->getMessage());}
+    $this->stmt = null;
+    return $result;
+  }
+
+  function updateDB($sql, $cond = null) {
+    $result = false;
+    try {
+      $this->stmt = $this->pdo->prepare($sql);
+      $this->stmt->execute($cond);
+      $result = "success";
+    } catch (Exception $ex) {die($ex->getMessage());}
+    $this->stmt = null;
+    return $result;
+  }
+
+  function deleteDB($sql, $ids) {
+    if (empty($ids)) {return "error: no ids";}
+    $result = false;
+    try {
+      $this->stmt = $this->pdo->prepare($sql);
+      $this->stmt->execute($ids);
+      $result = "success";
+    } catch (Exception $ex) {die($ex->getMessage());}
+    $this->stmt = null;
+    return $result;
+  }
+
 }
 ?>

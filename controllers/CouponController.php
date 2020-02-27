@@ -1,13 +1,14 @@
 <?php
 
 class CouponController extends Controller {
-
+  
   function index() {
     $this->view("coupon/couponList");
   }
 
   function list() {
-    $this->view("coupon/couponList");
+    $coupon = $this->model("Coupon");
+    $this->view("coupon/couponList", $coupon);
   }
 
   function create() {

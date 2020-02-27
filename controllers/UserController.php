@@ -7,11 +7,13 @@ class UserController extends Controller {
   }
 
   function list() {
-    $this->view("user/userList");
+    $user = $this->model("User");
+    $this->view("user/userList", $user);
   }
 
   function create() {
-    $this->view("user/userCreate");
+    $user = $this->model("User");
+    $this->view("user/userCreate" , $user);
   }
 
   function detail($id) {

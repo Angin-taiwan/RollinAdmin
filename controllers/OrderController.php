@@ -3,24 +3,29 @@
 class OrderController extends Controller {
 
   function index() {
-    $order = $this->model("Order");
-    $this->view("order/orderList");
+    $this->view("Order/OrderList");
   }
 
   function list() {
-    $order = $this->model("Order");
-    $this->view("Order/orderList", $order);
+    $Order = $this->model("Order");
+    $this->view("Order/OrderList", $Order);
   }
 
   function create() {
-    $order = $this->model("Order");
-    $this->view("Order/orderCreat", $order);
+    $Order = $this->model("Order");
+    $this->view("Order/OrderCreate", $Order);
+  }
+
+  function update($id) {
+    $Order = $this->model("Order");
+    $Order->id = $id;
+    $this->view("Order/OrderUpdate", $Order);
   }
 
   function detail($id) {
-    $order = $this->model("Order");
-    $order->id = $id;
-    $this->view("Order/orderDetail", $order);
+    $Order = $this->model("Order");
+    $Order->id = $id;
+    $this->view("Order/OrderDetail", $Order);
   }
 }
 

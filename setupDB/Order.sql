@@ -2,7 +2,7 @@
 -- Create database "rollin" if not exists
 --
 
-CREATE DATABASE IF NOT EXISTS rollin DEFAULT character set utf8;
+CREATE DATABASE IF NOT EXISTS Rollin DEFAULT character set utf8;
 
 use Rollin;
 
@@ -16,22 +16,22 @@ DROP TABLE IF EXISTS `Order`;
 
 
 CREATE TABLE `Order` ( 
-   `OrderID` INT NULL DEFAULT NULL AUTO_INCREMENT ,
-   `UserID` INT NULL DEFAULT NULL , 
-   `PaymentID` INT NULL DEFAULT NULL , 
-   `ShippingID` INT NULL DEFAULT NULL , 
-   `OrderDate` DATETIME NULL DEFAULT CURRENT_TIMESTAMP , 
-   `ShippedDate` DATETIME DEFAULT NULL , 
-   `DeliverDate` DATETIME DEFAULT NULL , 
-   `CancelDate` DATETIME DEFAULT NULL , 
+   `OrderID`     INT         NULL    DEFAULT NULL AUTO_INCREMENT ,
+   `UserID`      INT         NULL    DEFAULT NULL , 
+   `PaymentID`   INT         NULL    DEFAULT NULL , 
+   `ShippingID`  INT         NULL    DEFAULT NULL , 
+   `OrderDate`   DATETIME    NULL    DEFAULT CURRENT_TIMESTAMP , 
+   `ShippedDate` DATETIME    DEFAULT NULL , 
+   `DeliverDate` DATETIME    DEFAULT NULL , 
+   `CancelDate`  DATETIME    DEFAULT NULL , 
    `MarketingID` VARCHAR(20) DEFAULT NULL , 
-   `CouponID` VARCHAR(20) DEFAULT NULL , 
-   `FinalPrice` INT UNSIGNED NOT NULL , 
+   `CouponID`    VARCHAR(20) DEFAULT NULL , 
+   `FinalPrice`  INT         UNSIGNED NOT NULL , 
 PRIMARY KEY (`OrderID`)
 );
 
 
-LOCK TABLES `Brand` WRITE;
+LOCK TABLES `Order` WRITE;
 
 
 INSERT INTO `Order` (`OrderID`, `UserID`, `PaymentID`, `ShippingID`, `OrderDate`, `ShippedDate`, `DeliverDate`, `CancelDate`, `MarketingID`, `CouponID`, `FinalPrice`) VALUES (NULL, '1212', '1212', '1212', current_timestamp(), '2020-02-28 19:45:32', NULL, NULL, 'mar88', 'cou20202', '10000');

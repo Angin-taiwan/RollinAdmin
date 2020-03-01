@@ -2,9 +2,9 @@
 
 class Order extends DB {
 
-  public $orderID;
-  // public $BrandName;
-  // public $Description;
+  public $OrderID;
+  public $OrderName;
+  public $Description;
 
   function getAll() {
     return $this->selectDB("SELECT * FROM Order ;");
@@ -14,24 +14,24 @@ class Order extends DB {
     return $this->selectDB("SELECT * FROM Order WHERE OrderID = ? ;", [$id])[0];
   }
 
-  // function create($orderID) {
-  //   return $this->insertDB(
-  //     "INSERT INTO Order () VALUES (?, ?) ;",
-  //     [$orderID->OrderID, "$orderID->Description"]
-  //   );
-  // }
+  function create($Order) {
+    return $this->insertDB(
+      "INSERT INTO Order (OrderName, Description) VALUES (?, ?) ;",
+      [$Order->OrderName, "$Order->Description"]
+    );
+  }
 
-  function update($orderID) {
+  function update($Order) {
     return $this->updateDB(
-      "UPDATE order SET orderID = ?, Description = ? WHERE BrandID = ? ;",
-      ["$orderID->BrandName", "$orderID->Description", $orderID->BrandID]
+      "UPDATE Order SET OrderName = ?, Description = ? WHERE OrderID = ? ;",
+      ["$Order->OrderName", "$Order->Description", $Order->OrderID]
     );
   }
 
   function delete($ids = []) {
     if (empty($ids)) {return "error: ids is empty";}
     return $this->deleteDB(
-      "DELETE FROM Brand WHERE BrandID IN (" . str_repeat("?,", count($ids) - 1) . "?);",
+      "DELETE FROM Order WHERE OrderID IN (" . str_repeat("?,", count($ids) - 1) . "?);",
       $ids);
   }
 

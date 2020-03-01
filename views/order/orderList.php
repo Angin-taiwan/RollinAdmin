@@ -3,16 +3,16 @@
 $pageDir = "Order";
 $pageTitle = "Order List";
 
-$orders = $data->getAll();
+$Orders = $data->getAll();
 
 require_once 'views/template/header.php';
 
 ?>
 
 <div class="container-fluid">
-<div class="card">
+  <div class="card">
     <div class="card-header">
-      <h3 class="card-title">Order</h3>
+      <h3 class="card-title">Orders</h3>
     </div>
     <!-- /.card-header -->
     <div class="card-body">
@@ -21,24 +21,16 @@ require_once 'views/template/header.php';
           <tr>
             <th>OrderID</th>
             <th>UserID</th>
-            <th>PaymentID</th>
-            <!-- <th>ShippingID</th>
-            <th>OrderDate</th>
-            <th>ShippedDate</th>
-            <th>DeliverDate</th>
-            <th>CancelDate</th>
-            <th>MarketingID </th>
-            <th>CouponID</th>
-            <th>Finalprice</th> -->
+            <th>UserID</th>
           </tr>
         </thead>
         <tbody>
-        <?php
-          foreach ($Order as $Orders) {
+          <?php
+          foreach ($Orders as $Order) {
             echo "<tr>";
-            echo "<td>$Order->OrderID</td>";
-            echo "<td>$Order->UserID</td>";
-            echo "<td>$Order->PaymentID</td>";
+            // echo "<td><img src=image/OrderLogo/" . str_replace(' ', '', $Order->OrderName) . ".jpg /></td>";
+            echo "<td><a href=/RollinAdmin/Order$Order->OrderID>$Order->OrderName</a></td>";
+            echo "<td>$Order->$UserID</td>";
             echo "</tr>";
           }
           ?>
@@ -58,4 +50,3 @@ require_once 'views/template/header.php';
 require_once 'views/template/footer.php';
 
 ?>
-

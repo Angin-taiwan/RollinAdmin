@@ -3,7 +3,7 @@
 $pageDir = "Order";
 $pageTitle = "Order List";
 
-$Orders = $data->getAll();
+$orders = $data->getAll();
 
 require_once 'views/template/header.php';
 
@@ -20,17 +20,18 @@ require_once 'views/template/header.php';
         <thead>
           <tr>
             <th>OrderID</th>
-            <th>UserID</th>
+            <th>OrderDate</th>
             <th>UserID</th>
           </tr>
         </thead>
         <tbody>
           <?php
-          foreach ($Orders as $Order) {
+          foreach ($orders as $order) {
             echo "<tr>";
             // echo "<td><img src=image/OrderLogo/" . str_replace(' ', '', $Order->OrderName) . ".jpg /></td>";
-            echo "<td><a href=/RollinAdmin/Order$Order->OrderID>$Order->OrderName</a></td>";
-            echo "<td>$Order->$UserID</td>";
+            echo "<td><a href=/RollinAdmin/Order$order->OrderID>$order->OrderID</a></td>";
+            echo "<td>$order->OrderDate</td>";
+            echo "<td>$order->UserID</td>";
             echo "</tr>";
           }
           ?>

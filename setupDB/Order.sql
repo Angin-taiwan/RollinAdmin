@@ -21,36 +21,22 @@ CREATE TABLE `Order` (
    `PaymentID` INT NULL DEFAULT NULL , 
    `ShippingID` INT NULL DEFAULT NULL , 
    `OrderDate` DATETIME NULL DEFAULT CURRENT_TIMESTAMP , 
-   `ShippedDate` DATETIME NOT NULL , 
-   `DeliverDate` DATETIME NOT NULL , 
-   `CancelDate` DATETIME NOT NULL , 
-   `MarketingID` INT NOT NULL , 
-   `CouponID` INT NOT NULL , 
+   `ShippedDate` DATETIME DEFAULT NULL , 
+   `DeliverDate` DATETIME DEFAULT NULL , 
+   `CancelDate` DATETIME DEFAULT NULL , 
+   `MarketingID` VARCHAR(20) DEFAULT NULL , 
+   `CouponID` VARCHAR(20) DEFAULT NULL , 
    `FinalPrice` INT UNSIGNED NOT NULL , 
 PRIMARY KEY (`OrderID`)
 );
 
 
-
--- CREATE TABLE `Order`(
---    OrderID INT NOT NULL AUTO_INCREMENT,
---    UserID INT NOT NULL AUTO_INCREMENT,
---    PaymentID INT NOT NULL AUTO_INCREMENT,
---    ShippingID INT NOT NULL AUTO_INCREMENT,
---    OrderDate DATETIME NOT NULL 
---    BrandName VARCHAR(50) NOT NULL UNIQUE,
---    Description VARCHAR(500),
---    PRIMARY KEY ( BrandID  ) 
--- );
-
---
--- Dumping data for table `brand`
---
-
--- LOCK TABLES `Brand` WRITE;
+LOCK TABLES `Brand` WRITE;
 
 
-INSERT INTO `orders` (`OrderID`, `UserID`, `PaymentID`, `ShippingID`, `OrderDate`, `ShippedDate`, `DeliverDate`, `CancelDate`, `MarketingID`, `CouponID`, `FinalPrice`) VALUES (NULL, '1212', '1212', '1212', current_timestamp(), NULL, NULL, NULL, '1212', '1212', '10000');
+INSERT INTO `Order` (`OrderID`, `UserID`, `PaymentID`, `ShippingID`, `OrderDate`, `ShippedDate`, `DeliverDate`, `CancelDate`, `MarketingID`, `CouponID`, `FinalPrice`) VALUES (NULL, '1212', '1212', '1212', current_timestamp(), '2020-02-28 19:45:32', NULL, NULL, 'mar88', 'cou20202', '10000');
+INSERT INTO `Order` (`OrderID`, `UserID`, `PaymentID`, `ShippingID`, `OrderDate`, `ShippedDate`, `DeliverDate`, `CancelDate`, `MarketingID`, `CouponID`, `FinalPrice`) VALUES (NULL, '121233', '12123112', '12121221', current_timestamp(), '2020-02-29 19:46:07', NULL, NULL, 'mar8833', 'cou2122', '1003');
+
 -- INSERT INTO `Brand` (BrandName, Description) VALUES ("DC", "Skate shoes & sneakers by DC Shoes stand for high quality and innovation. Founded by Ken Block, DC Shoes is sitting pretty atop the skate scene and are excited about their top-notch skate team. In addition to skate shoes, DC Shoes also offers you high-quality streetwear and accessories.");
 -- INSERT INTO `Brand` (BrandName, Description) VALUES ("Toy Machine", "Since its conception in 1993, Toy Machine has established itself as an integral part of the skateboarding community and has a loyal following. This is, to a large extent, thanks to the founder and driving force behind Toy Machine, skateboard legend Ed Templeton. Through his interest in art and his own artistic talents, it’s obvious why Templeton’s responsible for all of the deck graphics at Toy Machine. Both the devilish logo and the figures of the so-called “Transistor Sect” have high recognition value and give Toy Machine (also known as “The Blood Sucking Company”) their own artistic direction.");
 -- INSERT INTO `Brand` (BrandName, Description) VALUES ("Vans", "Skateboarding classics like the Vans Authentic and the Vans Era as well as loads of apparel can be found in the Vans Online Shop at skatedeluxe. Because when it comes to skate shoes, you can’t ignore Vans. The sneakers from the Van Doren brothers have always been legendary and are considered the ultimate in the skating scene. The current cult label - like so many big brands – began as a small shoe factory in southern California. At skatedeluxe, you can shop all the popular skate shoes, sneakers, and apparel from Vans online.");
@@ -62,4 +48,4 @@ INSERT INTO `orders` (`OrderID`, `UserID`, `PaymentID`, `ShippingID`, `OrderDate
 -- INSERT INTO `Brand` (BrandName, Description) VALUES ("Real", "Real is now one of the oldest existing skateboard brands. This rock of a company, headquartered in San Francisco, dates back to a time when skateboarders did not have much say in the industry. Above all, decks had to sell, and it wasn’t about trying to please the skaters. This is exactly why Tommy Guerrero and Jim Thiebaud decided to go against the grain in the early 1990s. When the two of them saw their time at Powell-Peralta coming to an end, they took things into their own hands and founded a company that would reflect the real and raw character of skateboarding. With the help of skateboard legend Fausto Vitello, who is, among other things, the father of the world-renowned Thrasher Magazine, Real Skateboards was able to establish themselves in a short period of time.");
 
 
--- UNLOCK TABLES;
+UNLOCK TABLES;

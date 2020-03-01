@@ -3,23 +3,23 @@
 class UserController extends Controller {
 
   function index() {
-    $this->view("user/userList");
+    $this->view("User/userList");
   }
 
   function list() {
     $user = $this->model("User");
-    $this->view("user/userList", $user);
+    $this->view("User/userList", $user);
   }
 
   function create() {
     $user = $this->model("User");
-    $this->view("user/userCreate" , $user);
+    $this->view("User/userCreate" , $user);
   }
 
   function detail($id) {
     $user = $this->model("User");
     $user->id = $id;
-    $this->view("user/userDetail", $user);
+    $this->view("User/userDetail", $user);
   }
 }
 

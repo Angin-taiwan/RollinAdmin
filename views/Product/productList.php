@@ -6,12 +6,13 @@ $pageTitle = "Product List";
 require_once 'views/template/header.php';
 
 $products = $data->getAll();
-
 ?>
 
 <!-- <div class="container-fluid">
   <?= $pageTitle ?> content here
 </div> -->
+
+
 <!-- /.container-fluid -->
 <div class="container-fluid">
   <div class="card">
@@ -23,10 +24,10 @@ $products = $data->getAll();
       <table id="listTable" class="table table-bordered table-hover">
         <thead>
           <tr>
-            <th>ProductID</th>
+            <th>Product<br>ID</th>
             <th>ProductName</th>
-            <th>BrandID</th>
-            <th>CategoryID</th>
+            <th>Brand<br>ID</th>
+            <th>Category<br>ID</th>
             <th>Description</th>
             <th>UnitPrice</th>
             <th>Last updated</th> <!-- Date -->
@@ -38,9 +39,9 @@ $products = $data->getAll();
             echo "<tr onclick=\"window.location='/RollinAdmin/Product/Detail/" . $pd->ProductID . "'\">";
             echo "<td> $pd->ProductID </td>";
             echo "<td>$pd->ProductName</td>";
-            echo "<td>$pd->BrandID</td>";
-            echo "<td>$pd->CategoryID</td>";
-            echo "<td>$pd->Description</td>";
+            echo "<td>".$pd->BrandName."</td>";
+            echo "<td>$pd->CategoryName</td>";
+            echo "<td>" . substr($pd->PDescription,0,69) . "</td>";
             echo "<td>$pd->UnitPrice</td>";
             echo "<td>$pd->Date</td>";
             echo "</tr>";

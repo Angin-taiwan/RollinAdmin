@@ -36,15 +36,15 @@ CREATE TABLE `User`(
 
 LOCK TABLES `User` WRITE;
 
-INSERT INTO `User` (UserName, NickName, Gender,Birthdate,Phone, Email,Password,Country,City,District,Address,PostalCode,CreateDate)
-VALUES ("陳大明", "阿明","F","19881010","0988765666","aming1@gmail.com","1111aaaa","台灣","台北","中正區","思源街16號","10087","20200226");
-INSERT INTO `User` (UserName, NickName, Gender,Birthdate,Phone, Email,Password,Country,City,District,Address,PostalCode,CreateDate)
-VALUES ("陳二明", "阿二","F","19881010","0988765668","aming2@gmail.com","1111aaaa","台灣","台北","中正區","思源街16號","10087","20200226");
-INSERT INTO `User` (UserName, NickName, Gender,Birthdate,Phone, Email,Password,Country,City,District,Address,PostalCode,CreateDate)
-VALUES ("陳三明", "阿三","F","19881010","0988765667","aming3@gmail.com","1111aaaa","台灣","台北","中正區","思源街16號","10087","20200226");
-INSERT INTO `User` (UserName, NickName, Gender,Birthdate,Phone, Email,Password,Country,City,District,Address,PostalCode,CreateDate)
-VALUES ("陳小明", "阿小","F","19881010","0988765669","aming4@gmail.com","1111aaaa","台灣","台北","中正區","思源街16號","10087","20200226");
-INSERT INTO `User` (UserName, NickName, Gender,Birthdate,Phone, Email,Password,Country,City,District,Address,PostalCode,CreateDate)
-VALUES ("陳五明", "阿五","F","19881010","0988765660","aming5@gmail.com","1111aaaa","台灣","台北","中正區","思源街16號","10087","20200226");
+INSERT INTO `User` (UserName, NickName, Gender,Birthdate,Phone, Email,Password,Country,City,District,Address,PostalCode,CreateDate) 
+VALUES ("陳大明", "阿明","F","19880110","0988765666","aming1@gmail.com","1111aaaa","台灣","台北市","中正區","思源街16號","10087","20200226");
+INSERT INTO `User` (UserName, NickName, Gender,Birthdate,Phone, Email,Password,Country,City,District,Address,PostalCode,CreateDate) 
+VALUES ("陳二明", "阿二","F","19890210","0988765668","aming2@gmail.com","1111aaaa","台灣","台北市","中正區","思源街16號","10087","20200226");
+INSERT INTO `User` (UserName, NickName, Gender,Birthdate,Phone, Email,Password,Country,City,District,Address,PostalCode,CreateDate) 
+VALUES ("陳三明", "阿三","F","19901210","0988765667","aming3@gmail.com","1111aaaa","台灣","台北市","中正區","思源街16號","10087","20200226");
+INSERT INTO `User` (UserName, NickName, Gender,Birthdate,Phone, Email,Password,Country,City,District,Address,PostalCode,CreateDate) 
+VALUES ("陳小明", "阿小","F","19911010","0988765669","aming4@gmail.com","1111aaaa","台灣","台北市","中正區","思源街16號","10087","20200226");
+INSERT INTO `User` (UserName, NickName, Gender,Birthdate,Phone, Email,Password,Country,City,District,Address,PostalCode,CreateDate) 
+VALUES ("陳五明", "阿五","F","19920710","0988765660","aming5@gmail.com","1111aaaa","台灣","台北市","中正區","思源街16號","10087","20200226");
 
 UNLOCK TABLES;

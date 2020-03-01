@@ -2,8 +2,8 @@
 
 class Coupon extends DB
 {
-  // public $id;
-
+  public $CouponName, $CouponCode, $CouponTypeID, $CouponQuantity, $CouponPrice, $CouponPriceCondition, $CouponStartDate, $CouponEndDate, $CouponExpEndDate;
+  public $CouponTypeName;
   function getAll()
   {
     return $this->selectDB("SELECT * FROM Coupon");
@@ -14,7 +14,6 @@ class Coupon extends DB
   }
 
   function getCouponType(){
-    echo 'llllllllllllllllllllllllll';
     return $this->selectDB("SELECT * from CouponType");
   }
 
@@ -26,8 +25,14 @@ class Coupon extends DB
       return $this->selectDB("SELECT Coupon.*, CouponType.CouponTypeName FROM Coupon, CouponType WHERE CouponType.CouponTypeID = Coupon.CouponTypeID and Coupon.CounponName like '%?%'", $keyword);
   }
 
-  function create()
+  function create($coupon)
   {
+    return $this->insertDB("INSERT INTO Coupon(CouponName, CouponTypeID, CouponCode, Quantity, Price, PriceCondition, StartDate, EndDate, ExpEndDate) VALUES (?,?,?,?,?,?,?,?,?) ;",
+    [$coupon->CouponName, $coupon->CouponTypeID, $coupon->CouponCode, $coupon->CouponQuantity, $coupon->CouponPrice, $coupon->CouponPriceCondition, $coupon->CouponStartDate, $coupon->EndDate, $coupon->ExpEndDate]);
+  }
+
+  function createCouponType($coupon){
+    return $this->insertDB("INSERT INTO CouponType(CouponTypeName) VALUES (?) ;",[$coupon->CouponTypeName]);
   }
 
   function update($id)

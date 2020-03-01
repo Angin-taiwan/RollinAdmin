@@ -9,6 +9,13 @@ require_once 'views/template/header.php';
 
 ?>
 
+<style>
+*{
+  font-family: 微軟正黑體;
+  font-size: 16px;
+}
+</style>
+
 <div class="container-fluid">
   <div class="card">
     <div class="card-header">
@@ -16,7 +23,7 @@ require_once 'views/template/header.php';
     </div>
     <div class="card-body">
       <table class="table table-bordered table-hover">
-        <thead>
+        <thead class="table-info">
           <tr>
               <th></th>
               <th>會員ID</th>

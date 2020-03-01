@@ -8,6 +8,14 @@ $users = $data->getUserById($data->id);
 require_once 'views/template/header.php';
 
 ?>
+
+<style>
+*{
+  font-family: 微軟正黑體;
+}
+</style>
+
+
 <div class="container-fluid">
   <div class="col-md-8 mx-auto">
     <div class="card p-3">
@@ -77,7 +85,7 @@ require_once 'views/template/header.php';
           </tbody>
         </table>
         <span class="float-right mt-4">
-          <a class="btn btn-secondary" href="">返回表單</a>
+          <a class="btn btn-secondary" href="/RollinAdmin/User/List/">返回表單</a>
           <a class="btn btn-secondary" href="">修改</a>
         </span>
       </div>

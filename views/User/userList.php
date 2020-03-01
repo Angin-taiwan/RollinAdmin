@@ -9,6 +9,13 @@ require_once 'views/template/header.php';
 
 ?>
 
+<style>
+*{
+  font-family: 微軟正黑體;
+  font-size: 16px;
+}
+</style>
+
 <div class="container-fluid">
   <div class="card">
     <div class="card-header">

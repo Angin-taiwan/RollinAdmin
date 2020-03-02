@@ -51,9 +51,9 @@ $news = new News();
       
       </div>
     </div>  
+    <a href="/RollinAdmin/News/List"><button type="button" class="btn btn-primary">返回目錄</button></a> 
   </div>
 
-</div>
 <?php
 
 require_once 'views/template/footer.php';

@@ -2,17 +2,40 @@
 
 $pageDir = "News";
 $pageTitle = "News List";
-
 $newsGet = $data->getAll();
+
 // $NewsID = $this->NewsID;
-require_once 'views/template/header.php';
-// $news = new News();
+$news = new News();
 
 if (isset($_POST["delete"])) {
-  $NewsID = intval($_GET["id"]);
-  $data->delete($NewsID);
-  header("location= ../List");
+  echo "ttttttttttttttttttttttttt";
+  $news->NewsID = $_POST["NewsID"];
+  echo $_POST["NewsID"];
+  echo "$news->NewsID";
+  $data->delete($news->NewsID);
+  header("location= /RollinAdmin/News/List");
 }
+
+if (isset($_POST['searchButton'])) { //
+  $searchTerm = $_POST['keyword'];
+  $newsGet = $data->search($searchTerm);   // 欄位名字 , 要跟輸出名字一致
+}
+
+if (isset($_POST["checkedDeleteBtn"])){
+  $arr = array();
+  foreach ($_POST['items'] as $check){
+    array_push($arr, $check);
+  }
+  $str = implode("','",$arr);
+  $data->checkdelete($arr);
+  var_dump($arr);
+  header("location: /RollinAdmin/News/List");
+}
+
+
+
+require_once 'views/template/header.php';
+
 ?>
 
 
@@ -44,9 +67,21 @@ if (isset($_POST["delete"])) {
 </style>
 <!------------------------------------------------------------------------------------------------------------------------------------------->
 
-<div class="container-fluid">
-  <form method="post">
-    <table>
+<form method="post" action="News/List">
+  <div>
+    <input type="button" class="btn btn-outline-info" id="checkedAllBtn" value="全選">
+    <input type="button" class="btn btn-outline-info" id="checkedNoBtn" value="全消">
+    <input type="button" class="btn btn-outline-info" id="checkedRevBtn" value="反選">
+    <input type="submit" class="btn btn-outline-danger" id="checkedDeleteBtn" name="checkedDeleteBtn" value="勾選刪除">
+    <div class="float-right form-group">
+      <input type="text" placeholder="search" name="keyword">
+      <input type="submit" class="btn btn-dark" value="搜尋" name="searchButton">
+      <br>
+    </div>
+  </div>
+
+  <div class="container-fluid">
+    <table style="word-break:break-all; word-wrap:break-all">
       <thead>
         <tr>
           <th type="checkbox"></th>
@@ -64,32 +99,34 @@ if (isset($_POST["delete"])) {
 
         foreach ($newsGet as $news) {
           echo "<tr>";
-          echo "
-    <td>
-    <input type='checkbox' echo $news->NewsID echo id='$news->NewsID' echo value='$news->NewsID'>
-    </td>";
+          echo "<td>
+                <input type='checkbox' id='check' name='items[]' value='" . $news->NewsID . "'>
+                </td>";
           echo "<td>" .  $news->NewsID . "</td>";
           echo "<td>" .  $news->Title . "</td>";
           echo "<td>" .  $news->Description . "</td>";
           echo "<td>" .  $news->CreateDate . "</td>";
           echo "<td>" .  $news->UpdateDate . "</td>";
           echo "<td> 
-    <a href='/RollinAdmin/News/Detail/$news->NewsID' class='btn btn-primary'><i class='fa fa-search'></i>查看</a>
+                <a href='/RollinAdmin/News/Detail/$news->NewsID' class='btn btn-primary'><i class='fa fa-search'></i>查看</a>
 
-    <a href='/RollinAdmin/News/Update/$news->NewsID' class='btn btn-secondary'>
-    <i class='fa fa-edit'></i>修改</a> 
-    
-    <a href='delete.php?id=$news->NewsID' class='btn btn-danger' type='submit' name='delete'><i class='fa fa-trash'>&nbsp</i>刪除</a>
-    </td>";
+                <a href='/RollinAdmin/News/Update/$news->NewsID' class='btn btn-secondary'>
+                <i class='fa fa-edit'></i>修改</a>
+
+                <input type='hidden' name='NewsID' value='" . $news->NewsID . "'>
+
+                <a href='delete.php?id=$news->NewsID'>
+                <button class='btn btn-danger' type='submit' name='delete'> <i class='fa fa-trash'>&nbsp</i>刪除</button></a>
+                </td>";
+
           echo "</tr>";
         }
         ?>
 
       </tbody>
     </table>
-  </form>
+</form>
 </div>
-</body>
 
 
 <?php
@@ -98,5 +135,30 @@ require_once 'views/template/footer.php';
 
 ?>
 <script>
+  let items = document.getElementsByName("items[]");
 
+  let checkedAllBtn = document.getElementById("checkedAllBtn");
+  checkedAllBtn.onclick = function() {
+    for (let i = 0; i < items.length; i++) {
+      items[i].checked = true;
+    }
+  }
+
+  let checkedNoBtn = document.getElementById("checkedNoBtn");
+  checkedNoBtn.onclick = function() {
+    for (let i = 0; i < items.length; i++) {
+      items[i].checked = false;
+    }
+  }
+
+  let checkedRevBtn = document.getElementById("checkedRevBtn");
+  checkedRevBtn.onclick = function() {
+    for (let i = 0; i < items.length; i++) {
+      if (items[i].checked) {
+        items[i].checked = false;
+      } else {
+        items[i].checked = true;
+      }
+    }
+  }
 </script>

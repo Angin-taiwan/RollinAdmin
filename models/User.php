@@ -37,20 +37,21 @@ class User extends DB {
   }
 
 
-
-
-
-  function updateUser($UserUpdateArray){  //修改會員
-    $UserUpdateArray = array($UserName,$NickName,$Gender,$Birthdate,$Phone,
-    $Email,$Password,$Country,$City,$District,$Address,$PostalCode,$CreateDate,$UserID);
-    return $this->updateDB("UPDATE User SET `UserName=?`, `NickName=?`,`Gender=?`,`Birthdate=?`,`Phone=?`,
-    `Email=?`,`Password=?`,`Country=?`,`City=?`,`District=?`,`Address=?`,`PostalCode=?`,`CreateDate=?` WHERE `UserID=?`",$UserInfoArray);
+  function updateUser($user){  //修改會員
+    return $this->updateDB(
+      "UPDATE User SET UserName=? , NickName=? , Gender=? , Birthdate=? , Phone=?,
+      Email=? , Password=? , Country=? , City=? , District=? , Address=? , PostalCode=? ,CreateDate=? WHERE UserID = ?;"
+      ,["$user->UserName" , "$user->NickName" ,$user->Gender , $user->Birthdate , "$user->Phone" , "$user->Email" , $user->Password ,
+      "$user->Country" , "$user->City" , "$user->District" , "$user->Address" , "$user->PostalCode" ,
+      $user->CreateDate , $user->UserID]);
 
   }
 
 
-  function deleteUser($userId){  //刪除會員
-    return $this->deleteDB("DELETE FROM User WHERE `UserID=?`", $userId);
+  function deleteUser($ids = []){  //刪除會員
+    return $this->deleteDB(
+      "DELETE FROM User WHERE UserID IN (" .str_repeat("?," , count($ids) -1 ). "?),", 
+      $ids);
 
   }
 

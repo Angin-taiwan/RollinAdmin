@@ -3,7 +3,7 @@
 $pageDir = "User";
 $pageTitle = "User Detail";
 
-$users = $data->getUserById($data->id); 
+$user = $data->getUserById($data->id); 
 
 require_once 'views/template/header.php';
 
@@ -17,70 +17,69 @@ require_once 'views/template/header.php';
         <table class="table table-bordered table-hover table-sm">
           <thead class="table-info">
             <tr>
-              <th class="th">欄位</th>
-              <th class="th">資料</th>
+              <th>欄位</th>
+              <th>資料</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td class="td">會員ID</td>
-              <td><?= $users->UserID?></td>            
+              <td>會員ID</td>
+              <td><?= $user->UserID?></td>            
             </tr>
             <tr>
-              <td class="td">姓名</td>
-              <td><?= $users->UserName?></td>            
+              <td>姓名</td>
+              <td><?= $user->UserName?></td>            
             </tr>
             <tr>
-              <td class="td">暱稱</td>
-              <td><?= $users->NickName?></td>            
+              <td>暱稱</td>
+              <td><?= $user->NickName?></td>            
             </tr>
             <tr>
-              <td class="td">性別</td>
-              <td><?= $users->Gender?></td>            
+              <td>性別</td>
+              <td><?= $user->Gender?></td>            
             </tr>
             <tr>
-              <td class="td">生日</td>
-              <td><?= $users->Birthdate?></td>            
+              <td>生日</td>
+              <td><?= $user->Birthdate?></td>            
             </tr>
             <tr>
-              <td class="td">電話</td>
-              <td><?= $users->Phone?></td>            
+              <td>電話</td>
+              <td><?= $user->Phone?></td>            
             </tr>
             <tr>
-              <td class="td">Email</td>
-              <td><?= $users->Email?></td>            
+              <td>Email</td>
+              <td><?= $user->Email?></td>            
             </tr>
             <tr>
-              <td class="td">密碼</td>
-              <td><?= $users->Password?></td>            
+              <td>密碼</td>
+              <td><?= $user->Password?></td>            
             </tr>
             <tr>
-              <td class="td">國家</td>
-              <td><?= $users->Country?></td>            
+              <td>國家</td>
+              <td><?= $user->Country?></td>            
             </tr>
             <tr>
-              <td class="td">郵遞區號</td>
-              <td><?= $users->PostalCode?></td>            
+              <td>郵遞區號</td>
+              <td><?= $user->PostalCode?></td>            
             </tr>
             <tr>
-              <td class="td">地址</td>
-              <td><?= $users->City?><?= $users->District?><?= $users->Address?></td>            
+              <td>地址</td>
+              <td><?= $user->City?><?= $user->District?><?= $user->Address?></td>            
             </tr>
             <tr>
-              <td class="td">註冊日期</td>
-              <td><?= $users->CreateDate?></td>            
+              <td>註冊日期</td>
+              <td><?= $user->CreateDate?></td>            
             </tr>           <tr>
-              <td class="td">Coupon</td>
+              <td>Coupon</td>
               <td></td>
                <!-- 之後再連Coupon資料 -->
             </tr>
- 
-            
           </tbody>
         </table>
+        
         <span class="float-right mt-4">
           <a class="btn btn-secondary" href="/RollinAdmin/User/List/">返回表單</a>
-          <a class="btn btn-secondary" href="">修改</a>
+          <?="<a class='btn btn-secondary' href=/RollinAdmin/User/Update/$user->UserID>修改</a>"?>
         </span>
       </div>
     </div>  

@@ -12,7 +12,8 @@ class CouponController extends Controller {
   }
 
   function create() {
-    $this->view("coupon/couponCreate");
+    $coupon = $this->model("Coupon");
+    $this->view("coupon/couponCreate", $coupon);
   }
 
   function detail($id) {

@@ -6,18 +6,46 @@ class Brand extends DB {
   public $BrandName;
   public $Description;
 
-  function getAll() {
-    return $this->selectDB("SELECT * FROM Brand ;");
+  function getAllCount() {
+    return $this->selectDB(
+      "SELECT COUNT(*) as Total FROM Brand;"
+    )[0];
+  }
+
+  function getAll($startIndex = 0, $pageSize = 3) {
+    return $this->selectDB(
+      "SELECT * FROM Brand ORDER BY BrandID ASC LIMIT ?, ? ;",
+      [$startIndex, $pageSize]
+    );
+  }
+
+  function getAllLikeCount($brandName) {
+    return $this->selectDB(
+      "SELECT COUNT(*) Count FROM Brand WHERE BrandName LIKE CONCAT('%',?,'%') ;",
+      [$brandName]
+    )[0];
+  }
+
+  function getAllLike($brandName, $startIndex = 0, $pageSize = 3) {
+    return $this->selectDB(
+      "SELECT * FROM Brand WHERE BrandName LIKE CONCAT('%',?,'%') ORDER BY BrandID ASC LIMIT ?, ? ;",
+      [$brandName, $startIndex, $pageSize]
+    );
   }
 
   function get($id) {
-    return $this->selectDB("SELECT * FROM Brand WHERE BrandID = ? ;", [$id])[0];
+    return $this->selectDB(
+      "SELECT * FROM Brand WHERE BrandID = ? ;",
+      [$id])[0];
   }
 
   function create($brand) {
+    $brandName = trim($brand->BrandName);
+    $description = trim($brand->Description);
+    if ($brandName=="") {return "error: 品牌名稱不可為空白";}
     return $this->insertDB(
       "INSERT INTO Brand (BrandName, Description) VALUES (?, ?) ;",
-      [$brand->BrandName, "$brand->Description"]
+      [$brandName, $description]
     );
   }
 

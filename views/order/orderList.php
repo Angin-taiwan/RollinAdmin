@@ -4,7 +4,7 @@ $pageDir = "Order";
 $pageTitle = "Order List";
 
 $orders = $data->getAll();
-// $Users = $User->get($UserID);
+// $Users = $data->getUserById($id);
 // $Users = $data->getAll();
 
 require_once 'views/template/header.php';
@@ -22,9 +22,9 @@ require_once 'views/template/header.php';
         <thead>
           <tr>
             <th>ID</th>
-            <th>UserID</th>
+            <!-- <th>UserID</th> -->
             <th>UserName</th>
-            <!-- <th>PamymentID</th> -->
+            <th>Product</th>
             <th>Pamyment</th>
             <th>OrderDate</th>
             <th>ShippedDate</th>
@@ -39,13 +39,13 @@ require_once 'views/template/header.php';
         <tbody>
           <?php
           foreach ($orders as $order) {
-            echo "<tr onclick=\"window.location='/RollinAdmin/Order/Detail/" . $order->OrderID . "'\">";
+            echo "<tr>";
             // echo "<td><img src=image/OrderLogo/" . str_replace(' ', '', $Order->OrderName) . ".jpg /></td>";
-            echo "<td>$order->OrderID</a></td>";
-            echo "<td>$order->UserID</td>";
-            echo "<td>陳曉明</td>";
-            // echo "<td>$order->PaymentID</td>";
-            echo "<td>$order->PaymentID</a> </td>";
+            echo "<td><a href=/RollinAdmin/Brand/Detail/$order->OrderID</a></td>";
+            // echo "<td>$order->UserID</td>";
+            echo "<td>$order->UserName</td>";
+            echo "<td>$order->ProductName</td>";
+            echo "<td>$order->PaymentName</a> </td>";
             echo "<td>$order->OrderDate</td>";
             echo "<td>$order->ShippedDate</td>";
             echo "<td>$order->DeliverDate</td>";
@@ -53,8 +53,6 @@ require_once 'views/template/header.php';
             echo "<td>$order->MarketingID</td>";
             echo "<td>$order->CouponID</td>";
             echo "<td>$order->FinalPrice</td>";
-
-            
             echo "</tr>";
           }
           ?>

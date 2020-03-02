@@ -9,12 +9,6 @@ require_once 'views/template/header.php';
 
 ?>
 
-<style>
-*{
-  font-family: 微軟正黑體;
-  font-size: 16px;
-}
-</style>
 
 <div class="container-fluid">
   <div class="card">
@@ -26,14 +20,14 @@ require_once 'views/template/header.php';
         <thead class="table-info">
           <tr>
               <th></th>
-              <th>會員ID</th>
-              <th>姓名</th>
-              <th>暱稱</th>
-              <th>性別</th>
-              <th>生日</th>
-              <th>電話</th>
-              <th>Email</th>
-              <th>註冊日期</th>
+              <th class="th">會員ID</th>
+              <th class="th">姓名</th>
+              <th class="th">暱稱</th>
+              <th class="th">性別</th>
+              <th class="th">生日</th>
+              <th class="th">電話</th>
+              <th class="th">Email</th>
+              <th class="th">註冊日期</th>
               <th></th>
               <th></th>
             </tr>

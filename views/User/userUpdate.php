@@ -145,8 +145,8 @@ require_once 'views/template/header.php';
             </tbody>
           </table>
           <span class="float-right mt-4">
-            <button type="submit" name="submit" class="btn btn-info font" >送出</button>
             <a class="btn btn-secondary font" href="/RollinAdmin/User/List/">返回表單</a>
+            <button type="submit" name="submit" class="btn btn-info font" >送出</button>
           </span>
         </div>
       </div>

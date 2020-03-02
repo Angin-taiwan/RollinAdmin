@@ -1,21 +1,10 @@
 <?php
 
 class User extends DB {
-  public $userId;
-  public $UserName;
-  public $NickName;
-  public $Gender;
-  public $Birthdate;
-  public $Phone;
-  public $Email;
-  public $Password;
-  public $Country;
-  public $City;
-  public $District;
-  public $Address;
-  public $PostalCode;
-  public $CreateDate;
-
+  public $user;
+  public $id;
+  public $ids;
+  
 
   function getAll(){  //read所有user資料
     return $this->selectDB("SELECT * FROM User ;");

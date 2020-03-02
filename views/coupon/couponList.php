@@ -5,7 +5,7 @@ $pageTitle = "Coupon List";
 
 require_once 'views/template/header.php';
 
-$coupons  = $data->getCouponList(null);
+$coupons  = $data->getCouponList(null, null);
 
 if (isset($_POST['delete'])) {
   $arr = array();
@@ -21,7 +21,44 @@ if (isset($_POST['delete'])) {
   exit();
 }
 
+if (isset($_POST['thead'])) {
+  echo $_POST['thead'];
+  if ($_POST['thead'] == 'tid')
+    $coupons  = $data->getCouponList(null, ' order by CouponID asc');
+  else if ($_POST['thead'] == 'tname')
+    $coupons  = $data->getCouponList(null, ' order by CouponName asc');
+  else if ($_POST['thead'] == 'tcode')
+    $coupons  = $data->getCouponList(null, ' order by CouponCode asc');
+  else if ($_POST['thead'] == 'tquantity')
+    $coupons  = $data->getCouponList(null, ' order by Quantity asc');
+  else if ($_POST['thead'] == 'tprice')
+    $coupons  = $data->getCouponList(null, ' order by Price asc');
+  else if ($_POST['thead'] == 'tpricecondition')
+    $coupons  = $data->getCouponList(null, ' order by PriceCondition asc');
+  else if ($_POST['thead'] == 'tstartdate')
+    $coupons  = $data->getCouponList(null, ' order by StartDate asc');
+  else if ($_POST['thead'] == 'tenddate')
+    $coupons  = $data->getCouponList(null, ' order by EndDate asc');
+  else if ($_POST['thead'] == 'texpenddate')
+    $coupons  = $data->getCouponList(null, ' order by ExpEndDate asc');
+}
+
+
+
 ?>
+
+<style>
+  .theadbtn {
+    background: none;
+    color: inherit;
+    border: none;
+    padding: 0;
+    font: inherit;
+    cursor: pointer;
+    outline: inherit;
+  }
+</style>
+
 
 <div class="container-fluid">
   <div class="card">
@@ -43,16 +80,16 @@ if (isset($_POST['delete'])) {
           <thead>
             <tr>
               <th scope="col"><input type="checkbox" id='selectallcheckbox' onclick="selectall();"></th>
-              <th scope="col">編號</th>
-              <th scope="col">名稱</th>
-              <th scope="col">折價券代碼</th>
-              <th scope="col">類型</th>
-              <th scope="col">數量</th>
-              <th scope="col">折扣價錢/比例</th>
-              <th scope="col">折扣條件(滿額)</th>
-              <th scope="col">開始領取/使用時間</th>
-              <th scope="col">領取截止日</th>
-              <th scope="col">使用截止日</th>
+              <th scope="col"><button class='theadbtn' name='thead' value='tid'>編號&nbsp;<i class="fas fa-sort"></i></button></th>
+              <th scope="col"><button class='theadbtn' name='thead' value='tname'>名稱&nbsp;<i class="fas fa-sort"></i></button></th>
+              <th scope="col"><button class='theadbtn' name='thead' value='tcode'>折價券代碼&nbsp;<i class="fas fa-sort"></i></button></th>
+              <th scope="col"><button class='theadbtn' name='thead' value='ttype'>類型&nbsp;<i class="fas fa-sort"></i></button></th>
+              <th scope="col"><button class='theadbtn' name='thead' value='tquantity'>數量&nbsp;<i class="fas fa-sort"></i></button></th>
+              <th scope="col"><button class='theadbtn' name='thead' value='tprice'>折扣價錢/比例&nbsp;<i class="fas fa-sort"></i></button></th>
+              <th scope="col"><button class='theadbtn' name='thead' value='tpricecondition'>折扣條件(滿額)&nbsp;<i class="fas fa-sort"></i></button></th>
+              <th scope="col"><button class='theadbtn' name='thead' value='tstartdate'>開始領取/使用時間&nbsp;<i class="fas fa-sort"></i></button></th>
+              <th scope="col"><button class='theadbtn' name='thead' value='tenddate'>領取截止日&nbsp;<i class="fas fa-sort"></i></button></th>
+              <th scope="col"><button class='theadbtn' name='thead' value='texpenddate'>使用截止日&nbsp;<i class="fas fa-sort"></i></button></th>
               <th scope="col">管理</th>
             </tr>
           </thead>
@@ -77,7 +114,7 @@ if (isset($_POST['delete'])) {
               echo "<td>" . $coupon->StartDate . "</td>";
               echo "<td>" . $coupon->EndDate . "</td>";
               echo "<td>" . $coupon->ExpEndDate . "</td>";
-              echo "<td>" . '<a href=/RollinAdmin/Coupon/Detail/'.$coupon->CouponID .'> <button type="button" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></button>' . "&nbsp;" . '</a> <button type="button" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button>' . "</td>";
+              echo "<td>" . '<a href=/RollinAdmin/Coupon/Detail/' . $coupon->CouponID . '> <button type="button" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></button>' . "&nbsp;" . '</a> <button type="button" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button>' . "</td>";
               echo "</tr>";
             }
             ?>

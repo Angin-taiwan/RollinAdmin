@@ -8,6 +8,7 @@ class OrderController extends Controller {
 
   function list() {
     $Order = $this->model("Order");
+    // $User = $this->model("User");
     $this->view("Order/OrderList", $Order);
   }
 

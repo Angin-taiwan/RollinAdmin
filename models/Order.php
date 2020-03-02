@@ -2,17 +2,28 @@
 
 class Order extends DB {
 
-  public $OrderID;
-  public $OrderName;
-  public $Description;
+    // public $OrderID;
+    // public $OrderName;
+    // public $Description;
 
   function getAll() {
-    return $this->selectDB("SELECT * FROM `Order` ;");
+    return $this->selectDB("SELECT * from `Order` O
+    join `User` U on (U.UserId = O.UserId)
+    join Orderdetail Od on (Od.OrderID   = O.OrderID)
+    join Product P on (P.ProductID = Od.ProductID)
+    join Payment Pay on (Pay.PaymentID = O.PaymentID);");
     // return $this->selectDB("SELECT * FROM Order ;");
   }
 
-  function get($id) {
-    return $this->selectDB("SELECT * FROM `Order` WHERE OrderID = ? ;", [$id])[0];
+  function getOrderById($id) {
+    return $this->selectDB("SELECT * FROM `Order` O
+    join User      U on (U.UserID    = O.UserID)
+    join Payment   Pay on (Pay.PaymentID = O.PaymentID)
+    join recipient r on (r.OrderID   = O.OrderID)
+    join Orderdetail Od on (Od.OrderID   = O.OrderID)
+    join Product P on (P.ProductID = Od.ProductID)
+    join shipping      S on (S.shippingID    = O.shippingID)
+    WHERE O.OrderID = ? ;", [$id])[0];
   }
 
   function create($Order) {

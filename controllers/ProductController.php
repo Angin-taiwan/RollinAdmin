@@ -12,7 +12,8 @@ class ProductController extends Controller {
   }
 
   function create() {
-    $this->view("product/productCreate");
+    $product = $this->model("Product");
+    $this->view("product/productCreate", $product);
   }
 
   function detail($id) {

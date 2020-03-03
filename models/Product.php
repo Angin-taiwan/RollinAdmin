@@ -17,11 +17,11 @@ class Product extends DB {
 
   function getAll(){
     return $this->selectDB(
-      "select * from product as p 
-          left outer join brand as b on p.BrandID = b.BrandID               -- 品牌
-          left outer join category as c on p.CategoryID = c.CategoryID      -- 類別
-          left outer join productstock as ps on p.productID = ps.productID  -- 庫存
-          ;"
+      "select *, SUM(UnitInStock) TotalStock from productstock as ps -- 庫存
+      right outer join Product as p on p.ProductID = ps.P_ID         -- 商品
+			left outer join brand as b on p.BrandID = b.BrandID            -- 品牌
+			left outer join category as c on p.CategoryID = c.CategoryID   -- 類別
+            GROUP BY p.ProductID;"
     );
   }
   function getStock($id){
@@ -29,18 +29,19 @@ class Product extends DB {
       "select * from product as p 
           left outer join brand as b on p.BrandID = b.BrandID 
           left outer join category as c on p.CategoryID = c.CategoryID 
-          left outer join productstock as ps on p.productID = ps.productID 
+          left outer join productstock as ps on p.productID = ps.P_ID 
           WHERE p.ProductID = ? ", [$id]
     );
   }
 
 
-  function get($id) {
+  function getDetail($id) {
     return $this->selectDB("SELECT * FROM Product WHERE ProductID = ? ", [$id]
     )[0];
   }
 
   function createProduct($Product) {
+    $ProductName = trim($Product->ProductName);
     return $this->insertDB(
       "INSERT INTO `product` (`ProductName`, `BrandID`, `CategoryID`, `PDescription`, `Discontinued`, 
       `UnitPrice`) VALUES (?,?,?,?,?,?) ;", 

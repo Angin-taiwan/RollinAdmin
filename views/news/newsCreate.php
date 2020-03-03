@@ -26,28 +26,28 @@ require_once 'views/template/header.php';
       <label for="Title" class="text">
         Title :
       </label>
-      <input type="text" class="form-control" name="Title" id="Title"  required="required">
+      <input type="text" class="form-control" name="Title" id="Title"  required="required" style="width:70%">
     </div>
 
     <div class="form-group">
       <label for="CreateDate" class="date">
         CreateDate :
       </label>
-      <input type="date" class="form-control" name="CreateDate" id="CreateDate"  required="required">
+      <input type="date" class="form-control" name="CreateDate" id="CreateDate"  required="required" style="width:70%">
     </div>
 
     <div class="form-group">
       <label for="UpdateDate" class="date">
         UpdateDate :
       </label>
-      <input type="date" class="form-control" name="UpdateDate" id="UpdateDate"  required="required">
+      <input type="date" class="form-control" name="UpdateDate" id="UpdateDate"  required="required" style="width:70%">
     </div>
 
     <div class="form-group">
       <label for="Description" class="text">
         Description :
       </label>
-      <textarea type="text" class="form-control" name="Description" id="Description" style="height:200px"  required="required"></textarea> 
+      <textarea type="text" class="form-control" name="Description" id="Description" style="height:300px ;width:70%"  required="required"></textarea> 
     </div>
 
     <input name="action" type="hidden" value="id">

@@ -20,3 +20,7 @@ CREATE TABLE `Rollin`.`CouponType` (
 --
 -- Dumping data for table `CouponType`
 --
+
+insert into `CouponType`(CouponTypeName) values('限量領取');
+insert into `CouponType`(CouponTypeName)  values('系統發送');
+insert into `CouponType`(CouponTypeName)  values('輸入折扣碼(全店)');

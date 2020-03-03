@@ -16,11 +16,13 @@ CREATE TABLE `Rollin`.`UserCoupon` (
   `UserID` INT NOT NULL,
   `CouponID` INT NOT NULL,
   `OrderID` INT NULL,
-  PRIMARY KEY (`UserID`, `CouponID`),
-  CONSTRAINT `FK_UserCoupon_User` FOREIGN KEY (`UserID`) REFERENCES `Rollin`.`User` (`UserID`), 
-  CONSTRAINT `FK_UserCoupon_Coupon` FOREIGN KEY (`CouponID`) REFERENCES `Rollin`.`Coupon` (`CouponID`),
-  CONSTRAINT `FK_UserCoupon_Order` FOREIGN KEY (`OrderID`) REFERENCES `Rollin`.`Order` (`OrderID`));
+  PRIMARY KEY (`UserID`, `CouponID`));
 
 --
 -- Dumping data for table `UserCoupon`
 --
+
+insert into `userCoupon` (UserID, CouponID, OrderID) values(1,1,null);
+insert into `userCoupon` (UserID, CouponID, OrderID) values(1,2,null);
+insert into `userCoupon` (UserID, CouponID, OrderID) values(2,2,null);
+insert into `userCoupon` (UserID, CouponID, OrderID) values(3,2,null);

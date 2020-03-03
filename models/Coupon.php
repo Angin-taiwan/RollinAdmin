@@ -23,7 +23,7 @@ class Coupon extends DB
 
   function getCouponList($coupon)
   {
-    echo 'cou' . $coupon->keyword . ' ' . $coupon->sort . ' ' . $coupon->sortnum . ' ' . $coupon->sortName;
+    // echo 'cou' . $coupon->keyword . ' ' . $coupon->sort . ' ' . $coupon->sortnum . ' ' . $coupon->sortName;
     $str = $numstr = '';
     if (isset($coupon->keyword)) {
       $str = '\'%' . $coupon->keyword . '%\'';

@@ -10,7 +10,7 @@ if (isset($data->sortnum))
 $n = '';
 if (isset($data->sortName))
   $n = $data->sortName;
-echo $s . ' ' . $n;
+// echo $s . ' ' . $n;
 
 if (isset($_POST['delete'])) {
   $arr = array();
@@ -33,40 +33,43 @@ if (isset($_POST['deleteOne'])) {
 
 if (isset($_POST['thead'])) {
   // echo $s . ' ' . $_POST['thead'];
-  if ($_POST['thead'] == 'tid' && $s == 1) {
-    $data->keyword = null;
-    $data->sort = ' order by CouponID desc';
-    $data->sortnum = 2;
-    $data->sortName = 'tid';
-    $s = 2;
-    $n = 'tid';
-    $coupons = $data->getCouponList($data);
-    unset($_POST['thead']);
-    echo $s . ' ' . $_POST['thead'];
-  } else if ($_POST['thead'] == 'tid' && $data->sortnum == 2) {
+  if ($_POST['thead'] == 'tid') {
     $data->keyword = null;
     $data->sort = ' order by CouponID asc';
-    $s = 3;
-    $data->sortnum = 3;
-    $data->sortName = 'tid';
     $coupons  = $data->getCouponList($data);
-    $_POST['thead'] = null;
-  } else if ($_POST['thead'] == 'tname')
-    $coupons  = $data->getCouponList(null, ' order by CouponName asc');
-  else if ($_POST['thead'] == 'tcode')
-    $coupons  = $data->getCouponList(null, ' order by CouponCode asc');
-  else if ($_POST['thead'] == 'tquantity')
-    $coupons  = $data->getCouponList(null, ' order by Quantity asc');
-  else if ($_POST['thead'] == 'tprice')
-    $coupons  = $data->getCouponList(null, ' order by Price asc');
-  else if ($_POST['thead'] == 'tpricecondition')
-    $coupons  = $data->getCouponList(null, ' order by PriceCondition asc');
-  else if ($_POST['thead'] == 'tstartdate')
-    $coupons  = $data->getCouponList(null, ' order by StartDate asc');
-  else if ($_POST['thead'] == 'tenddate')
-    $coupons  = $data->getCouponList(null, ' order by EndDate asc');
-  else if ($_POST['thead'] == 'texpenddate')
-    $coupons  = $data->getCouponList(null, ' order by ExpEndDate asc');
+  } else if ($_POST['thead'] == 'tname') {
+    $data->keyword = null;
+    $data->sort = ' order by CouponName asc';
+    $coupons  = $data->getCouponList($data);
+  } else if ($_POST['thead'] == 'tcode') {
+    $data->keyword = null;
+    $data->sort = ' order by CouponCode asc';
+    $coupons  = $data->getCouponList($data);
+  } else if ($_POST['thead'] == 'tquantity') {
+    $data->keyword = null;
+    $data->sort = ' order by Quantity asc';
+    $coupons  = $data->getCouponList($data);
+  } else if ($_POST['thead'] == 'tprice') {
+    $data->keyword = null;
+    $data->sort = ' order by Price asc';
+    $coupons  = $data->getCouponList($data);
+  } else if ($_POST['thead'] == 'tpricecondition') {
+    $data->keyword = null;
+    $data->sort = ' order by PriceCondition asc';
+    $coupons  = $data->getCouponList($data);
+  } else if ($_POST['thead'] == 'tstartdate') {
+    $data->keyword = null;
+    $data->sort = ' order by StartDate asc';
+    $coupons  = $data->getCouponList($data);
+  } else if ($_POST['thead'] == 'tenddate') {
+    $data->keyword = null;
+    $data->sort = ' order by EndDate asc';
+    $coupons  = $data->getCouponList($data);
+  } else if ($_POST['thead'] == 'texpenddate') {
+    $data->keyword = null;
+    $data->sort = ' order by ExpEndDate asc';
+    $coupons  = $data->getCouponList($data);
+  }
 }
 
 if (isset($_POST['key'])) {
@@ -125,22 +128,65 @@ require_once 'views/template/header.php';
             <tr>
               <th scope="col"><input type="checkbox" id='selectallcheckbox' onclick="selectall();"></th>
               <th scope="col"><button class='theadbtn' name='thead' value="tid">編號&nbsp;<?php
-                                                                                        if ($data->sortName == 'tid' && $data->sortnum == 3) {
-                                                                                          echo '<i class="fas fa-sort-up"></i>';
-                                                                                        } else if ($data->sortName == 'tid' && $data->sortnum == 2) {
+                                                                                        if (isset($_POST['thead']) && $_POST['thead'] == 'tid') {
                                                                                           echo '<i class="fas fa-sort-down"></i>';
                                                                                         } else {
                                                                                           echo '<i class="fas fa-sort"></i>';
                                                                                         } ?></button></th>
-              <th scope="col"><button class='theadbtn' name='thead' value='tname'>名稱&nbsp;<i class="fas fa-sort"></i></button></th>
-              <th scope="col"><button class='theadbtn' name='thead' value='tcode'>折價券代碼&nbsp;<i class="fas fa-sort"></i></button></th>
-              <th scope="col"><button class='theadbtn' name='thead' value='ttype'>類型&nbsp;<i class="fas fa-sort"></i></button></th>
-              <th scope="col"><button class='theadbtn' name='thead' value='tquantity'>數量&nbsp;<i class="fas fa-sort"></i></button></th>
-              <th scope="col"><button class='theadbtn' name='thead' value='tprice'>折扣價錢/比例&nbsp;<i class="fas fa-sort"></i></button></th>
-              <th scope="col"><button class='theadbtn' name='thead' value='tpricecondition'>折扣條件(滿額)&nbsp;<i class="fas fa-sort"></i></button></th>
-              <th scope="col"><button class='theadbtn' name='thead' value='tstartdate'>開始領取/使用時間&nbsp;<i class="fas fa-sort"></i></button></th>
-              <th scope="col"><button class='theadbtn' name='thead' value='tenddate'>領取截止日&nbsp;<i class="fas fa-sort"></i></button></th>
-              <th scope="col"><button class='theadbtn' name='thead' value='texpenddate'>使用截止日&nbsp;<i class="fas fa-sort"></i></button></th>
+              <th scope="col"><button class='theadbtn' name='thead' value='tname'>名稱&nbsp;<?php
+                                                                                          if (isset($_POST['thead']) && $_POST['thead'] == 'tnamw') {
+                                                                                            echo '<i class="fas fa-sort-down"></i>';
+                                                                                          } else {
+                                                                                            echo '<i class="fas fa-sort"></i>';
+                                                                                          } ?></button></th>
+              <th scope="col"><button class='theadbtn' name='thead' value='tcode'>折價券代碼&nbsp;<?php
+                                                                                              if (isset($_POST['thead']) && $_POST['thead'] == 'tcode') {
+                                                                                                echo '<i class="fas fa-sort-down"></i>';
+                                                                                              } else {
+                                                                                                echo '<i class="fas fa-sort"></i>';
+                                                                                              } ?></button></th>
+              <th scope="col"><button class='theadbtn' name='thead' value='ttype'>類型&nbsp;<?php
+                                                                                          if (isset($_POST['thead']) && $_POST['thead'] == 'ttype') {
+                                                                                            echo '<i class="fas fa-sort-down"></i>';
+                                                                                          } else {
+                                                                                            echo '<i class="fas fa-sort"></i>';
+                                                                                          } ?></button></th>
+              <th scope="col"><button class='theadbtn' name='thead' value='tquantity'>數量&nbsp;<?php
+                                                                                              if (isset($_POST['thead']) && $_POST['thead'] == 'tquantity') {
+                                                                                                echo '<i class="fas fa-sort-down"></i>';
+                                                                                              } else {
+                                                                                                echo '<i class="fas fa-sort"></i>';
+                                                                                              } ?></button></th>
+              <th scope="col"><button class='theadbtn' name='thead' value='tprice'>折扣價錢/比例&nbsp;<?php
+                                                                                                if (isset($_POST['thead']) && $_POST['thead'] == 'tprice') {
+                                                                                                  echo '<i class="fas fa-sort-down"></i>';
+                                                                                                } else {
+                                                                                                  echo '<i class="fas fa-sort"></i>';
+                                                                                                } ?></button></th>
+              <th scope="col"><button class='theadbtn' name='thead' value='tpricecondition'>折扣條件(滿額)&nbsp;<?php
+                                                                                                          if (isset($_POST['thead']) && $_POST['thead'] == 'tpricecondition') {
+                                                                                                            echo '<i class="fas fa-sort-down"></i>';
+                                                                                                          } else {
+                                                                                                            echo '<i class="fas fa-sort"></i>';
+                                                                                                          } ?></button></th>
+              <th scope="col"><button class='theadbtn' name='thead' value='tstartdate'>開始領取/使用時間&nbsp;<?php
+                                                                                                      if (isset($_POST['thead']) && $_POST['thead'] == 'tstartdate') {
+                                                                                                        echo '<i class="fas fa-sort-down"></i>';
+                                                                                                      } else {
+                                                                                                        echo '<i class="fas fa-sort"></i>';
+                                                                                                      } ?></button></th>
+              <th scope="col"><button class='theadbtn' name='thead' value='tenddate'>領取截止日&nbsp;<?php
+                                                                                                if (isset($_POST['thead']) && $_POST['thead'] == 'tenddate') {
+                                                                                                  echo '<i class="fas fa-sort-down"></i>';
+                                                                                                } else {
+                                                                                                  echo '<i class="fas fa-sort"></i>';
+                                                                                                } ?></button></th>
+              <th scope="col"><button class='theadbtn' name='thead' value='texpenddate'>使用截止日&nbsp;<?php
+                                                                                                    if (isset($_POST['thead']) && $_POST['thead'] == 'texpenddate') {
+                                                                                                      echo '<i class="fas fa-sort-down"></i>';
+                                                                                                    } else {
+                                                                                                      echo '<i class="fas fa-sort"></i>';
+                                                                                                    } ?></button></th>
               <th scope="col">管理</th>
             </tr>
           </thead>

@@ -34,5 +34,5 @@ CREATE TABLE `Order` (
 LOCK TABLES `Order` WRITE;
 
 INSERT INTO `Order` (`OrderID`, `UserID`, `PaymentID`, `ShippingID`, `OrderDate`, `ShippedDate`, `DeliverDate`, `CancelDate`, `MarketingID`, `CouponID`, `FinalPrice`) VALUES (NULL, '1', '1', '2', current_timestamp(), NULL, NULL, NULL, NULL, NULL, '10000'), (NULL, '4', '1', '1', current_timestamp(), NULL, NULL, NULL, NULL, NULL, '1003');
-
+INSERT INTO `order` (`OrderID`, `UserID`, `PaymentID`, `ShippingID`, `OrderDate`, `ShippedDate`, `DeliverDate`, `CancelDate`, `MarketingID`, `CouponID`, `FinalPrice`) VALUES (NULL, '3', '2', '1', '2020-03-03 15:36:13', NULL, NULL, NULL, NULL, NULL, '2580'), (NULL, '5', '2', '1', '2020-03-03 15:36:13', NULL, NULL, NULL, NULL, NULL, '2580');
 UNLOCK TABLES;

@@ -4,12 +4,12 @@ $pageDir = "Product";
 $pageTitle = "Product List";
 
 require_once 'views/template/header.php';
-$sqlContext = "select * from product as p 
-left outer join brand as b on p.BrandID = b.BrandID 
-left outer join category as c on p.CategoryID = c.CategoryID ; " ;
+// $sqlContext = "select * from product as p 
+// left outer join brand as b on p.BrandID = b.BrandID 
+// left outer join category as c on p.CategoryID = c.CategoryID ; " ;
 
-$products = $data->selectDB($sqlContext);
-
+// $products = $data->selectDB($sqlContext);
+$products = $data->getAll();
 ?>
 
 <!-- <div class="container-fluid">
@@ -41,13 +41,13 @@ function TestBlack(TagName){
         <thead>
           <tr>              
             <th><input type="checkbox" id="selectallcheckbox" onclick=""></th>
-            <th>ID</th>
-            <th>Name</th>
+            <th style='width:2%'>ID</th>
+            <th style='width:15%'>Name</th>
             <th>Brand</th>
             <th>Category</th>
             <th>Description</th>
-            <th>庫存</th>
-            <th>訂單量</th>
+            <th style='width:7%'>總庫存</th>
+            <th style='width:7%'>訂單量</th>
             <th>單價</th>
             <th>更新日期</th> <!-- Date -->
           </tr>
@@ -58,12 +58,12 @@ function TestBlack(TagName){
             //  onclick=\"window.location='/RollinAdmin/Product/Detail/" . $pd->ProductID . "'\"
             echo "<tr onclick=\"TestBlack('$pd->ProductID');\">";
             echo '<td><input type="checkbox" id="checkbox' . $pd->ProductID . '"></td>';
-            echo "<td style='width:2%'> $pd->ProductID </td>";
-            echo "<td style='width:15%'>$pd->ProductName</td>";
+            echo "<td> $pd->ProductID </td>";
+            echo "<td><a href=/RollinAdmin/Product/Detail/$pd->ProductID>$pd->ProductName</a></td>";
             echo "<td>".$pd->BrandName."</td>";
             echo "<td>$pd->CategoryName</td>";
             echo "<td>" . substr($pd->PDescription,0,69) . "</td>";
-            echo "<td>001</td>";
+            echo "<td>$pd->TotalStock</td>";
             echo "<td>002</td>";
             echo "<td>$pd->UnitPrice</td>";
             echo "<td>$pd->Date</td>";
@@ -77,7 +77,7 @@ function TestBlack(TagName){
                     <td bgcolor="#778899"></td>
                     <td bgcolor="#778899"></td>
                     <td bgcolor="#778899">Size:$pdst->SizeID </td>
-                    <td bgcolor="#778899">pdst:$pdst->ColorID </td>
+                    <td bgcolor="#778899">Color:$pdst->ColorID </td>
                     <td bgcolor="#778899"></td>
                     <td bgcolor="#778899">pdst:$pdst->UnitInStock</td>
                     <td bgcolor="#778899"></td>

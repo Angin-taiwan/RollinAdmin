@@ -17,7 +17,7 @@ CREATE TABLE `User`(
    NickName       VARCHAR(20),
    Gender         ENUM('U','M','F')    NOT NULL       DEFAULT 'U',
    Birthdate      DATE                 NOT NULL,
-   Phone          VARCHAR(20),
+   Phone          VARCHAR(20)          NOT NULL,   
    Email          VARCHAR(50)          NOT NULL       UNIQUE,
    Password       VARCHAR(30)          NOT NULL,
    Country        VARCHAR(20),

@@ -304,17 +304,17 @@
           <div class="container-fluid">
             <div class="row mb-2">
               <div class="col-sm-6">
-                <h1 class="m-0 text-dark"><?=$pageTitle?></h1>
+                <h1 class="m-0 text-dark"><?= isset($pageTitleTW) ? $pageTitleTW : $pageTitle ?></h1>
               </div>
               <!-- /.col -->
               <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                   <li class="breadcrumb-item"><a href="/RollinAdmin">Home</a></li>
                   <?php if ($pageDir !== ""): ?>
-                    <li class="breadcrumb-item active"><?=$pageDir?></li>
+                    <li class="breadcrumb-item active"><?= isset($pageDirTW) ? $pageDirTW : $pageDir ?></li>
                   <?php endif;?>
                   <?php if ($pageTitle !== "Home"): ?>
-                    <li class="breadcrumb-item active"><?=$pageTitle?></li>
+                    <li class="breadcrumb-item active"><?= isset($pageTitleTW) ? $pageTitleTW : $pageTitle ?></li>
                   <?php endif;?>
                 </ol>
               </div>

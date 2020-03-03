@@ -5,7 +5,7 @@ $pageTitle = "News Update";
 
 $news = $data->getNewsByID($data->id);
 
-require_once 'views/template/header.php';
+
 
 if (isset($_POST["updateButton"])) {
     $news->Title = $_POST["Title"];
@@ -15,7 +15,8 @@ if (isset($_POST["updateButton"])) {
     // $newsUpdate->NewsID = $_POST["NewsID"];
     $data->update($news);
     if ($news->NewsID) {
-        header("location: /RollinAdmin/News/Detail/$news->NewsID");
+        echo "<script> alert('修改成功');location.href = '/RollinAdmin/News/Detail/$news->NewsID' </script>";
+        // header("location: /RollinAdmin/News/Detail/$news->NewsID");
     }
 }
 
@@ -23,6 +24,7 @@ if (isset($_POST["BackToList"])) {
     header("location: ../List");
 }
 
+require_once 'views/template/header.php';
 
 ?>
 
@@ -42,28 +44,28 @@ if (isset($_POST["BackToList"])) {
             <label for="Title" class="text">
                 Title :
             </label>
-            <input type="text" class="form-control" name="Title" id="Title" value="<?= $news->Title ?>">
+            <input type="text" class="form-control" name="Title" id="Title"  required="required" value="<?= $news->Title ?>">
         </div>
 
         <div class="form-group">
             <label for="CreateDate" class="date">
                 CreateDate :
             </label>
-            <input type="date" class="form-control" name="CreateDate" id="CreateDate" value="<?= $news->CreateDate ?>">
+            <input type="date" class="form-control" name="CreateDate" id="CreateDate"  required="required" value="<?= $news->CreateDate ?>">
         </div>
 
         <div class="form-group">
             <label for="UpdateDate" class="date">
                 UpdateDate :
             </label>
-            <input type="date" class="form-control" name="UpdateDate" id="UpdateDate" value="<?= $news->UpdateDate ?>">
+            <input type="date" class="form-control" name="UpdateDate" id="UpdateDate"  required="required" value="<?= $news->UpdateDate ?>">
         </div>
 
         <div class="form-group">
             <label for="Description" class="text">
                 Description :
             </label>
-            <textarea type="text" class="form-control" name="Description" id="Description" style="height:200px"><?= $news->Description ?></textarea>
+            <textarea type="text" class="form-control" name="Description" id="Description" style="height:200px"  required="required"><?= $news->Description ?></textarea>
         </div>
 
         <input name="action" type="hidden" value="id">

@@ -11,23 +11,15 @@ use Rollin;
 --
 
 DROP TABLE IF EXISTS `Favorite`;
+
 CREATE TABLE `Favorite`(
-   UserID INT NOT NULL PRIMARY KEY,
-   ProductID INT  NOT NULL PRIMARY KEY, 
-   SizeID INT  NOT NULL PRIMARY KEY ,  
-   ColorID INT NOT NULL PRIMARY KEY  
+   UserID      INT   NOT NULL,
+   ProductID   INT   NOT NULL, 
+   SizeID      INT   NOT NULL ,  
+   ColorID     INT   NOT NULL,
+   PRIMARY KEY ( UserID, ProductID, SizeID, ColorID ) 
 );
 
 --
--- Dumping data for table `brand`
+-- Dumping data for table `Favorite`
 --
-
-LOCK TABLES `Favorite` WRITE;
-
-INSERT INTO `Favorite` (UserID, ProductID, SizeID, ColorID) 
-VALUES ("3", "2","1","2");
-
-
-
-
-UNLOCK TABLES;

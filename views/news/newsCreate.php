@@ -3,10 +3,6 @@
 $pageDir = "News";
 $pageTitle = "News Create";
 
-
-
-require_once 'views/template/header.php';
-
 $news = new News();
 if (isset($_POST["insertButton"])) {
   $news->Title = $_POST["Title"];
@@ -14,8 +10,12 @@ if (isset($_POST["insertButton"])) {
   $news->CreateDate = $_POST["CreateDate"];
   $news->UpdateDate = $_POST["UpdateDate"];
   $data->create($news);
-  header("location: ../List");
+  echo "<script> alert('新增成功');location.href = '/RollinAdmin/News/List' </script>";
+  // header("location: /RollinAdmin/News/List");
 }
+
+require_once 'views/template/header.php';
+
 ?>
 
 <div class="container-fluid">
@@ -26,28 +26,28 @@ if (isset($_POST["insertButton"])) {
       <label for="Title" class="text">
         Title :
       </label>
-      <input type="text" class="form-control" name="Title" id="Title">
+      <input type="text" class="form-control" name="Title" id="Title"  required="required" style="width:70%">
     </div>
 
     <div class="form-group">
       <label for="CreateDate" class="date">
         CreateDate :
       </label>
-      <input type="date" class="form-control" name="CreateDate" id="CreateDate">
+      <input type="date" class="form-control" name="CreateDate" id="CreateDate"  required="required" style="width:70%">
     </div>
 
     <div class="form-group">
       <label for="UpdateDate" class="date">
         UpdateDate :
       </label>
-      <input type="date" class="form-control" name="UpdateDate" id="UpdateDate">
+      <input type="date" class="form-control" name="UpdateDate" id="UpdateDate"  required="required" style="width:70%">
     </div>
 
     <div class="form-group">
       <label for="Description" class="text">
         Description :
       </label>
-      <textarea type="text" class="form-control" name="Description" id="Description" style="height:200px"></textarea> 
+      <textarea type="text" class="form-control" name="Description" id="Description" style="height:300px ;width:70%"  required="required"></textarea> 
     </div>
 
     <input name="action" type="hidden" value="id">

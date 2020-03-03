@@ -2,16 +2,49 @@
 
 class Order extends DB {
 
-    // public $OrderID;
+    public $OrderID;
+    // public $choice = $data ->(OrderID,UserName,ShippedDate);
+    // public $UserName;
     // public $OrderName;
     // public $Description;
 
-  function getAll() {
+  function getAllCount() {
+    return $this->selectDB(
+       "SELECT COUNT(*) as Total FROM `Order`;"
+     )[0];
+  }
+
+  function getAllLikeCount($OrderID) {
+    return $this->selectDB(
+      "SELECT COUNT(*) Count FROM `Order` O
+      join `User` U on (U.UserId = O.UserId)  
+      WHERE OrderID LIKE CONCAT('%',?,'%') ;",
+      [$OrderID]
+    )[0];
+  }
+
+  function getAllLike($OrderID, $startIndex = 0, $pageSize = 3) {
+    return $this->selectDB(
+      "SELECT O.*, U.UserName, Pay.PaymentName, P.ProductName FROM `Order` O 
+      join `User` U on (U.UserId = O.UserId)
+      join Orderdetail Od on (Od.OrderID   = O.OrderID)
+      join Product P on (P.ProductID = Od.ProductID)
+      join Payment Pay on (Pay.PaymentID = O.PaymentID)
+      WHERE UserName LIKE CONCAT('%',?,'%') ORDER BY OrderID ASC LIMIT ?, ? ;",
+      [$OrderID, $startIndex, $pageSize]
+    );
+  }
+    
+
+  function getAll($startIndex = 0, $pageSize = 3) {
     return $this->selectDB("SELECT * from `Order` O
     join `User` U on (U.UserId = O.UserId)
     join Orderdetail Od on (Od.OrderID   = O.OrderID)
     join Product P on (P.ProductID = Od.ProductID)
-    join Payment Pay on (Pay.PaymentID = O.PaymentID);");
+    join Payment Pay on (Pay.PaymentID = O.PaymentID)
+    ORDER BY O.OrderID
+    asc LIMIT ?, ? ;",[$startIndex, $pageSize]
+    );
     // return $this->selectDB("SELECT * FROM Order ;");
   }
 
@@ -33,10 +66,12 @@ class Order extends DB {
     );
   }
 
-  function update($Order) {
+
+  //還沒做好
+  function updateshipping($Order) {
     return $this->updateDB(
-      "UPDATE `Order` SET OrderName = ?, Description = ? WHERE OrderID = ? ;",
-      ["$Order->OrderName", "$Order->Description", $Order->OrderID]
+      "UPDATE Order SET BrandName = ?, Description = ? WHERE BrandID = ? ;",
+      ["$brand->BrandName", "$brand->Description", $brand->BrandID]
     );
   }
 

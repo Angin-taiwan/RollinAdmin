@@ -3,12 +3,12 @@
 $pageDir = "User";
 $pageTitle = "User Delete";
 
-$user = $data->getUserById($data->id); 
+$user = $data->getUserById($data->id);
 
 if(isset($_POST['delete'])){
     $user->UserID = $_POST['delete']
     $data->deleteUser([$user->UserID]);
-    header("Location: ../List");
+    header("Location: ../Detail");
     exit();
 }
 

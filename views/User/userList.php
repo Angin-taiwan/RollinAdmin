@@ -7,7 +7,6 @@ $user = $data->getAll();
 
 require_once 'views/template/header.php';
 
-
 ?>
 
 

@@ -13,7 +13,11 @@ use Rollin;
 DROP TABLE IF EXISTS `MarketingType`;
 
 CREATE TABLE `MarketingType`(
-   MarketingTypeID  	  INT     	    NOT NULL  AUTO_INCREMENT,
+   MarketingTypeID  	   INT     	     NOT NULL     AUTO_INCREMENT,
    MarketingTypeName    VARCHAR(20)   NOT NULL,
    PRIMARY KEY ( MarketingTypeID )
 );
+
+--
+-- Dumping data for table `MarketingType`
+--

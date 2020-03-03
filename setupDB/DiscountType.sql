@@ -13,7 +13,11 @@ use Rollin;
 DROP TABLE IF EXISTS `DiscountType`;
 
 CREATE TABLE `DiscountType`(
-   DiscountTypeID  	INT     	    NOT NULL  AUTO_INCREMENT,
-   DiscountName     VARCHAR(20)   NOT NULL,
+   DiscountTypeID  	  INT     	    NOT NULL    AUTO_INCREMENT,
+   DiscountName       VARCHAR(20)   NOT NULL,
    PRIMARY KEY ( DiscountTypeID )
 );
+
+--
+-- Dumping data for table `DiscountType`
+--

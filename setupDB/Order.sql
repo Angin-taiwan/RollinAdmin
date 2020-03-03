@@ -1,4 +1,4 @@
-   --
+--
 -- Create database "rollin" if not exists
 --
 
@@ -10,10 +10,7 @@ use Rollin;
 -- Table structure for table `Order`
 --
 
-
-
 DROP TABLE IF EXISTS `Order`;
-
 
 CREATE TABLE `Order` (
    `OrderID`       INT         NOT NULL     AUTO_INCREMENT ,
@@ -30,9 +27,12 @@ CREATE TABLE `Order` (
    PRIMARY KEY ( OrderID )
 );
 
+--
+-- Dumping data for table `Order`
+--
 
 LOCK TABLES `Order` WRITE;
 
-INSERT INTO `order` (`OrderID`, `UserID`, `PaymentID`, `ShippingID`, `OrderDate`, `ShippedDate`, `DeliverDate`, `CancelDate`, `MarketingID`, `CouponID`, `FinalPrice`) VALUES (NULL, '1', '1', '2', current_timestamp(), NULL, NULL, NULL, NULL, NULL, '10000'), (NULL, '4', '1', '1', current_timestamp(), NULL, NULL, NULL, NULL, NULL, '1003');
+INSERT INTO `Order` (`OrderID`, `UserID`, `PaymentID`, `ShippingID`, `OrderDate`, `ShippedDate`, `DeliverDate`, `CancelDate`, `MarketingID`, `CouponID`, `FinalPrice`) VALUES (NULL, '1', '1', '2', current_timestamp(), NULL, NULL, NULL, NULL, NULL, '10000'), (NULL, '4', '1', '1', current_timestamp(), NULL, NULL, NULL, NULL, NULL, '1003');
 
 UNLOCK TABLES;

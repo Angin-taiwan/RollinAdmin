@@ -3,6 +3,9 @@
 $pageDir = "User";
 $pageTitle = "User Create";
 
+$pageDirTW = "會員管理";
+$pageTitleTW = "會員新增";
+
 $user = new User();
 
 if(isset($_POST['submit'])){
@@ -45,9 +48,9 @@ require_once 'views/template/header.php';
             </thead>
             <tbody>
               <tr>
-                <td>姓名</td>
+                <td>姓名<span class="font-weight-bold text-danger ml-1">*</span></td>
                 <td>
-                  <input type="text" id="userNamelnput" name="userName"  placeholder="輸入真實姓名" class="form-control input-sm">
+                  <input type="text" id="userNamelnput" name="userName" placeholder="輸入真實姓名" class="form-control input-sm" required>
                 </td>            
               </tr>
               <tr>
@@ -57,9 +60,9 @@ require_once 'views/template/header.php';
                 </td>            
               </tr>
               <tr>
-                <td>性別</td>
+                <td>性別<span class="font-weight-bold text-danger ml-1">*</span></td>
                 <td>
-                  <input type="radio" id="male" name="gender" value="M">
+                  <input type="radio" id="male" name="gender" value="M" required>
                   <label for="male" class="font form-check-label">男</label>&emsp;&emsp;
                   <input type="radio" id="female" name="gender" value="F">
                   <label for="female" class="font form-check-label">女</label>&emsp;&emsp;
@@ -68,27 +71,27 @@ require_once 'views/template/header.php';
                 </td>            
               </tr>
               <tr>
-                <td>生日</td>
+                <td>生日<span class="font-weight-bold text-danger ml-1">*</span></td>
                 <td>
-                  <input type="date" id="userBirdaylnput" name="birthday" class="form-control">
+                  <input type="date" id="userBirdaylnput" name="birthday" class="form-control" required>
                 </td>            
               </tr>
               <tr>
-                <td>電話</td>
+                <td>電話<span class="font-weight-bold text-danger ml-1">*</span></td>
                 <td>
-                  <input type="text" id="userPhonelnput" name="phone" class="form-control" placeholder="格式範例 0911222333">
+                  <input type="text" id="userPhonelnput" name="phone" class="form-control" placeholder="格式範例 0911222333" required>
                 </td>            
               </tr>
               <tr>
-                <td>Email</td>
+                <td>信箱<span class="font-weight-bold text-danger ml-1">*</span></td>
                 <td>
-                  <input type="text" id="userMaillnput" name="mail" class="form-control" placeholder="輸入email">
+                  <input type="text" id="userMaillnput" name="mail" class="form-control" placeholder="輸入email" required>
                 </td>            
               </tr>
               <tr>
-                <td>密碼</td>
+                <td>密碼<span class="font-weight-bold text-danger ml-1">*</span></td>
                 <td>
-                  <input type="text" id="userPassInput" name="password" class="form-control" placeholder="輸入6-8位密碼">
+                  <input type="text" id="userPassInput" name="password" class="form-control" placeholder="輸入密碼" required>
                 </td>            
               </tr>
               <tr>
@@ -115,17 +118,11 @@ require_once 'views/template/header.php';
                   <input type="text" id="userAddrlnput" name="address" class="form-control" placeholder="輸入地址">
                 </td>            
               </tr>
-              <tr>
-                <td>郵遞區號</td>
-                <td>
-                  <input type="text" id="userPostInput" name="postalcode" class="form-control">
-                </td>            
-              </tr>
             </tbody>
           </table>
           <span class="float-right mt-4">
-            <button type="submit" name="submit" class="btn btn-info font" >送出</button>
             <a class="btn btn-secondary font" href="/RollinAdmin/User/List/">返回表單</a>
+            <button type="submit" name="submit" class="btn btn-info font" >送出</button>
           </span>
         </div>
       </div>

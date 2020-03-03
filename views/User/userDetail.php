@@ -3,6 +3,9 @@
 $pageDir = "User";
 $pageTitle = "User Detail";
 
+$pageDirTW = "會員管理";
+$pageTitleTW = "會員詳細資料";
+
 $user = $data->getUserById($data->id); 
 
 require_once 'views/template/header.php';
@@ -47,12 +50,8 @@ require_once 'views/template/header.php';
               <td><?= $user->Phone?></td>            
             </tr>
             <tr>
-              <td>Email</td>
+              <td>信箱</td>
               <td><?= $user->Email?></td>            
-            </tr>
-            <tr>
-              <td>密碼</td>
-              <td><?= $user->Password?></td>            
             </tr>
             <tr>
               <td>國家</td>
@@ -78,8 +77,8 @@ require_once 'views/template/header.php';
         </table>
         
         <span class="float-right mt-4">
-          <a class="btn btn-secondary" href="/RollinAdmin/User/List/">返回表單</a>
           <?="<a class='btn btn-secondary' href=/RollinAdmin/User/Update/$user->UserID>修改</a>"?>
+          <a class="btn btn-info" href="/RollinAdmin/User/List/">返回表單</a>
         </span>
       </div>
     </div>  

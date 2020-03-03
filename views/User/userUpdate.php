@@ -3,6 +3,9 @@
 $pageDir = "User";
 $pageTitle = "User Update";
 
+$pageDirTW = "會員管理";
+$pageTitleTW = "會員資料修改";
+
 $user = $data->getUserById($data->id); 
 
 
@@ -52,10 +55,10 @@ require_once 'views/template/header.php';
                 <td><?= $user->UserID?></td>            
               </tr>
               <tr>
-                <td>姓名</td>
+                <td>姓名<span class="font-weight-bold text-danger ml-1">*</span></td>
                 <td>
                   <input type="text" id="userNamelnput" name="userName"  placeholder="輸入真實姓名" class="form-control input-sm"
-                  value="<?= $user->UserName?>">
+                  value="<?= $user->UserName?>" required>
                 </td>            
               </tr>
               <tr>
@@ -66,45 +69,38 @@ require_once 'views/template/header.php';
                 </td>            
               </tr>
               <tr>
-                <td>性別</td>
+                <td>性別<span class="font-weight-bold text-danger ml-1">*</span></td>
                 <td>
                   <input type="radio" id="male" name="gender" value="M"
-                  <?php if("$user->Gender" == "M"): ?> checked="checked" <?php endif;?> >
+                    <?php if("$user->Gender" == "M"): ?> checked="checked" <?php endif;?> required>
                   <label for="male" class="font form-check-label">男</label>&emsp;&emsp;
                   <input type="radio" id="female" name="gender" value="F"
-                  <?php if("$user->Gender" == "F"): ?> checked="checked" <?php endif;?> >
+                    <?php if("$user->Gender" == "F"): ?> checked="checked" <?php endif;?> >
                   <label for="female" class="font form-check-label">女</label>&emsp;&emsp;
                   <input type="radio" id="other" name="gender" value="U"
-                  <?php if("$user->Gender" == "U"): ?> checked="checked" <?php endif;?> >
+                    <?php if("$user->Gender" == "U"): ?> checked="checked" <?php endif;?> >
                   <label for="other" class="font form-check-label">其他</label>
                 </td>            
               </tr>
               <tr>
-                <td>生日</td>
+                <td>生日<span class="font-weight-bold text-danger ml-1">*</span></td>
                 <td>
                   <input type="date" id="userBirdaylnput" name="birthday" class="form-control"
-                  value="<?= $user->Birthdate?>">
+                  value="<?= $user->Birthdate?>" required>
                 </td>            
               </tr>
               <tr>
-                <td>電話</td>
+                <td>電話<span class="font-weight-bold text-danger ml-1">*</span></td>
                 <td>
                   <input type="text" id="userPhonelnput" name="phone" class="form-control" placeholder="格式範例 0911222333"
-                  value="<?= $user->Phone?>">
+                  value="<?= $user->Phone?>" required>
                 </td>            
               </tr>
               <tr>
-                <td>Email</td>
+                <td>信箱<span class="font-weight-bold text-danger ml-1">*</span></td>
                 <td>
                   <input type="text" id="userMaillnput" name="mail" class="form-control" placeholder="輸入email"
-                  value="<?= $user->Phone?>">
-                </td>            
-              </tr>
-              <tr>
-                <td>密碼</td>
-                <td>
-                  <input type="text" id="userPassInput" name="password" class="form-control" placeholder="輸入6-8位密碼"
-                  value="<?= $user->Password?>">
+                  value="<?= $user->Email?>" required>
                 </td>            
               </tr>
               <tr>
@@ -133,13 +129,6 @@ require_once 'views/template/header.php';
                 <td>
                   <input type="text" id="userAddrlnput" name="address" class="form-control" placeholder="輸入地址"
                   value="<?= $user->Address?>">
-                </td>            
-              </tr>
-              <tr>
-                <td>郵遞區號</td>
-                <td>
-                  <input type="text" id="userPostInput" name="postalcode" class="form-control"
-                  value="<?= $user->PostalCode?>">
                 </td>            
               </tr>
             </tbody>

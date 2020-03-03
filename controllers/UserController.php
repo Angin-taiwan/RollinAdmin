@@ -27,12 +27,13 @@ class UserController extends Controller {
     $user->id = $id;
     $this->view("User/userDetail", $user);
   }
-}
 
   function delete($id){
     $user = $this->model("User");
     $user->id = $id;
     $this->view("User/userDelete", $user);
   }
+
+}
 
 ?>

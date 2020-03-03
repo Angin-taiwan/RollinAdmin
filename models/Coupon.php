@@ -4,6 +4,8 @@ class Coupon extends DB
 {
   public $CouponName, $CouponCode, $CouponTypeID, $CouponQuantity, $CouponPrice, $CouponPriceCondition, $CouponStartDate, $CouponEndDate, $CouponExpEndDate;
   public $CouponTypeName;
+  public $keyword, $sort, $sortnum, $sortName;
+
   function getAll()
   {
     return $this->selectDB("SELECT * FROM Coupon");
@@ -11,7 +13,7 @@ class Coupon extends DB
 
   function getCouponDetail($id)
   {
-    return $this->selectDB("SELECT * FROM Coupon WHERE CouponID = ?", [$id])[0];
+    return $this->selectDB("SELECT Coupon.*, CouponType.CouponTypeName FROM Coupon, CouponType WHERE Coupon.CouponTypeID=CouponType.CouponTypeID and Coupon.CouponID = ?", [$id])[0];
   }
 
   function getCouponType()
@@ -19,14 +21,23 @@ class Coupon extends DB
     return $this->selectDB("SELECT * from CouponType");
   }
 
-  function getCouponList($keyword, $sort)
+  function getCouponList($coupon)
   {
-    if ($keyword == null && $sort == null)
+    // echo 'cou' . $coupon->keyword . ' ' . $coupon->sort . ' ' . $coupon->sortnum . ' ' . $coupon->sortName;
+    $str = $numstr = '';
+    if (isset($coupon->keyword)) {
+      $str = '\'%' . $coupon->keyword . '%\'';
+      $numstr = '\'' . $coupon->keyword . '\'';
+    }
+    if ($coupon->keyword == null && $coupon->sort == null)
       return $this->selectDB("SELECT Coupon.*, CouponType.CouponTypeName FROM Coupon, CouponType WHERE CouponType.CouponTypeID = Coupon.CouponTypeID");
-    else if ($keyword == null)
-      return $this->selectDB("SELECT Coupon.*, CouponType.CouponTypeName FROM Coupon, CouponType WHERE CouponType.CouponTypeID = Coupon.CouponTypeID".$sort);
+    else if ($coupon->keyword == null)
+      return $this->selectDB("SELECT Coupon.*, CouponType.CouponTypeName FROM Coupon, CouponType WHERE CouponType.CouponTypeID = Coupon.CouponTypeID" . $coupon->sort);
     else
-      return $this->selectDB("SELECT Coupon.*, CouponType.CouponTypeName FROM Coupon, CouponType WHERE CouponType.CouponTypeID = Coupon.CouponTypeID and Coupon.CounponName like '%?%'", $keyword);
+      return $this->selectDB("SELECT Coupon.*, CouponType.CouponTypeName FROM Coupon, CouponType WHERE 
+      CouponType.CouponTypeID = Coupon.CouponTypeID and (Coupon.CouponName like " . $str .
+        " or Coupon.CouponCode like " . $str . " or Coupon.Quantity like " . $numstr . " or Coupon.Price like " . $numstr .
+        " or Coupon.PriceCondition like " . $numstr . " or Coupon.StartDate like " . $str . " or Coupon.EndDate like " . $str . " or Coupon.ExpEndDate like " . $str . ")");
   }
 
   function create($coupon)
@@ -46,8 +57,12 @@ class Coupon extends DB
       return 'error';
   }
 
-  function update($id)
+  function update($coupon)
   {
+    return $this->updateDB(
+      "UPDATE Coupon SET CouponTypeID = ?, CouponName = ?, CouponCode = ?, Quantity = ?, Price = ?, PriceCondition = ?, StartDate = ?, EndDate = ?, ExpEndDate = ? WHERE CouponID = ? ;",
+      [$coupon->CouponTypeID, "$coupon->CouponName", "$coupon->CouponCode", $coupon->CouponQuantity, $coupon->CouponPrice, $coupon->CouponPriceCondition, "$coupon->CouponStartDate", "$coupon->CouponEndDate", "$coupon->CouponExpEndDate", $coupon->CouponID]
+    );
   }
 
   function delete($ids = [])

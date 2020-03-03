@@ -3,44 +3,83 @@
 $pageDir = "Coupon";
 $pageTitle = "Coupon Detail";
 
-require_once 'views/template/header.php';
-
 $coupons = $data->getCouponDetail($data->id);
 
-if(isset($_POST['edit'])){
-  echo 'edit';
+if (isset($_POST['delete'])) {
+  $arr = array();
+  array_push($arr, $coupons->CouponID);
+  $data->delete($arr);
+  header("Location: ../List");
+  exit();
 }
-if(isset($_POST['delete'])){
-  echo 'edit';
-}
+
+require_once 'views/template/header.php';
 
 ?>
 <div class="container-fluid">
-<div class="card">
+  <div class="card">
     <div class="card-header">
-      <?php echo '<h4 style="display:inline-block;">'.$coupons->CouponName.'</h4>'?>
-      <form method="post" class="float-right">
-        <button name="edit" class="btn btn-info btn-sm">編輯</button>
-        <button name="delete" class="btn btn-danger btn-sm">刪除</button>
-      </form>
+      <?php echo '<h4 style="display:inline-block;">' . $coupons->CouponName . '</h4>' ?>
+      <div style='float:right'>
+        <a <?= 'href=/RollinAdmin/Coupon/Update/' . $coupons->CouponID ?>><button name="edit" class="btn btn-info btn-sm">編輯</button></a>
+        <button class="btn btn-danger btn-sm" data-toggle="modal" data-target='#deleteAlert'>刪除</button>
+      </div>
     </div>
     <div class="card-body" style="overflow:auto;">
-    <table class="table table-bordered table-hover" style="width: 80%;">
-      <?php 
-        echo '<tr> <td>編號</td> <td>'.$coupons->CouponID.'</td></tr>';
-        echo '<tr> <td>折價券代碼</td> <td>'.$coupons->CouponCode.'</td></tr>';
-        echo '<tr> <td>類型</td> <td>'.$coupons->CouponTypeID.'</td></tr>';
-        echo '<tr> <td>折扣價錢/比例</td> <td>'.$coupons->Price.'</td></tr>';
-        echo '<tr> <td>折扣條件(滿額)</td> <td>'.$coupons->PriceCondition.'</td></tr>';
-      ?>
+      <table class="table table-bordered table-hover" style="width: 80%;">
+        <?php
+        echo '<tr> <td>折價券代碼</td> <td>' . $coupons->CouponCode . '</td></tr>';
+        echo '<tr> <td>類型</td> <td>' . $coupons->CouponTypeName . '</td></tr>';
+        echo '<tr> <td>數量</td> <td>';
+        if ($coupons->Quantity >= 2147483647)
+          echo 'all';
+        else
+          echo $coupons->Quantity;
+        echo '</td></tr>';
+        echo '<tr> <td>金額(元)/折數(%)</td> <td>';
+        if($coupons->Price > 1)
+        echo $coupons->Price.'元';
+        else
+        echo $coupons->Price*100 .'%';
+        echo '</td></tr>';
+        echo '<tr> <td>滿額可用</td> <td>' . $coupons->PriceCondition . '</td></tr>';
+        echo '<tr> <td>開始領取時間</td> <td>' . $coupons->StartDate . '</td></tr>';
+        echo '<tr> <td>結束領取時間</td> <td>' . $coupons->EndDate . '</td></tr>';
+        echo '<tr> <td>滿額可用</td> <td>' . $coupons->ExpEndDate . '</td></tr>';
+        ?>
       </table>
     </div>
     <div class="card-footer">
-      <button class="btn btn-success float-right btn-sm" onclick="javascript:history.go(-1)">返回</button>  
+      <button class="btn btn-success float-right btn-sm" onclick="javascript:history.go(-1)">返回</button>
+    </div>
   </div>
+
+  <div class='modal' id='deleteAlert'>
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">
+            <span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        </div>
+        <div class="modal-body m-auto">
+          <p>是否確定刪除?</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">取消</button>
+          <form method="post"><button type="submit" class="btn btn-danger btn-sm" name='delete'>刪除</button></form>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 <!-- /.container-fluid -->
+
+<script>
+  function showAlert() {
+
+  }
+</script>
+
 
 <?php
 

@@ -48,17 +48,17 @@ require_once 'views/template/header.php';
         </div>
 
         <div class="form-group">
-            <label for="CreateDate" class="date">
+            <label for="CreateDate" class="datetime">
                 CreateDate :
-            </label>
-            <input type="date" class="form-control" name="CreateDate" id="CreateDate"  required="required" value="<?= $news->CreateDate ?>">
+            </label>                                                                                                            <!--指定時間格式化-->
+            <input type="datetime-local" class="form-control" name="CreateDate" id="CreateDate"  required="required" value="<?= date('Y-m-d\TH:i',strtotime($news->CreateDate)) ?>">
         </div>
 
         <div class="form-group">
-            <label for="UpdateDate" class="date">
+            <label for="UpdateDate" class="datetime">
                 UpdateDate :
             </label>
-            <input type="date" class="form-control" name="UpdateDate" id="UpdateDate"  required="required" value="<?= $news->UpdateDate ?>">
+            <input type="datetime-local" class="form-control" name="UpdateDate" id="UpdateDate"  required="required" value="<?= date('Y-m-d\TH:i',strtotime($news->UpdateDate))?>">
         </div>
 
         <div class="form-group">

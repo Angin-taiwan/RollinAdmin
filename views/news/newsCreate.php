@@ -33,14 +33,14 @@ require_once 'views/template/header.php';
       <label for="CreateDate" class="date">
         CreateDate :
       </label>
-      <input type="date" class="form-control" name="CreateDate" id="CreateDate"  required="required" style="width:70%">
+      <input type="datetime-local" class="form-control" name="CreateDate" id="CreateDate"  required="required" style="width:70%">
     </div>
 
     <div class="form-group">
       <label for="UpdateDate" class="date">
         UpdateDate :
       </label>
-      <input type="date" class="form-control" name="UpdateDate" id="UpdateDate"  required="required" style="width:70%">
+      <input type="datetime-local" class="form-control" name="UpdateDate" id="UpdateDate"  required="required" style="width:70%">
     </div>
 
     <div class="form-group">
@@ -51,7 +51,7 @@ require_once 'views/template/header.php';
     </div>
 
     <input name="action" type="hidden" value="id">
-    <button type="submit" class="btn btn-success" name="insertButton" id="insertButton">新增資料</button>
+    <button type="submit" class="btn btn-info" name="insertButton" id="insertButton">新增資料</button>
     <button type="reset" class="btn btn-danger">清除資料</button>
 
   </form>

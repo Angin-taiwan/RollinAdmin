@@ -3,6 +3,9 @@
 $pageDir = "User";
 $pageTitle = "User Update";
 
+$pageDirTW = "會員管理";
+$pageTitleTW = "會員資料修改";
+
 $user = $data->getUserById($data->id); 
 
 

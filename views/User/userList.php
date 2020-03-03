@@ -3,6 +3,9 @@
 $pageDir = "User";
 $pageTitle = "User List";
 
+$pageDirTW = "會員管理";
+$pageTitleTW = "會員清單";
+
 $user = $data->getAll();
 
 require_once 'views/template/header.php';
@@ -10,10 +13,12 @@ require_once 'views/template/header.php';
 ?>
 
 
+
 <div class="container-fluid">
   <div class="card">
     <div class="card-header">
-      <h3 class="card-title">Users</h3>
+      <span>顯示方式：</span>
+      <span class="float-right">總共<?=$num_rows?>筆資料</span>
     </div>
     <div class="card-body">
       <table class="table table-bordered table-hover">
@@ -43,9 +48,13 @@ require_once 'views/template/header.php';
               echo "<td>".$user->Birthdate."</td>";
               echo "<td>".$user->Phone."</td>";
               echo "<td>".$user->Email."</td>";
-              echo "<td><a href='/RollinAdmin/User/Detail/$user->UserID'>詳細資料</a></td>";
-              echo "<td><a href='/RollinAdmin/User/Update/$user->UserID'> 修改</a>";
-              echo "<a href='/RollinAdmin/User/Delete/$user->UserID'> 刪除</a></td>";
+              echo "<td>
+                      <a href='/RollinAdmin/User/Detail/$user->UserID' class='btn btn-sm btn-outline-info'>詳細資料</a>
+                    </td>";
+              echo "<td>
+                      <a href='/RollinAdmin/User/Update/$user->UserID' class='btn btn-sm btn-secondary mr-2'> 修改</a>";
+              echo   "<a href='/RollinAdmin/User/Delete/$user->UserID' class='btn btn-sm btn-warning'> 刪除</a>
+                    </td>";
               echo "</tr>";
             }
           ?>

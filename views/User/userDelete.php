@@ -3,12 +3,14 @@
 $pageDir = "User";
 $pageTitle = "User Delete";
 
-$user = $data->getUserById($data->id);
+$pageDirTW = "會員管理";
+$pageTitleTW = "會員刪除";
+
+$user = $data->getUserById($data->id); 
 
 if(isset($_POST['delete'])){
-    $user->UserID = $_POST['delete']
     $data->deleteUser([$user->UserID]);
-    header("Location: ../Detail");
+    header("Location: ../List");
     exit();
 }
 
@@ -22,7 +24,7 @@ require_once 'views/template/header.php';
   <div class="col-md-8 mx-auto">
     <div class="card p-3">
       <div class="card-body">
-        <form method="post" action="User/Delete">
+        <form method="post" action="User/Delete/<?= $user->UserID?>">
             <table class="table table-bordered table-sm">
                 <thead class="table-info">
                     <tr>
@@ -88,19 +90,30 @@ require_once 'views/template/header.php';
             </table>
             
             <span class="float-right mt-4">
-                <button type="submit" name="delete" class="btn btn-info">刪除</button>
                 <a class="btn btn-secondary" href="/RollinAdmin/User/List/">返回表單</a>
+                <!-- Modal button -->
+                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">刪除</button>
             </span>
+            <!-- Modal -->
+            <div id="deleteModal" class="modal" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header"></div>
+                        <div class="modal-body">
+                            <p class="ml-3 mt-2">刪除的資料將無法復原，確定要刪除這筆資料？</p>
+                        </div>
+                        <div class="modal-footer">
+                            <a class="btn btn-secondary" href="User/Delete/<?= $user->UserID?>" >返回</a>
+                            <button type="submit" name="delete" class="btn btn-danger" >確定刪除</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </form>
       </div>
     </div>  
   </div>
-
 </div>
-  
-
-
-
 
 
 

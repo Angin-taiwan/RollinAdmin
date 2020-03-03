@@ -39,14 +39,12 @@ class User extends DB {
 
   function deleteUser($ids = []){  //刪除會員
     return $this->deleteDB(
-      "DELETE FROM User WHERE UserID IN (" .str_repeat("?," , count($ids) -1 ). "?),", 
+      "DELETE FROM User WHERE UserID IN (" .str_repeat("?," , count($ids) -1 ). "?);", 
       $ids);
 
   }
 
  
 }
-
-
 
 ?>

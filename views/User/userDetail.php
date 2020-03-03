@@ -50,12 +50,8 @@ require_once 'views/template/header.php';
               <td><?= $user->Phone?></td>            
             </tr>
             <tr>
-              <td>Email</td>
+              <td>信箱</td>
               <td><?= $user->Email?></td>            
-            </tr>
-            <tr>
-              <td>密碼</td>
-              <td><?= $user->Password?></td>            
             </tr>
             <tr>
               <td>國家</td>

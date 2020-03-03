@@ -83,7 +83,7 @@ require_once 'views/template/header.php';
                 </td>            
               </tr>
               <tr>
-                <td>Email<span class="font-weight-bold text-danger ml-1">*</span></td>
+                <td>信箱<span class="font-weight-bold text-danger ml-1">*</span></td>
                 <td>
                   <input type="text" id="userMaillnput" name="mail" class="form-control" placeholder="輸入email" required>
                 </td>            
@@ -116,12 +116,6 @@ require_once 'views/template/header.php';
                 <td>地址</td>
                 <td>
                   <input type="text" id="userAddrlnput" name="address" class="form-control" placeholder="輸入地址">
-                </td>            
-              </tr>
-              <tr>
-                <td>郵遞區號</td>
-                <td>
-                  <input type="text" id="userPostInput" name="postalcode" class="form-control">
                 </td>            
               </tr>
             </tbody>

@@ -14,6 +14,25 @@ class User extends DB {
     return $this->selectDB("SELECT * FROM User WHERE UserID = ? ;",[$id])[0];
   }
 
+  function getAllCount(){
+    return $this->selectDB("SELECT COUNT(*) as Total FROM User;")[0];
+  }
+
+  function getAllLike($column,$search){
+    return $this->selectDB(
+      "SELECT * FROM User WHERE $column LIKE CONCAT('%',?,'%') ORDER BY UserID ASC ;" ,
+      ["$search"]
+    );
+  }
+
+  function getAllLikeCount($column,$search){
+    return $this->selectDB(
+      "SELECT COUNT(*) as Total FROM User WHERE $column LIKE CONCAT('%',?,'%') ;",
+      ["$search"]
+    )[0];
+  }
+
+
   function createUser($user){  //add新增會員  
     return $this->insertDB(
         "INSERT INTO User (UserName , NickName , Gender , Birthdate , Phone,

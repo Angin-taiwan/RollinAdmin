@@ -2,7 +2,7 @@
 
 $pageDir = "News";
 $pageTitle = "News List";
-$newsGet = $data->getAll();
+$newsGet = $data->getAll(); //這是顯示 所有的 資料 要分頁的話 就不用寫
 
 $news = new News();
 
@@ -26,24 +26,28 @@ if (isset($_POST["checkedDeleteBtn"])) {
   $data->delete($arr);
   header("location: /RollinAdmin/News/List");
 }
-$server = 
+
+
 // get set querystring
 parse_str($_SERVER['QUERY_STRING'], $query);
-$pageSize = isset($query["pageSize"]) ? $query["pageSize"] :7;
+$pageSize = isset($query["pageSize"]) ? ($query["pageSize"]) : 3;
 $keyword = isset($query["keyword"]) ? $query["keyword"] : "";
 $pageNo = isset($query["pageNo"]) ? $query["pageNo"] : 1;
 
 // // for pagination
 $pageStartIndex = ($pageNo - 1) * $pageSize;
 $NewsTotal = get_object_vars($data->getAllCount())["Total"]; // 所有資料筆數
-$News = $keyword == "" ? $data->getAllpage($pageStartIndex, $pageSize) : $data->getAllLike($keyword, $pageStartIndex, $pageSize);
+$newsGet = $keyword == "" ? $data->getAllpage($pageStartIndex, $pageSize) : $data->getAllLike($keyword, $pageStartIndex, $pageSize);
 //當沒有收尋的時候 顯示所有資料 , 有收尋就合併所收尋關鍵字的資料^^^
-$NewsCount = $keyword == "" ? $NewsTotal : get_object_vars($data->getAllLikeCount($Title))["Count"];
+$NewsCount = $keyword == "" ? $NewsTotal : get_object_vars($data->getAllLikeCount($keyword))["Count"];
 $pagesCount = ceil((int) $NewsCount / (int) $pageSize);
 
 
 // $NewsTotal = get_object_vars($data->getAllCount())["Total"]; // 資料庫共有幾筆資料
 var_dump($NewsTotal);
+var_dump($NewsCount);
+var_dump($pageSize);
+var_dump($pageNo);
 
 
 require_once 'views/template/header.php';
@@ -81,10 +85,12 @@ require_once 'views/template/header.php';
   }
 </style>
 <!------------------------------------------------------------------------------------------------------------------------------------------->
+
 <div class="row">
+  <form method="get" action="">
   <div class="form-group">
     <label class="float-left" for="pageSize">每頁顯示多少筆 : </label>
-    <select name="pageSize" class="form-control">
+    <select name="pageSize" class="form-control"  onchange="this.form.submit()">
       <option value="3" <?= ($pageSize == "3") ? "selected=selected" : ""; ?>>3</option>
       <option value="5" <?= ($pageSize == "5") ? "selected=selected" : ""; ?>>5</option>
       <option value="10" <?= ($pageSize == "10") ? "selected=selected" : ""; ?>>10</option>
@@ -94,6 +100,12 @@ require_once 'views/template/header.php';
 <div class="form-group">
   <label>共有 : <?= $NewsTotal ?> 筆資料</label>
 </div>
+<div class="float-right form-group">
+  <input type="text" placeholder="search" name="keyword"  >
+  <input type="submit" class="btn btn-dark" value="搜尋" name="searchButton" onchange="this.form.submit()">
+  <br>
+</div>
+</form>
 
 <form method="post" action="News/List">
   <div>
@@ -101,15 +113,10 @@ require_once 'views/template/header.php';
     <input type="button" class="btn btn-outline-info" id="checkedNoBtn" value="全消">
     <input type="button" class="btn btn-outline-info" id="checkedRevBtn" value="反選">
     <input type="submit" class="btn btn-outline-danger" id="checkedDeleteBtn" name="checkedDeleteBtn" value="勾選刪除" onclick="return confirm('是否確認刪除勾選資料')">
-    <div class="float-right form-group">
-      <input type="text" placeholder="search" name="keyword">
-      <input type="submit" class="btn btn-dark" value="搜尋" name="searchButton">
-      <br>
-    </div>
   </div>
 
   <div class="container-fluid">
-    <table>
+    <table class="table table-hover">
       <thead>
         <tr>
           <th type="checkbox"></th>
@@ -156,10 +163,9 @@ require_once 'views/template/header.php';
         <ul class="pagination">
           <?php
           if ($pagesCount > 1) {
-            echo "wwwwwwwwwwwwwwwwwwwwwwwwwwwwwww";
             $queryString = "?";
             if ($pageSize != "") {
-              $queryString .= "pageSize=" . $pageSize;
+              $queryString .= "pageSize" . $pageSize;
             };
             if ($keyword != "") {
               $queryString .= "&keyword=$keyword";
@@ -177,21 +183,6 @@ require_once 'views/template/header.php';
           ?>
         </ul>
       </nav>
-
-      <!-- <nav class="my-3" aria-label="Page navigation example">
-        <ul class="pagination justify-content-center">
-
-          <li class="page-item  disabled">
-            <a class="page-link" href="">上一頁</a>
-          </li>
-
-          <li class="page-item  ">
-            <a class="page-link" href="">下一頁</a>
-          </li>
-
-        </ul>
-      </nav> -->
-
     </tfoot>
   </div>
 </form>

@@ -7,8 +7,6 @@ $news = new News();
 if (isset($_POST["insertButton"])) {
   $news->Title = $_POST["Title"];
   $news->Description = $_POST["Description"];
-  $news->CreateDate = $_POST["CreateDate"];
-  $news->UpdateDate = $_POST["UpdateDate"];
   $data->create($news);
   echo "<script> alert('新增成功');location.href = '/RollinAdmin/News/List' </script>";
   // header("location: /RollinAdmin/News/List");
@@ -28,21 +26,6 @@ require_once 'views/template/header.php';
       </label>
       <input type="text" class="form-control" name="Title" id="Title"  required="required" style="width:70%">
     </div>
-
-    <div class="form-group">
-      <label for="CreateDate" class="date">
-        CreateDate :
-      </label>
-      <input type="datetime-local" class="form-control" name="CreateDate" id="CreateDate"  required="required" style="width:70%">
-    </div>
-
-    <div class="form-group">
-      <label for="UpdateDate" class="date">
-        UpdateDate :
-      </label>
-      <input type="datetime-local" class="form-control" name="UpdateDate" id="UpdateDate"  required="required" style="width:70%">
-    </div>
-
     <div class="form-group">
       <label for="Description" class="text">
         Description :

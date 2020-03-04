@@ -16,8 +16,8 @@ CREATE TABLE `News`(
    NewsID  	      INT     	         NOT NULL   AUTO_INCREMENT,
    Title          VARCHAR(20)       NOT NULL,
    Description    VARCHAR(1000),
-   CreateDate     DATETIME,
-   UpdateDate     DATETIME,
+   CreateDate     DATETIME          NOT NULL   DEFAULT   CURRENT_TIMESTAMP,
+   UpdateDate     DATETIME                     ON UPDATE CURRENT_TIMESTAMP,
    PRIMARY KEY ( NewsID )
 );
 

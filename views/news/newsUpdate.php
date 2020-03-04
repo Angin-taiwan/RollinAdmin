@@ -9,10 +9,7 @@ $news = $data->getNewsByID($data->id);
 
 if (isset($_POST["updateButton"])) {
     $news->Title = $_POST["Title"];
-    $news->CreateDate = $_POST["CreateDate"];
-    $news->UpdateDate = $_POST["UpdateDate"];
     $news->Description = $_POST["Description"];
-    // $newsUpdate->NewsID = $_POST["NewsID"];
     $data->update($news);
     if ($news->NewsID) {
         echo "<script> alert('修改成功');location.href = '/RollinAdmin/News/Detail/$news->NewsID' </script>";
@@ -46,21 +43,6 @@ require_once 'views/template/header.php';
             </label>
             <input type="text" class="form-control" name="Title" id="Title"  required="required" value="<?= $news->Title ?>">
         </div>
-
-        <div class="form-group">
-            <label for="CreateDate" class="datetime">
-                CreateDate :
-            </label>                                                                                                            <!--指定時間格式化-->
-            <input type="datetime-local" class="form-control" name="CreateDate" id="CreateDate"  required="required" value="<?= date('Y-m-d\TH:i',strtotime($news->CreateDate)) ?>">
-        </div>
-
-        <div class="form-group">
-            <label for="UpdateDate" class="datetime">
-                UpdateDate :
-            </label>
-            <input type="datetime-local" class="form-control" name="UpdateDate" id="UpdateDate"  required="required" value="<?= date('Y-m-d\TH:i',strtotime($news->UpdateDate))?>">
-        </div>
-
         <div class="form-group">
             <label for="Description" class="text">
                 Description :

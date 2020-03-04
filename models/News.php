@@ -17,16 +17,16 @@ class News extends DB
   function create($news)
   {
     return $this->insertDB(
-      "INSERT INTO News (Title, Description , CreateDate , UpdateDate) VALUES (?, ? ,? ,?) ;",
-      ["$news->Title", "$news->Description", "$news->CreateDate", "$news->UpdateDate"]
+      "INSERT INTO News (Title , Description , CreateDate , UpdateDate) VALUES (?, ?, NOW(), NOW()) ;",
+      ["$news->Title", "$news->Description",]
     );
   }
   //___________________________________________________________________________
   function update($news)
   {
     return $this->updateDB(
-      "UPDATE News SET Title = ? , CreateDate = ? , UpdateDate = ? , Description = ? WHERE NewsID = ? ;",
-      ["$news->Title" , "$news->CreateDate" , "$news->UpdateDate" , "$news->Description" ,  $news->NewsID]
+      "UPDATE News SET Title = ? , UpdateDate = NOW() , Description = ? WHERE NewsID = ? ;",
+      ["$news->Title" , "$news->Description" ,  $news->NewsID]
     );
   }
   //___________________________________________________________________________

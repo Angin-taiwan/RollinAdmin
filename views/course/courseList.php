@@ -116,30 +116,10 @@ require_once 'views/template/header.php';
         <ul class="pagination justify-content-center">
 
           <li class="page-item  disabled">
-            <a class="page-link" href="" tabindex="-1">首頁</a>
-          </li>
-          <li class="page-item  active ">
-            <a class="page-link" href="">
-              1
-            </a>
-          </li>
-          <li class="page-item ">
-            <a class="page-link" href="">
-              2
-            </a>
-          </li>
-          <li class="page-item ">
-            <a class="page-link" href="">
-              3
-            </a>
-          </li>
-          <li class="page-item ">
-            <a class="page-link" href="">
-              4
-            </a>
+            <a class="page-link" href="">上一頁</a>
           </li>
           <li class="page-item  ">
-            <a class="page-link" href="">頁尾</a>
+            <a class="page-link" href="">下一頁</a>
           </li>
 
         </ul>

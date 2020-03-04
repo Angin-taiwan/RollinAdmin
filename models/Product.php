@@ -11,6 +11,7 @@ class Product extends DB {
   public $UnitPrice ;
   public $Date ;
   public $UnitInStock;
+  
 
 
   // $BrandID_Name = [];
@@ -24,6 +25,16 @@ class Product extends DB {
             GROUP BY p.ProductID;"
     );
   }
+
+  function getDetail($id) {
+    return $this->selectDB(
+      "SELECT p.* , b.BrandName, c.CategoryName , SUM(UnitInStock) TotalStock FROM Product as p
+      join brand as b on p.BrandID = b.BrandID
+      join category as c on p.CategoryID = c.CategoryID
+      join productstock as ps on p.ProductID = ps.ProductID
+      WHERE p.ProductID = ? GROUP BY p.ProductID ;", [$id])[0];
+  }
+
   function getStock($id){
     return $this->selectDB(
       "select * from product as p 
@@ -32,12 +43,6 @@ class Product extends DB {
           left outer join productstock as ps on p.productID = ps.ProductID 
           WHERE p.ProductID = ? ", [$id]
     );
-  }
-
-
-  function getDetail($id) {
-    return $this->selectDB("SELECT * FROM Product WHERE ProductID = ? ", [$id]
-    )[0];
   }
 
   function createProduct($Product) {

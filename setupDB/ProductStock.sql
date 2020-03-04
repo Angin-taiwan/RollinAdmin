@@ -22,6 +22,15 @@ CREATE TABLE `rollin`.`ProductStock` (
   `UnitsOnOrder`    INT(10)    NOT NULL     DEFAULT 0, 
   PRIMARY KEY (`ProductID`, `SizeID`, `ColorID`)
 );
+
+INSERT INTO `productstock` (`ProductID`, `SizeID`, `ColorID`, `UnitInStock`, `UnitsOnOrder`) VALUES
+(1, 0, 1, 50, 0),
+(1, 0, 2, 11, 0),
+(1, 0, 3, 5, 0),
+(2, 0, 1, 20, 0),
+(3, 0, 0, 0, 0),
+(4, 0, 0, 0, 0),
+(5, 0, 0, 0, 0);
     
 --
 -- Dumping data for table `ProductStock`

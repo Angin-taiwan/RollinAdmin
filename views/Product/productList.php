@@ -16,8 +16,9 @@ $products = $data->getAll();
   <?= $pageTitle ?> content here
 </div> -->
 
-<script language="javascript">
-function TestBlack(TagName){
+<script>
+// 點擊顯示詳細庫存
+function displayMore(TagName){
  var obj = document.getElementsByName(TagName);
  for(var item in obj){
     if(obj[item].style.display==""){
@@ -27,20 +28,45 @@ function TestBlack(TagName){
     }
  };
 }
+
+
+// checkbox點擊全選或取消
+function checkbox() {
+  var selectallcheckbox = document.getElementById("selectallcheckbox").checked;
+  var obj = document.getElementsByName("checkbox");
+    for (var i = 0; i < obj.length; i++) {
+      if (selectallcheckbox == true){
+        obj[i].checked = true;
+      } else{
+        obj[i].checked = false;
+      }
+    }
+  
+}
+
 </script>
 
 
 <div class="container-fluid">
   <div class="card">
     <div class="card-header">
-      <h3 class="card-title">Products</h3>
+      
+    <div>
+      <input type="button" class="btn btn-outline-info" id="checkedRevBtn" value="反選">
+      <input type="submit" class="btn btn-outline-danger" id="checkedDeleteBtn" name="checkedDeleteBtn" value="勾選下架" onclick="return confirm('是否確認刪除勾選資料')">
+      <div class="float-right">
+        <input type="text" placeholder="search" name="keyword">
+        <input type="submit" class="btn btn-dark" value="搜尋" name="searchButton">
+      </div>
+    </div>
+      
     </div>
     <!-- /.card-header -->
     <div class="card-body">
       <table id="listTable" class="table table-bordered table-hover">
         <thead>
           <tr>              
-            <th><input type="checkbox" id="selectallcheckbox" onclick=""></th>
+            <th><input type="checkbox" id="selectallcheckbox" onclick="checkbox()"></th>
             <th style='width:2%'>ID</th>
             <th style='width:15%'>Name</th>
             <th>Brand</th>
@@ -56,8 +82,8 @@ function TestBlack(TagName){
           <?php
           foreach ($products as $pd) {
             //  onclick=\"window.location='/RollinAdmin/Product/Detail/" . $pd->ProductID . "'\"
-            echo "<tr onclick=\"TestBlack('$pd->ProductID');\">";
-            echo '<td><input type="checkbox" id="checkbox' . $pd->ProductID . '"></td>';
+            echo "<tr onclick=\"displayMore('$pd->ProductID');\">";
+            echo '<td><input type="checkbox" name="checkbox" id="checkbox' . $pd->ProductID . '" onclick="none"></td>';
             echo "<td> $pd->ProductID </td>";
             echo "<td><a href=/RollinAdmin/Product/Detail/$pd->ProductID>$pd->ProductName</a></td>";
             echo "<td>".$pd->BrandName."</td>";

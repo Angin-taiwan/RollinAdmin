@@ -15,12 +15,15 @@ require_once 'views/template/header.php';
 <div class="col-md-12">
   <div class="card flex-md-row mb-4 box-shadow h-md-250">
 
-    <div class="card-body d-flex flex-column" style="width:2200px; height:300px;">
+    <div class="card-body d-flex flex-column" style="width:2200px;">
     
-      <h3 class="mb-0">
-        <span class="text-dark"><?=$Product->ProductName?></span>
-      </h3>
-      <p class="card-text my-3"><?=$Product->PDescription?></p>
+      <div class="d-flex">
+        <div class="py-2 w-100 align-self-center">
+          <h3 class="mb-0"><span class="text-dark"><?=$Product->ProductName?></span></h3>
+        </div>
+        <div class="p-2 flex-shrink-1">NT$<h3><?=$Product->UnitPrice?></h3></div>
+      </div>
+      <pre class="card-text mb-3"><?=$Product->PDescription?></pre>
       <!-- start -->
       <div class="d-flex align-items-start" >
       <table id="listTable" class="table table-bordered table-hover">
@@ -68,7 +71,7 @@ require_once 'views/template/header.php';
 
       <!--按鈕-->
       <div class="w-100 mt-5">       <!-- end -->
-        <button type="button" class="btn btn-outline-dark" onclick="location.href='Product/List'">返回清單</button>
+        <button type="button" class="btn btn-outline-dark" onclick="location.href='Product/List'">上一頁</button>
         <a class='btn btn-outline-primary float-right' href=/RollinAdmin/Product/Update/<?="$Product->ProductID>"?>修改</a>
       </div>
     </div> <!--/card-body-->

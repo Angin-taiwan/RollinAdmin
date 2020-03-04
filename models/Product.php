@@ -56,7 +56,10 @@ class Product extends DB {
   }
 
   function updateProduct($Product) {
-
+    return $this->updateDB(
+      "UPDATE Product SET ProductName = ?,UnitPrice = ? , PDescription = ? WHERE ProductID = ? ;",
+      ["$Product->ProductName", "$Product->UnitPrice", "$Product->PDescription", $Product->ProductID]
+    );
   }
 
   function delete($id) {

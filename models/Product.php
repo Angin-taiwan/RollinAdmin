@@ -17,8 +17,8 @@ class Product extends DB {
 
   function getAll(){
     return $this->selectDB(
-      "select *, SUM(UnitInStock) TotalStock from productstock as ps -- 庫存
-      right outer join Product as p on p.ProductID = ps.P_ID         -- 商品
+      "select *, ps.ProductID P_ID,SUM(UnitInStock) TotalStock from productstock as ps -- 庫存
+      right outer join Product as p on p.ProductID = ps.ProductID    -- 商品
 			left outer join brand as b on p.BrandID = b.BrandID            -- 品牌
 			left outer join category as c on p.CategoryID = c.CategoryID   -- 類別
             GROUP BY p.ProductID;"
@@ -29,7 +29,7 @@ class Product extends DB {
       "select * from product as p 
           left outer join brand as b on p.BrandID = b.BrandID 
           left outer join category as c on p.CategoryID = c.CategoryID 
-          left outer join productstock as ps on p.productID = ps.P_ID 
+          left outer join productstock as ps on p.productID = ps.ProductID 
           WHERE p.ProductID = ? ", [$id]
     );
   }

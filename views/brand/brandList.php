@@ -8,6 +8,8 @@ $pageTitle = "Brand List";
 $pageDirTW = "品牌管理";
 $pageTitleTW = "品牌清單";
 
+# ----------------------------------------------------------
+
 // get set querystring
 parse_str($_SERVER['QUERY_STRING'], $query);
 $pageSize = isset($query["pageSize"]) ? $query["pageSize"] : 20;
@@ -21,9 +23,18 @@ $brands = $brandName == "" ? $data->getAll($pageStartIndex, $pageSize) : $data->
 $brandsCount = $brandName == "" ? $brandsTotal : get_object_vars($data->getAllLikeCount($brandName))["Count"];
 $pagesCount = ceil((int) $brandsCount / (int) $pageSize);
 
+# ----------------------------------------------------------
+
 require_once 'views/template/header.php';
 
 ?>
+
+<style>
+.list-image {
+  width: 150px;
+  height: 150px;
+}
+</style>
 
 <div class="container-fluid">
   <div class="card">
@@ -42,21 +53,18 @@ require_once 'views/template/header.php';
               </div>
             </div>
           </div>
-          <div class="col-2">
+          <div class="col-3">
             <label class="col-form-label">
               <?= "總共有：$brandsTotal 個品牌" ?>
             </label>
           </div>
-          <div class="col-2">
+          <div class="col-3">
             <input type="text" name="brandName" class="form-control float-right" placeholder="輸入品牌名稱搜尋" value="<?= $brandName ?>" onchange="this.form.submit()">
           </div>
-          <div class="col-2">
+          <div class="col-3">
             <label class="col-form-label">
               <?= "搜尋到：$brandsCount 個品牌" ?>
             </label>
-          </div>
-          <div class="col-2">
-            <!-- <button type="submit" class="btn btn-primary float-right">確定</button> -->
           </div>
         </div>
         <!-- /.form-row -->
@@ -76,8 +84,8 @@ require_once 'views/template/header.php';
           <?php
           foreach ($brands as $brand) {
             echo "<tr>";
-            echo "<td><img src=image/BrandLogo/" . str_replace(' ', '', $brand->BrandName) . ".jpg /></td>";
-            echo "<td><a href=/RollinAdmin/Brand/Detail/$brand->BrandID>$brand->BrandName</a></td>";
+            echo "<td width='170px'><img class='list-image' src='image/BrandImage/$brand->BrandID.jpg' title='$brand->BrandName' alt='$brand->BrandName 目前沒有圖片'/></td>";
+            echo "<td><a href='/RollinAdmin/Brand/Detail/$brand->BrandID'>$brand->BrandName</a></td>";
             echo "<td>$brand->Description</td>";
             echo "</tr>";
           }
@@ -101,7 +109,8 @@ require_once 'views/template/header.php';
                 $nextDisabled = $next > $pagesCount ? "disabled" : "";
                 echo "<li class='page-item $prevousDisabled'><a class='page-link' href='./Brand/List/$queryString&pageNo=$prevous'>上一頁</a></li>";
                 for ($i = 1; $i <= $pagesCount; $i++) {
-                  echo "<li class='page-item'><a class='page-link' href='./Brand/List/$queryString&pageNo=$i'>$i</a></li>";
+                  $active = ($pageNo == $i) ? "active" : "";
+                  echo "<li class='page-item $active'><a class='page-link' href='./Brand/List/$queryString&pageNo=$i'>$i</a></li>";
                 }
                 echo "<li class='page-item $nextDisabled'><a class='page-link' href='./Brand/List/$queryString&pageNo=$next'>下一頁</a></li>";
               }

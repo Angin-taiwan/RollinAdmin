@@ -129,7 +129,7 @@ require_once 'views/template/header.php';
             <?="<img id='show' class'w-100 h-100' src='image/BrandImage/$brand->BrandID.jpg' title='$brand->BrandName' alt='$brand->BrandName 目前沒有圖片'/>"?>
           </div>
           <div class="text-primary font-weight-bold">請選擇尺寸為 200x200</div>
-          <div class="text-primary font-weight-bold">大小為 1MB 內 之 jpg 圖片</div>
+          <div class="text-primary font-weight-bold">大小為 1MB 內之 jpg 圖片</div>
           <input type="file" name="file_upload" id="file_upload" class="mt-2">
         </div>
       </form>

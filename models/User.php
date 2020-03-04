@@ -6,8 +6,10 @@ class User extends DB {
   public $ids;
   
 
-  function getAll(){  //read所有user資料
-    return $this->selectDB("SELECT * FROM User ;");
+  function getAll($startIndex = 0 , $pageSize = 8){  //read所有user資料
+    return $this->selectDB("SELECT * FROM User ORDER BY UserID ASC LIMIT ?,? ;",
+    [$startIndex, $pageSize]  
+  );
   }
 
   function getUserById($id){
@@ -18,17 +20,17 @@ class User extends DB {
     return $this->selectDB("SELECT COUNT(*) as Total FROM User;")[0];
   }
 
-  function getAllLike($column,$search){
+  function getAllLike($column,$search,$startIndex = 0 ,$pageSize = 8){
     return $this->selectDB(
-      "SELECT * FROM User WHERE $column LIKE CONCAT('%',?,'%') ORDER BY UserID ASC ;" ,
-      ["$search"]
+      "SELECT * FROM User WHERE $column LIKE CONCAT('%',?,'%') ORDER BY UserID ASC LIMIT ?,?  ;" ,
+      [$search, $startIndex, $pageSize]
     );
   }
 
   function getAllLikeCount($column,$search){
     return $this->selectDB(
       "SELECT COUNT(*) as Total FROM User WHERE $column LIKE CONCAT('%',?,'%') ;",
-      ["$search"]
+      [$search]
     )[0];
   }
 

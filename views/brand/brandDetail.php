@@ -24,8 +24,8 @@ require_once 'views/template/header.php';
     height: 230px;
     object-fit: cover;
   }
-  .brand-detail {
-    min-height: 250px;
+  .brand-desc {
+    min-height: 150px;
   }
 </style>
 
@@ -33,13 +33,15 @@ require_once 'views/template/header.php';
 
   <div class="col-md-12">
     <div class="card flex-md-row mb-4 box-shadow h-md-250">
-      <div class="card-body d-flex flex-column align-items-start brand-detail">
+      <div class="card-body d-flex flex-column">
         <h3 class="mb-0">
           <span class="text-dark"><?=$brand->BrandName?></span>
         </h3>
-        <p class="card-text my-3"><?=$brand->Description?></p>
-        <div class="align-items-end w-100">
-          <a class="btn btn-outline-dark" href="Brand/List">返回清單</a>
+        <div class="brand-desc">
+          <p class="card-text my-3"><?=$brand->Description?></p>
+        </div>
+        <div class="bottom">
+          <a class="btn btn-outline-dark float-left" href="Brand/List">返回清單</a>
           <?="<a class='btn btn-outline-primary float-right' href=/RollinAdmin/Brand/Update/$brand->BrandID>修改</a>"?>
         </div>
       </div>

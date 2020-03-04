@@ -30,11 +30,14 @@ require_once 'views/template/header.php';
     <form method="post" action="News/Update/<?= $news->NewsID ?>">
 
         <div class="form-group">
-
             <label for="Title" class="text">
                 NewsID : <?= $news->NewsID ?>
             </label>
-
+        </div>
+        <div class="form-group">
+            <label for="Title" class="text">
+                Createdate : <?= $news->CreateDate ?>
+            </label>
         </div>
 
         <div class="form-group">

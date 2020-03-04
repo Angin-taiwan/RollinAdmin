@@ -7,7 +7,7 @@ class Course extends DB{
     return $this->selectDB("SELECT * FROM Course");
   }
 
-  function getNewsByID($id)
+  function getCourseByID($id)
   {
     return $this->selectDB("SELECT * FROM Course WHERE CourseID = ? ;", [$id])[0];
   }
@@ -15,18 +15,16 @@ class Course extends DB{
   function create($Course)
   {
     return $this->insertDB(
-      "INSERT INTO Course (Title, Description , StartDate , EndDate , CreateDate , UpdateDate , Price) VALUES (?, ?, ?, ?, ?, ?, ?) ;",
-      ["$Course->Title", "$Course->Description","$Course->StartDate","$Course->EndDateDate", "$Course->CreateDate", "$Course->UpdateDate",
-      "$Course->Price"]
+      "INSERT INTO Course (Title, Description , StartDate , EndDate , CreateDate , UpdateDate , Price) VALUES (?, ?, ?, ?, NOW(), NOW(), ?) ;",
+      ["$Course->Title", "$Course->Description","$Course->StartDate","$Course->EndDate","$Course->Price"]
     );
   }
 
   function update($Course)
   {
     return $this->updateDB(
-      "UPDATE Course SET Title = ? , StartDate  = ? , EndDate = ? , CreateDate = ? , UpdateDate = ? , Description = ? , Price = ? WHERE CourseID = ? ;",
-      ["$Course->Title" , "$Course->StartDate" , "$Course->EndDate" , "$Course->CreateDate" , "$Course->UpdateDate" , "$Course->Description" ,
-       "$Course->Price" , $Course->CourseID]
+      "UPDATE Course SET Title = ? , StartDate  = ? , EndDate = ? , UpdateDate = NOW() , Description = ? , Price = ? WHERE CourseID = ? ;",
+      ["$Course->Title" , "$Course->StartDate" , "$Course->EndDate" , "$Course->Description" , "$Course->Price" , $Course->CourseID]
     );
   }
 

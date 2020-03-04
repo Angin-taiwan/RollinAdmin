@@ -26,6 +26,25 @@ if (isset($_POST["checkedDeleteBtn"])) {
   $data->delete($arr);
   header("location: /RollinAdmin/News/List");
 }
+$server = 
+// get set querystring
+parse_str($_SERVER['QUERY_STRING'], $query);
+$pageSize = isset($query["pageSize"]) ? $query["pageSize"] :7;
+$keyword = isset($query["keyword"]) ? $query["keyword"] : "";
+$pageNo = isset($query["pageNo"]) ? $query["pageNo"] : 1;
+
+// // for pagination
+$pageStartIndex = ($pageNo - 1) * $pageSize;
+$NewsTotal = get_object_vars($data->getAllCount())["Total"]; // 所有資料筆數
+$News = $keyword == "" ? $data->getAllpage($pageStartIndex, $pageSize) : $data->getAllLike($keyword, $pageStartIndex, $pageSize);
+//當沒有收尋的時候 顯示所有資料 , 有收尋就合併所收尋關鍵字的資料^^^
+$NewsCount = $keyword == "" ? $NewsTotal : get_object_vars($data->getAllLikeCount($Title))["Count"];
+$pagesCount = ceil((int) $NewsCount / (int) $pageSize);
+
+
+// $NewsTotal = get_object_vars($data->getAllCount())["Total"]; // 資料庫共有幾筆資料
+var_dump($NewsTotal);
+
 
 require_once 'views/template/header.php';
 
@@ -62,15 +81,19 @@ require_once 'views/template/header.php';
   }
 </style>
 <!------------------------------------------------------------------------------------------------------------------------------------------->
-<div class="form-group">
-  <label>每頁顯示多少筆 : </label>
-  <select>
-    <option name="pageSize" class="form-control"></option>
-  </select>
+<div class="row">
+  <div class="form-group">
+    <label class="float-left" for="pageSize">每頁顯示多少筆 : </label>
+    <select name="pageSize" class="form-control">
+      <option value="3" <?= ($pageSize == "3") ? "selected=selected" : ""; ?>>3</option>
+      <option value="5" <?= ($pageSize == "5") ? "selected=selected" : ""; ?>>5</option>
+      <option value="10" <?= ($pageSize == "10") ? "selected=selected" : ""; ?>>10</option>
+    </select>
+  </div>
 </div>
-
-
-
+<div class="form-group">
+  <label>共有 : <?= $NewsTotal ?> 筆資料</label>
+</div>
 
 <form method="post" action="News/List">
   <div>
@@ -118,7 +141,7 @@ require_once 'views/template/header.php';
                 <a href='/RollinAdmin/News/Update/$news->NewsID' class='btn btn-secondary'>
                 <i class='fa fa-edit'></i>修改</a>
 
-                <button class='btn btn-danger' type='submit' name='delete' value=' ".$news->NewsID." '> <i class='fa fa-trash'>&nbsp</i>刪除</button>
+                <button class='btn btn-danger' type='submit' name='delete' value=' " . $news->NewsID . " '> <i class='fa fa-trash'>&nbsp</i>刪除</button>
                 </td>";
 
           echo "</tr>";
@@ -129,38 +152,45 @@ require_once 'views/template/header.php';
     </table>
     <tfoot>
 
-      <nav class="my-3" aria-label="Page navigation example">
+      <nav aria-label="Page navigation">
+        <ul class="pagination">
+          <?php
+          if ($pagesCount > 1) {
+            echo "wwwwwwwwwwwwwwwwwwwwwwwwwwwwwww";
+            $queryString = "?";
+            if ($pageSize != "") {
+              $queryString .= "pageSize=" . $pageSize;
+            };
+            if ($keyword != "") {
+              $queryString .= "&keyword=$keyword";
+            };
+            $prevous = $pageNo - 1;
+            $next = $pageNo + 1;
+            $prevousDisabled = $prevous <= 0 ? "disabled" : "";
+            $nextDisabled = $next > $pagesCount ? "disabled" : "";
+            echo "<li class='page-item $prevousDisabled'><a class='page-link' href='./News/List/$queryString&pageNo=$prevous'>上一頁</a></li>";
+            for ($i = 1; $i <= $pagesCount; $i++) {
+              echo "<li class='page-item'><a class='page-link' href='./News/List/$queryString&pageNo=$i'>$i</a></li>";
+            }
+            echo "<li class='page-item $nextDisabled'><a class='page-link' href='./News/List/$queryString&pageNo=$next'>下一頁</a></li>";
+          }
+          ?>
+        </ul>
+      </nav>
+
+      <!-- <nav class="my-3" aria-label="Page navigation example">
         <ul class="pagination justify-content-center">
 
           <li class="page-item  disabled">
-            <a class="page-link" href="" tabindex="-1">首頁</a>
+            <a class="page-link" href="">上一頁</a>
           </li>
-          <li class="page-item  active ">
-            <a class="page-link" href="">
-              1
-            </a>
-          </li>
-          <li class="page-item ">
-            <a class="page-link" href="">
-              2
-            </a>
-          </li>
-          <li class="page-item ">
-            <a class="page-link" href="">
-              3
-            </a>
-          </li>
-          <li class="page-item ">
-            <a class="page-link" href="">
-              4
-            </a>
-          </li>
+
           <li class="page-item  ">
-            <a class="page-link" href="">頁尾</a>
+            <a class="page-link" href="">下一頁</a>
           </li>
 
         </ul>
-      </nav>
+      </nav> -->
 
     </tfoot>
   </div>

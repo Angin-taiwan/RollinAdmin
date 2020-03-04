@@ -92,31 +92,31 @@ require_once 'views/template/header.php';
           ?>
         </tbody>
         <tfoot>
-          <nav aria-label="Page navigation">
-            <ul class="pagination">
-              <?php
-              if ($pagesCount > 1) {
-                $queryString = "?";
-                if ($pageSize != "") {
-                  $queryString .= "pageSize=" . $pageSize;
-                };
-                if ($brandName != "") {
-                  $queryString .= "&brandName=$brandName";
-                };
-                $prevous = $pageNo - 1;
-                $next = $pageNo + 1;
-                $prevousDisabled = $prevous <= 0 ? "disabled" : "";
-                $nextDisabled = $next > $pagesCount ? "disabled" : "";
-                echo "<li class='page-item $prevousDisabled'><a class='page-link' href='./Brand/List/$queryString&pageNo=$prevous'>上一頁</a></li>";
-                for ($i = 1; $i <= $pagesCount; $i++) {
-                  $active = ($pageNo == $i) ? "active" : "";
-                  echo "<li class='page-item $active'><a class='page-link' href='./Brand/List/$queryString&pageNo=$i'>$i</a></li>";
-                }
-                echo "<li class='page-item $nextDisabled'><a class='page-link' href='./Brand/List/$queryString&pageNo=$next'>下一頁</a></li>";
-              }
-              ?>
-            </ul>
-          </nav>
+          <?php
+          if ($pagesCount > 1) {
+            $queryString = "?";
+            if ($pageSize != "") {
+              $queryString .= "pageSize=" . $pageSize;
+            };
+            if ($brandName != "") {
+              $queryString .= "&brandName=$brandName";
+            };
+            $prevous = $pageNo - 1;
+            $next = $pageNo + 1;
+            $prevousDisabled = $prevous <= 0 ? "disabled" : "";
+            $nextDisabled = $next > $pagesCount ? "disabled" : "";
+            echo "<nav aria-label='Page navigation'>";
+            echo "<ul class='pagination'>";
+            echo "<li class='page-item $prevousDisabled'><a class='page-link' href='./Brand/List/$queryString&pageNo=$prevous'>上一頁</a></li>";
+            for ($i = 1; $i <= $pagesCount; $i++) {
+              $active = ($pageNo == $i) ? "active" : "";
+              echo "<li class='page-item $active'><a class='page-link' href='./Brand/List/$queryString&pageNo=$i'>$i</a></li>";
+            }
+            echo "<li class='page-item $nextDisabled'><a class='page-link' href='./Brand/List/$queryString&pageNo=$next'>下一頁</a></li>";
+            echo "</ul>";
+            echo "</nav>";
+          }
+          ?>
         </tfoot>
       </table>
     </div>

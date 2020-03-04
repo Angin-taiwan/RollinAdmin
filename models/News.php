@@ -2,6 +2,8 @@
 
 class News extends DB
 {
+  public $NewsID;
+  public $Title;
 
   //__________________________________________________________________________
   function getAll()
@@ -43,5 +45,32 @@ class News extends DB
     // ["$news->searchTerm"];
   }
   //___________________________________________________________________________
+
+  function getAllCount() {
+    return $this->selectDB(
+      "SELECT COUNT(*) as Total FROM News;"  // 總共有幾筆資料
+    )[0];
+  }
+
+  function getAllPage($startIndex = 0, $pageSize = 3) {  //從 0 筆開始 每頁3筆資料
+    return $this->selectDB(
+      "SELECT * FROM News ORDER BY NewsID ASC LIMIT ?, ? ;",
+      [$startIndex, $pageSize]
+    );
+  }
+
+  function getAllLikeCount($Title) {  //  COUNT(*) 回傳 資料筆數   ,  LIKE 後 變成  收尋 Title 回傳的資料筆數
+    return $this->selectDB(
+      "SELECT COUNT(*) Count FROM News WHERE Title LIKE CONCAT('%',?,'%') ;",
+      [$Title]
+    )[0];
+  }
+
+  function getAllLike($Title, $startIndex = 0, $pageSize = 3) {  // concat函數用來合併多個欄位的值
+    return $this->selectDB(
+      "SELECT * FROM News WHERE Title LIKE CONCAT('%',?,'%') ORDER BY NewsID ASC LIMIT ?, ? ;",
+      [$Title, $startIndex, $pageSize]
+    );
+  }
 
 }

@@ -54,12 +54,12 @@ require_once 'views/template/header.php';
             <input type="datetime-local" class="form-control" name="CreateDate" id="CreateDate"  required="required" value="<?= date('Y-m-d\TH:i',strtotime($news->CreateDate)) ?>">
         </div>
 
-        <div class="form-group">
+        <!-- <div class="form-group">
             <label for="UpdateDate" class="datetime">
                 UpdateDate :
             </label>
             <input type="datetime-local" class="form-control" name="UpdateDate" id="UpdateDate"  required="required" value="<?= date('Y-m-d\TH:i',strtotime($news->UpdateDate))?>">
-        </div>
+        </div> -->
 
         <div class="form-group">
             <label for="Description" class="text">

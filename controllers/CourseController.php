@@ -3,21 +3,36 @@
 class CourseController extends Controller {
 
   function index() {
-    $this->view("course/courseList");
+    $this->view("Course/CourseList");
   }
 
   function list() {
-    $this->view("course/courseList");
+    $Course = $this->model("Course");
+    $this->view("Course/CourseList", $Course);
   }
 
   function create() {
-    $this->view("course/courseCreate");
+    $Course = $this->model("Course");
+    $this->view("Course/CourseCreate", $Course);
   }
 
   function detail($id) {
-    $course = $this->model("Course");
-    $course->id = $id;
-    $this->view("course/courseDetail", $course);
+    $Course = $this->model("Course");
+    $Course->id = $id;
+    $this->view("Course/CourseDetail", $Course);
+  }
+
+  function update($id) {
+    $Course = $this->model("Course");
+    $Course->id = $id;
+    $this->view("Course/CourseUpdate", $Course);
+  }
+
+  
+  function delete($id) {
+    $Course = $this->model("Course");
+    $Course->id = $id;
+    $this->view("Course/CourseList", $Course);
   }
 }
 

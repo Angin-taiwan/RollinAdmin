@@ -25,17 +25,16 @@ class News extends DB
   function update($news)
   {
     return $this->updateDB(
-      "UPDATE News SET Title = ?, Description = ?, CreateDate = ?, UpdateDate = ? WHERE NewsID = ? ;",
-      ["$news->Title", "$news->Description", "$news->CreateDate", "$news->UpdateDate", $news->NewsID]
+      "UPDATE News SET Title = ? , CreateDate = ? , UpdateDate = ? , Description = ? WHERE NewsID = ? ;",
+      ["$news->Title" , "$news->CreateDate" , "$news->UpdateDate" , "$news->Description" ,  $news->NewsID]
     );
   }
   //___________________________________________________________________________
-  function delete($newsID) {
-    if (empty($newsID)) {return "error: ids is empty";}
-    echo "wwwwwwwwwwwwwwwwwwwww";
+  function delete($ids = []) {
+    if (empty($ids)) {return "error: ids is empty";}
     return $this->deleteDB(
-      "DELETE FROM News WHERE NewsID = ?", $newsID 
-      );
+      "DELETE FROM News WHERE NewsID IN (" . str_repeat("?,", count($ids) -1) . "?);",
+      $ids);
   }
   //___________________________________________________________________________
   function search($searchTerm)
@@ -44,13 +43,5 @@ class News extends DB
     // ["$news->searchTerm"];
   }
   //___________________________________________________________________________
-  function checkdelete($ids = [])
-  {
-    if (empty($ids)) {
-      return "error: ids is empty";
-    }
-    return $this->deleteDB("DELETE FROM News where NewsID IN ("  . str_repeat("?,", count($ids) -1 ) . "?);", $ids);
-  }
-
 
 }

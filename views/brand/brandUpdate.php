@@ -28,8 +28,8 @@ if (isset($_POST['submit'])) {
   $data->update($brand);
 
   // file upload
-  if(!isset($_FILES['file_upload']) || $_FILES['file_upload']['error'] == UPLOAD_ERR_NO_FILE) {
-    echo "Error no file selected"; 
+  if (!isset($_FILES['file_upload']) || $_FILES['file_upload']['error'] == UPLOAD_ERR_NO_FILE) {
+    echo "Error no file selected";
   } else {
     $file_upload_dir = "image/BrandImage/";
     $file_upload_name = $brand->BrandID;
@@ -52,7 +52,7 @@ if (isset($_POST['delete'])) {
   $target_dir = "image/BrandImage/";
   $file_name = $brand->BrandID . '.jpg';
   $target_file = $target_dir . $file_name;
-  if (file_exists($target_file)) { 
+  if (file_exists($target_file)) {
     unlink($target_file);
   }
 
@@ -69,15 +69,17 @@ require_once 'views/template/header.php';
 
 <style>
   .show-image {
-    width: 230px;
-    height: 230px;
+    border: 1px solid #D0D0D0;
+    background-color: #fff;
+    width: 234px;
+    height: 234px;
   }
 </style>
 
 <div class="container-fluid">
-  <div class="row">
-    <div class="col-md-8">
-      <form name="form" method="post" enctype="multipart/form-data" action="">
+  <form name="form" method="post" enctype="multipart/form-data" action="">
+    <div class="row">
+      <div class="col-md-8">
         <div class="form-group">
           <label for="txtBrandName">品牌名稱</label><span class="font-weight-bold text-danger ml-1">*</span>
           <input type="text" name="BrandName" class="form-control" id="txtBrandName" placeholder="輸入品牌名稱" value="<?=$brand->BrandName?>" required>
@@ -86,11 +88,10 @@ require_once 'views/template/header.php';
           <label for="txtDescription">品牌描述</label>
           <textarea name="Description" class="form-control" id="txtDescription" rows="9" placeholder="輸入品牌描述"><?=$brand->Description?></textarea>
         </div>
-        <span>
+        <div class="mb-3">
           <a class="btn btn-outline-dark" href="Brand/List">返回清單</a>
           <a class="btn btn-outline-dark" href="Brand/Detail/<?=$brand->BrandID?>">返回細節</a>
           <input type="hidden" name="BrandID" value="<?=$brand->BrandID?>">
-
           <div class="float-right">
             <!-- Button to Open the Modal -->
             <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#myModal">
@@ -98,7 +99,7 @@ require_once 'views/template/header.php';
             </button>
             <button type="submit" name="submit" class="btn btn-primary">儲存修改</button>
           </div>
-        </span>
+        </div>
         <!-- The Modal -->
         <div class="modal" id="myModal">
           <div class="modal-dialog">
@@ -121,21 +122,22 @@ require_once 'views/template/header.php';
           </div>
         </div>
         <!-- /.The Modal -->
-    </div>
-    <div class="col-md-4">
-      <div class="form-group">
+      </div>
+      <div class="col-md-4">
+        <div class="form-group">
           <label for="file_upload">品牌圖片</label>
-          <div class="border border-secondary p-3 mb-2 show-image">
+          <div class="rounded-lg p-3 mb-2 show-image">
             <?="<img id='show' class'w-100 h-100' src='image/BrandImage/$brand->BrandID.jpg' title='$brand->BrandName' alt='$brand->BrandName 目前沒有圖片'/>"?>
           </div>
           <div class="text-primary font-weight-bold">請選擇尺寸為 200x200</div>
-          <div class="text-primary font-weight-bold">大小為 1MB 內 之 jpg 圖片</div>
+          <div class="text-primary font-weight-bold">大小為 1MB 內之 jpg 圖片</div>
           <input type="file" name="file_upload" id="file_upload" class="mt-2">
+          </div>
         </div>
-      </form>
+      </div>
     </div>
-  </div>
   <!-- /.row -->
+  </form>
 </div>
 <!-- /.container-fluid -->
 
@@ -149,11 +151,11 @@ require_once 'views/template/footer.php';
   function readURL(input) {
     if (input.files && input.files[0]) {
       var reader = new FileReader();
-      
+
       reader.onload = function(e) {
         $('#show').attr('src', e.target.result);
       }
-      
+
       reader.readAsDataURL(input.files[0]);
     }
   }

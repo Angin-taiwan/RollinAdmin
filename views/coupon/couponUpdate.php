@@ -3,6 +3,10 @@
 $pageDir = "Coupon";
 $pageTitle = "Coupon Update";
 
+// breadcrumb 中文化
+$pageDirTW = "折價券管理";
+$pageTitleTW = "折價券編輯";
+
 $coupons = $data->getCouponDetail($data->id);
 echo $coupons->CouponID;
 $quantityErr = $priceErr = $priceconditionErr = $enddateErr = $expenddateErr = "";

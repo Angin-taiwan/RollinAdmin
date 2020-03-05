@@ -12,7 +12,7 @@ class Brand extends DB {
     )[0];
   }
 
-  function getAll($startIndex = 0, $pageSize = 3) {
+  function getAll($startIndex = 0, $pageSize = 20) {
     return $this->selectDB(
       "SELECT * FROM Brand ORDER BY BrandID ASC LIMIT ?, ? ;",
       [$startIndex, $pageSize]
@@ -26,9 +26,12 @@ class Brand extends DB {
     )[0];
   }
 
-  function getAllLike($brandName, $startIndex = 0, $pageSize = 3) {
+  function getAllLike($brandName, $column = "BrandID", $sort = "ASC", $startIndex = 0, $pageSize = 20) {
+    $sort = $sort == "DESC" ? "DESC" : "ASC"; 
+    $column_white_list = ['BrandID','BrandName','Description'];
+    $column = in_array($column, $column_white_list) ? $column : $column_white_list[0];
     return $this->selectDB(
-      "SELECT * FROM Brand WHERE BrandName LIKE CONCAT('%',?,'%') ORDER BY BrandID ASC LIMIT ?, ? ;",
+      "SELECT * FROM Brand WHERE BrandName LIKE CONCAT('%',?,'%') ORDER BY $column $sort LIMIT ?, ? ;",
       [$brandName, $startIndex, $pageSize]
     );
   }

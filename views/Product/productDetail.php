@@ -23,7 +23,7 @@ require_once 'views/template/header.php';
         </div>
         <div class="p-2 flex-shrink-1">NT$<h3><?=$Product->UnitPrice?></h3></div>
       </div>
-      <pre class="card-text mb-3"><?=$Product->PDescription?></pre>
+      <p class="card-text mb-3 w-100"><?=$Product->PDescription?></p>
       <!-- start -->
       <div class="d-flex align-items-start" >
       <table id="listTable" class="table table-bordered table-hover">
@@ -39,6 +39,7 @@ require_once 'views/template/header.php';
           </tr>
         </thead>
       <?php
+      if($Product->TotalStock==null){$Product->TotalStock = 0;}
                   echo <<<here
                   <tr>
                   <td style='width:2%'> $Product->ProductID </td>

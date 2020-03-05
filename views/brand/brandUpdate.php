@@ -151,14 +151,14 @@ require_once 'views/template/footer.php';
   function readURL(input) {
     if (input.files && input.files[0]) {
       var reader = new FileReader();
-
       reader.onload = function(e) {
         $('#show').attr('src', e.target.result);
       }
-
       reader.readAsDataURL(input.files[0]);
+    } else {
+      $('#show').attr('src', "");
     }
-  }
+  };
 
   $("#file_upload").change(function() {
     readURL(this);

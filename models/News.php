@@ -28,7 +28,7 @@ class News extends DB
   {
     return $this->updateDB(
       "UPDATE News SET Title = ? , UpdateDate = NOW() , Description = ? WHERE NewsID = ? ;",
-      ["$news->Title" , "$news->Description" ,  $news->NewsID]
+      ["$news->Title" , "$news->Description" ,  $news->NewsID]    // NOW() 使用UPDATE CURRENT_TIMESTAMP 自動更新當下時間
     );
   }
   //___________________________________________________________________________

@@ -17,6 +17,7 @@ parse_str($_SERVER['QUERY_STRING'], $query);
 $pageSize = isset($query["pageSize"]) ? $query["pageSize"] : 20;
 $brandName = isset($query["brandName"]) ? $query["brandName"] : "";
 $pageNo = isset($query["pageNo"]) ? $query["pageNo"] : 1;
+$show = isset($query["show"]) ? $query["show"] : "l";
 
 // set table columns
 $array_columns = [
@@ -33,7 +34,8 @@ $sort = isset($_GET['sort']) && strtolower($_GET['sort']) == 'desc' ? 'DESC' : '
 // set hidden inputs
 $hidInputs = [
   'column' => $column,
-  'sort' => $sort
+  'sort' => $sort,
+  'show' => $show
 ];
 
 // set page size select potions
@@ -42,6 +44,9 @@ $array_pageSize = [3, 6, 20];
 // for sorting
 $up_or_down = str_replace(['ASC','DESC'], ['up','down'], $sort);
 $asc_or_desc = $sort == 'ASC' ? 'desc' : 'asc';
+
+// for view
+$viewQuery = "Brand/List?pageSize=$pageSize&brandName=$brandName&column=$column&sort=$sort&pageNo=$pageNo";
 
 // for pagination
 $pageStartIndex = ($pageNo - 1) * $pageSize;
@@ -101,6 +106,11 @@ th>a {
   width: 150px;
   height: 150px;
 }
+.img-thumbnail-wrap {
+  width: 150px;
+  height: 150px;
+  margin: 1px;
+}
 </style>
 
 <div class="container-fluid">
@@ -123,7 +133,7 @@ th>a {
               </div>
             </div>
           </div>
-          <div class="col-3">
+          <div class="col-2">
             <label class="col-form-label">
               <?= "總共有：$brandsTotal 個品牌" ?>
             </label>
@@ -131,10 +141,20 @@ th>a {
           <div class="col-2">
             <input type="text" name="brandName" class="form-control float-right" placeholder="輸入品牌名稱搜尋" value="<?= $brandName ?>" onchange="this.form.submit()">
           </div>
-          <div class="col-4">
+          <div class="col-2">
             <label class="col-form-label">
               <?= "搜尋到：$brandsCount 個品牌" ?>
             </label>
+          </div>
+          <div class="col-3">
+            <ul class="nav nav-pills float-right">
+              <li class="nav-item">
+                <a class="nav-link <?= $show == 'l' ? 'active':'' ?>" href="<?= $viewQuery ?>&show=l"><i class="fas fa-list"></i></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link <?= $show == 'g' ? 'active':'' ?>" href="<?= $viewQuery ?>&show=g"><i class="fas fa-th"></i></a>
+              </li>
+            </ul>
           </div>
         </div>
         <?php
@@ -147,36 +167,50 @@ th>a {
     </div>
     <!-- /.card-header -->
     <div class="card-body">
-      <table id="listTable" class="table table-bordered table-hover">
-        <thead>
-          <tr>
+      <?php createPagination($pagesCount, $pageNo, $query); ?>
+      <div class="tab-content" id="nav-tabContent">
+        <div class="tab-pane fade show <?= $show == 'l' ? 'active':'' ?>" id="nav-list" role="tabpanel" aria-labelledby="nav-list-tab">
+          <table id="listTable" class="table table-bordered table-hover">
+            <thead>
+              <tr>
+                <?php
+                foreach($array_columns as $col => $colTW) {
+                  $queryString = "pageSize=$pageSize&brandName=$brandName&column=$col&sort=$asc_or_desc&pageNo=$pageNo&show=l";
+                  $sortClass =$column == $col ? "-" . $up_or_down : "";
+                  echo "<th>";
+                  echo "<a href='/RollinAdmin/Brand/List?$queryString'>$colTW<i class='fas fa-sort$sortClass'></i></a>";
+                  echo "</th>";
+                }
+                ?>
+              </tr>
+            </thead>
+            <tbody>
+              <?php
+              foreach ($brands as $brand) {
+                echo "<tr>";
+                echo "<td class='td-w'><img class='list-image' src='image/BrandImage/$brand->BrandID.jpg' title='$brand->BrandName' alt='$brand->BrandName 目前沒有圖片'/></td>";
+                echo "<td class='td-w'><a href='/RollinAdmin/Brand/Detail/$brand->BrandID'>$brand->BrandName</a></td>";
+                echo "<td>$brand->Description</td>";
+                echo "</tr>";
+              }
+              ?>
+            </tbody>
+          </table>
+        </div>
+        <div class="tab-pane fade show mb-4 <?= $show == 'g' ? 'active':'' ?>" id="nav-grid" role="tabpanel" aria-labelledby="nav-grid-tab">
+          <div class="row">
             <?php
-            foreach($array_columns as $col => $colTW) {
-              $queryString = "pageSize=$pageSize&brandName=$brandName&column=$col&sort=$asc_or_desc&pageNo=$pageNo";
-              $sortClass =$column == $col ? "-" . $up_or_down : "";
-              echo "<th>";
-              echo "<a href='/RollinAdmin/Brand/List?$queryString'>$colTW<i class='fas fa-sort$sortClass'></i></a>";
-              echo "</th>";
-            }
+              foreach($brands as $brand) {
+                echo "<div class='img-thumbnail-wrap'>";
+                echo "<a href='/RollinAdmin/Brand/Detail/$brand->BrandID'><img class='img-thumbnail' src='image/BrandImage/$brand->BrandID.jpg' title='$brand->BrandName' alt='$brand->BrandName 目前沒有圖片'/></a>";
+                echo "</div>";
+              }
             ?>
-          </tr>
-        </thead>
-        <tbody>
-          <?php
-          foreach ($brands as $brand) {
-            echo "<tr>";
-            echo "<td class='td-w'><img class='list-image' src='image/BrandImage/$brand->BrandID.jpg' title='$brand->BrandName' alt='$brand->BrandName 目前沒有圖片'/></td>";
-            echo "<td class='td-w'><a href='/RollinAdmin/Brand/Detail/$brand->BrandID'>$brand->BrandName</a></td>";
-            echo "<td>$brand->Description</td>";
-            echo "</tr>";
-          }
-          ?>
-        </tbody>
-        <tfoot>
-          <?php createPagination($pagesCount, $pageNo, $query); ?>
-        </tfoot>
-      </table>
-      <div class="pl-5 pt-4"></div>
+          </div>
+        </div>
+      </div>
+      <!-- tab-content -->
+      <div>
         <?php createPagination($pagesCount, $pageNo, $query); ?>
       </div>
     </div>

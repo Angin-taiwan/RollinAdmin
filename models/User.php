@@ -29,7 +29,7 @@ class User extends DB {
 
   function getAllLikeCount($column,$search){
     return $this->selectDB(
-      "SELECT COUNT(*) as Total FROM User WHERE $column LIKE CONCAT('%',?,'%') ;",
+      "SELECT COUNT(*) Count FROM User WHERE $column LIKE CONCAT('%',?,'%') ;",
       [$search]
     )[0];
   }

@@ -24,6 +24,8 @@
       href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700"
       rel="stylesheet"
     />
+    <!-- Custom -->
+    <link rel="stylesheet" href="dist/css/header.css" />
   </head>
 
   <body class="hold-transition sidebar-mini">

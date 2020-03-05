@@ -153,7 +153,7 @@ th>a {
             $nextQueryString = http_build_query($pageQuery, '', '&'); 
             $nextDisabled = $nextNo > $pagesCount ? "disabled" : "";
             
-            echo "<nav aria-label='Page navigation'>";
+            echo "<nav aria-label='Page navigation' class='sticky-top'>";
             echo "<ul class='pagination'>";
             echo "<li class='page-item $prevousDisabled'><a class='page-link' href='./Brand/List?$prevousQueryString'>上一頁</a></li>";
             

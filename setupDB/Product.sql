@@ -14,15 +14,15 @@ use Rollin;
 
 DROP TABLE IF EXISTS `Product`;
 
-CREATE TABLE `Rollin`.`Product` ( 
-  `ProductID`       INT             NOT NULL    AUTO_INCREMENT, 
-  `ProductName`     VARCHAR(60)     NOT NULL , 
-  `BrandID`         INT             NOT NULL , 
-  `CategoryID`      INT             NOT NULL , 
-  `PDescription`    VARCHAR(1000)   NOT NULL , 
-  `Discontinued`    TINYINT         NOT NULL    DEFAULT '0'                COMMENT '預設0為販售中,1:停售' , 
-  `UnitPrice`       INT             NOT NULL , 
-  `Date`            DATETIME                    DEFAULT CURRENT_TIMESTAMP, 
+CREATE TABLE `Rollin`.`Product` (
+  `ProductID`       INT             NOT NULL    AUTO_INCREMENT,
+  `ProductName`     VARCHAR(60)     NOT NULL ,
+  `BrandID`         INT             NOT NULL ,
+  `CategoryID`      INT             NOT NULL ,
+  `PDescription`    VARCHAR(1000)   NOT NULL ,
+  `Discontinued`    TINYINT         NOT NULL    DEFAULT '0'                COMMENT '預設0為販售中,1:停售' ,
+  `UnitPrice`       INT             NOT NULL ,
+  `Date`            DATETIME                    DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`ProductID`)
 ) ;
 

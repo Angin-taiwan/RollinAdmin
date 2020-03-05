@@ -12,15 +12,15 @@ use Rollin;
 
 DROP TABLE IF EXISTS `Recipient`;
 
-CREATE TABLE `rollin`.`Recipient` ( 
-   `OrderID`               INT            NOT NULL , 
-   `RecipientName`         VARCHAR(20)    NOT NULL , 
-   `RecipientPhone`        VARCHAR(20)    NOT NULL , 
-   `RecipientCountry`      VARCHAR(20)    NOT NULL , 
-   `RecipientCity`         VARCHAR(20)    NOT NULL , 
-   `RecipientDistrict`     VARCHAR(20)    NOT NULL , 
-   `RecipientAddress`      VARCHAR(50)    NOT NULL , 
-   `RecipientPostalCode`   VARCHAR(10)    NOT NULL , 
+CREATE TABLE `rollin`.`Recipient` (
+   `OrderID`               INT            NOT NULL ,
+   `RecipientName`         VARCHAR(20)    NOT NULL ,
+   `RecipientPhone`        VARCHAR(20)    NOT NULL ,
+   `RecipientCountry`      VARCHAR(20)    NOT NULL ,
+   `RecipientCity`         VARCHAR(20)    NOT NULL ,
+   `RecipientDistrict`     VARCHAR(20)    NOT NULL ,
+   `RecipientAddress`      VARCHAR(50)    NOT NULL ,
+   `RecipientPostalCode`   VARCHAR(10)    NOT NULL ,
    PRIMARY KEY (`OrderID`)
 );
 

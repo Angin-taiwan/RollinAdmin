@@ -14,7 +14,7 @@ DROP TABLE IF EXISTS `Category`;
 
 CREATE TABLE `Category`(
   CategoryID   INT          NOT NULL  AUTO_INCREMENT,
-  CategoryName VARCHAR(20)  NOT NULL  UNIQUE,
+  CategoryName VARCHAR(50)  NOT NULL  UNIQUE,
   ParentID     INT,
   PRIMARY KEY ( CategoryID ),
   FOREIGN KEY ( ParentID ) REFERENCES Category ( CategoryID ) ON DELETE CASCADE ON UPDATE CASCADE 

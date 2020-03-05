@@ -14,7 +14,7 @@ DROP TABLE IF EXISTS `News`;
 
 CREATE TABLE `News`(
    NewsID  	      INT     	         NOT NULL   AUTO_INCREMENT,
-   Title          VARCHAR(20)       NOT NULL,
+   Title          VARCHAR(100)      NOT NULL,
    Description    VARCHAR(1000),
    CreateDate     DATETIME          NOT NULL   DEFAULT   CURRENT_TIMESTAMP,
    UpdateDate     DATETIME                     ON UPDATE CURRENT_TIMESTAMP,

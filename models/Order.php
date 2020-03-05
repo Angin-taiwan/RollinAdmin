@@ -81,8 +81,21 @@ class Order extends DB {
     );
   }
 
-
-  //還沒做好
+  function updatechecked($id) {
+    return $this->updateDB(
+      "UPDATE `Order` SET CheckedDate = ? where orderID = ? ",
+      [date("Y-m-d h:i:sa"), $id]
+      // ["$brand->BrandName", "$brand->Description", $brand->BrandID]
+    );
+  }
+  function updateCancel($id) {
+    return $this->updateDB(
+      "UPDATE `Order` SET CancelDate = ? where orderID = ? ",
+      [date("Y-m-d h:i:sa"), $id]
+      // ["$brand->BrandName", "$brand->Description", $brand->BrandID]
+    );
+  }
+  
   function updateshipping($id) {
     return $this->updateDB(
       "UPDATE `Order` SET ShippedDate = ? where orderID = ? ",

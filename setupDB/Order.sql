@@ -18,6 +18,7 @@ CREATE TABLE `Order` (
    `PaymentID`     INT         NOT NULL ,
    `ShippingID`    INT         NOT NULL ,
    `OrderDate`     DATETIME    NOT NULL     DEFAULT CURRENT_TIMESTAMP ,
+   `CheckedDate`   DATETIME                 DEFAULT NULL ,
    `ShippedDate`   DATETIME                 DEFAULT NULL ,
    `DeliverDate`   DATETIME                 DEFAULT NULL ,
    `CancelDate`    DATETIME                 DEFAULT NULL ,
@@ -33,6 +34,11 @@ CREATE TABLE `Order` (
 
 LOCK TABLES `Order` WRITE;
 
-INSERT INTO `Order` (`OrderID`, `UserID`, `PaymentID`, `ShippingID`, `OrderDate`, `ShippedDate`, `DeliverDate`, `CancelDate`, `MarketingID`, `CouponID`, `FinalPrice`) VALUES (NULL, '1', '1', '2', current_timestamp(), NULL, NULL, NULL, NULL, NULL, '10000'), (NULL, '4', '1', '1', current_timestamp(), NULL, NULL, NULL, NULL, NULL, '1003');
-INSERT INTO `order` (`OrderID`, `UserID`, `PaymentID`, `ShippingID`, `OrderDate`, `ShippedDate`, `DeliverDate`, `CancelDate`, `MarketingID`, `CouponID`, `FinalPrice`) VALUES (NULL, '3', '2', '1', '2020-03-03 15:36:13', NULL, NULL, NULL, NULL, NULL, '2580'), (NULL, '5', '2', '1', '2020-03-03 15:36:13', NULL, NULL, NULL, NULL, NULL, '2580');
+INSERT INTO `Order`
+(UserID, PaymentID, ShippingID, OrderDate, CheckedDate, ShippedDate, DeliverDate, CancelDate, MarketingID, CouponID, FinalPrice) VALUES 
+(1, 1, 2, NOW(), NULL, NULL, NULL, NULL, NULL, NULL, 7580),
+(2, 2, 1, NOW(), NOW(), NULL, NULL, NULL, NULL, NULL, 1003),
+(3, 3, 2, NOW(), NOW(), NOW(), NULL, NULL, NULL, NULL, 3333),
+(4, 4, 1, NOW(), NOW(), NOW(), NOW(), NULL, NULL, NULL, 4444);
+
 UNLOCK TABLES;

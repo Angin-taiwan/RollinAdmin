@@ -3,6 +3,9 @@
 $pageDir = "News";
 $pageTitle = "News Detail";
 
+$pageDir = "消息管理";
+$pageTitle = "消息詳細資料";
+
 $Getnews = $data->getNewsByID($data->id);
 
 require_once 'views/template/header.php';
@@ -51,7 +54,8 @@ $news = new News();
       
       </div>
     </div>  
-    <a href="/RollinAdmin/News/List"><button type="button" class="btn btn-primary">返回目錄</button></a> 
+    <a href="/RollinAdmin/News/Update/<?= $Getnews->NewsID?>"><button type="button" class="btn btn-info">修改資料</button></a> 
+    <a href="/RollinAdmin/News/List"><button type="button" class="btn btn-primary">返回清單</button></a> 
   </div>
 
 <?php

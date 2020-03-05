@@ -39,10 +39,10 @@ class News extends DB
       $ids);
   }
   //___________________________________________________________________________
-  function search($searchTerm)
+  function search($Title)
   {
-    return $this->selectDB("SELECT * FROM News WHERE Title LIKE '%$searchTerm%' ");
-    // ["$news->searchTerm"];
+    return $this->selectDB("SELECT * FROM News WHERE Title LIKE '%','?','%' ")
+    [$Title];
   }
   //___________________________________________________________________________
 
@@ -59,17 +59,17 @@ class News extends DB
     );
   }
 
-  function getAllLikeCount($Title) {  //  COUNT(*) 回傳 資料筆數   ,  LIKE 後 變成  收尋 Title 回傳的資料筆數
+  function getAllLikeCount($Categorysearch,$keyword) {  //  COUNT(*) 回傳 資料筆數   ,  LIKE 後 變成  收尋 Title 回傳的資料筆數
     return $this->selectDB(
-      "SELECT COUNT(*) Count FROM News WHERE Title LIKE CONCAT('%',?,'%') ;",
-      [$Title]
-    )[0];
+      "SELECT COUNT(*) Count FROM News WHERE $Categorysearch LIKE CONCAT('%',?,'%');",
+      [$keyword]
+     )[0];
   }
 
-  function getAllLike($Title, $startIndex = 0, $pageSize = 3) {  // concat函數用來合併多個欄位的值
+  function getAllLike($Categorysearch,$keyword,$startIndex = 0,$pageSize = 3) {  // concat函數用來合併多個欄位的值
     return $this->selectDB(
-      "SELECT * FROM News WHERE Title LIKE CONCAT('%',?,'%') ORDER BY NewsID ASC LIMIT ?, ? ;",
-      [$Title, $startIndex, $pageSize]
+      "SELECT * FROM News WHERE $Categorysearch LIKE CONCAT('%',?,'%') ORDER BY NewsID ASC LIMIT ?,?;",
+      [$keyword,$startIndex,$pageSize]
     );
   }
 

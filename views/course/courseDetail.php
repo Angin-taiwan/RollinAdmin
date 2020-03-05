@@ -2,6 +2,10 @@
 
 $pageDir = "Course";
 $pageTitle = "Course Detail";
+
+$pageDirTW = "課程管理";
+$pageTitleTW = "課程詳細資訊";
+
 $GetCourse = $data->getCourseByID($data->id);
 
 require_once 'views/template/header.php';
@@ -65,9 +69,10 @@ $Course = new Course();
       
       </div>
     </div>  
-    <a href="/RollinAdmin/Course/List"><button type="button" class="btn btn-primary">返回目錄</button></a> 
+    <a href="/RollinAdmin/Course/Update/<?= $GetCourse->CourseID?>"><button type="button" class="btn btn-info">修改資料</button></a> 
+    <a href="/RollinAdmin/Course/List"><button type="button" class="btn btn-primary">返回清單</button></a> 
   </div>
-
+  &nbsp;
 <!-- /.container-fluid -->
 
 <?php

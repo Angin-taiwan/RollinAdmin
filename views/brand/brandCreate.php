@@ -21,7 +21,7 @@ if (isset($_POST['submit'])) {
 
   // file upload
   if(!isset($_FILES['file_upload']) || $_FILES['file_upload']['error'] == UPLOAD_ERR_NO_FILE) {
-    echo "Error no file selected"; 
+    echo "Error no file selected";
   } else {
     $file_upload_dir = "image/BrandImage/";
     $file_upload_name = $brand->BrandID;
@@ -48,6 +48,10 @@ require_once 'views/template/header.php';
     width: 234px;
     height: 234px;
   }
+  #show {
+    max-width: 200px;
+    max-height: 200px;
+  }
 </style>
 
 <div class="container-fluid">
@@ -71,7 +75,7 @@ require_once 'views/template/header.php';
         <div class="form-group">
           <label for="file_upload">品牌圖片</label>
           <div class="rounded-lg p-3 mb-2 show-image">
-            <?="<img id='show' class'w-100 h-100' src='image/BrandImage/$brand->BrandID.jpg' title='$brand->BrandName' alt='$brand->BrandName 目前沒有圖片'/>"?>
+            <?="<img id='show' src='image/BrandImage/$brand->BrandID.jpg' title='$brand->BrandName' alt='$brand->BrandName 目前沒有圖片'/>"?>
           </div>
           <div class="text-primary font-weight-bold">請選擇尺寸為 200x200</div>
           <div class="text-primary font-weight-bold">大小為 1MB 內之 jpg 圖片</div>
@@ -93,10 +97,10 @@ require_once 'views/template/footer.php';
 <script>
   function readURL(input) {
     if (input.files && input.files[0]) {
-      var reader = new FileReader();     
+      var reader = new FileReader();
       reader.onload = function(e) {
         $('#show').attr('src', e.target.result);
-      }      
+      }
       reader.readAsDataURL(input.files[0]);
     } else {
       $('#show').attr('src', "");

@@ -31,6 +31,10 @@ $hidInputs = array(
   'sort' => $sort
 ); 
 
+$array_pageSize = array(
+  3, 6, 20
+);
+
 // for sorting
 $up_or_down = str_replace(array('ASC','DESC'), array('up','down'), $sort); 
 $asc_or_desc = $sort == 'ASC' ? 'desc' : 'asc';
@@ -74,9 +78,12 @@ th>a {
               <label for="pageSize" class="col-6 col-form-label">每頁顯示筆數</label>
               <div class="col-6">
                 <select name="pageSize" class="form-control" onchange="this.form.submit()">
-                  <option value="3" <?= ($pageSize == "3") ? "selected=selected" : ""; ?>>3</option>
-                  <option value="6" <?= ($pageSize == "6") ? "selected=selected" : ""; ?>>6</option>
-                  <option value="20" <?= ($pageSize == "20") ? "selected=selected" : ""; ?>>20</option>
+                  <?php
+                  foreach ($array_pageSize as $thisSize) {
+                    $selected = $pageSize == $thisSize ? "selected" : "";
+                    echo "<option value='$thisSize' $selected >$thisSize</option>";
+                  }
+                  ?>
                 </select>
               </div>
             </div>

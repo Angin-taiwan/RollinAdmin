@@ -1,3 +1,11 @@
+<style>
+th{
+  text-align: center;
+}
+
+</style>
+
+
 <?php
 
 // 對應 header template nav active
@@ -7,8 +15,18 @@ $pageTitle = "Order List";
 $pageDirTW = "訂單管理";
 $pageTitleTW = "訂單清單";
 
+$datecreate= date("Y-m-d h:i:sa");
 
-$search = 
+
+$search = 1 ; 
+//更新出貨時間
+if (isset($_POST['updateshippedDate'])) {
+  $qqq = $_POST['updateshippedDate'];
+  $data->updateshipping($qqq);
+  // header("Location: /RollinAdmin/Order/list/");
+  echo "<script> alert('修改成功'); </script>";
+  }
+
 // get set querystring
 parse_str($_SERVER['QUERY_STRING'], $query);
 $pageSize = isset($query["pageSize"]) ? $query["pageSize"] : 20;
@@ -35,7 +53,7 @@ require_once 'views/template/header.php';
           <div class="col-3">
             <div class="form-group row">
               <label for="pageSize" class="col-6 col-form-label ml-3">每頁顯示筆數:</label>
-              <div class="col-3  pl-2">
+              <div class="col-5  pl-2">
                 <select name="pageSize" class="form-control" onchange="this.form.submit()">
                   <option value="3" <?= ($pageSize == "3") ? "selected=selected" : ""; ?>>3</option>
                   <option value="6" <?= ($pageSize == "6") ? "selected=selected" : ""; ?>>6</option>
@@ -50,9 +68,8 @@ require_once 'views/template/header.php';
             </label>
           </div>
           <div class="col-3">
-            <div class="form-group row">
-              
-              <div class="col-  ">
+            <div class="form-group row">      
+              <div class="col-7  ">
                 <select name="searchtype" class="form-control" onchange="this.form.submit()">
                   <option value="orderid" <?= ($search == "O.OrderID") ? "selected=selected" : ""; ?>>訂單編號</option>
                   <option value="username" <?= ($search == "U.UserName") ? "selected=selected" : ""; ?>>會員姓名</option>
@@ -62,7 +79,7 @@ require_once 'views/template/header.php';
             </div>
           </div>
           <div class="col-2 ">
-            <input type="text" name="OrderID" class="form-control float-right" placeholder="輸入訂單編號搜尋" value="<?= $OrderID ?>" onchange="this.form.submit()">
+            <input type="text" name="OrderID" class="form-control float-right" placeholder="輸入會員姓名搜尋" value="<?= $OrderID ?>" onchange="this.form.submit()">
           </div>
           <div class="col-2">
             <label class="col-form-label">
@@ -75,22 +92,34 @@ require_once 'views/template/header.php';
         </div>
         <!-- /.form-row -->
       </form>
+      
     </div>
     <!-- /.card-header -->
     <div class="card-body">
     <div class="mb-3">
     <input type="button" class="btn btn-info" id="checkedAllBtn" value="全選">
     <input type="button" class="btn btn-outline-info" id="checkedNoBtn" value="全消">
-    <input type="submit" class="btn btn-success" id="checkedshippBtn" name="checkedshippBtn" value="出貨">
+    <input type="submit" class="btn btn-success " id="checkedshippBtn" name="checkedshippBtn" value="出貨">
+    <div class="form-group row">
+      <label for="example-date-input" class="col-2 col-form-label">Date</label>
+      <div class="col-5">
+        <input class="form-control" type="date" value="2011-08-19" id="example-date-input">
+      </div>
+      -
+      <div class="col-5">
+        <input class="form-control" type="date" value="2011-08-19" id="example-date-input">
+      </div>
+</div>
     <!-- <div class="float-right form-group">
       <input type="text" placeholder="search" name="keyword">
       <input type="submit" class="btn btn-dark" value="搜尋" name="searchButton">
       <br>
     </div> -->
     </div>
+    <form method="post" action="order/List">
       <table id="listTable" class="table table-bordered table-hover table-sm">
         <thead>
-          <tr>
+          <tr class="text-align-center">
             <th></th>
             <th>ID</th>
             <!-- <th>UserID</th> -->
@@ -98,6 +127,7 @@ require_once 'views/template/header.php';
             <th>Product</th>
             <th>Pamyment</th>
             <th>OrderDate</th>
+            <th style="width: 10%">shipped?</th>
             <th>ShippedDate</th>
             <th>DeliverDate</th>
             <th>CancelDate</th>
@@ -108,6 +138,7 @@ require_once 'views/template/header.php';
           </tr>
         </thead>
         <tbody>
+        
           <?php
           foreach ($Orders as $order) {
             echo "<tr>";
@@ -121,10 +152,12 @@ require_once 'views/template/header.php';
             echo "<td>$order->ProductName</td>";
             echo "<td>$order->PaymentName</a> </td>";
             echo "<td>$order->OrderDate</td>";
-            echo "<td><a href='delete.php?id=$order->ShippedDate'>
-                  <button class='btn btn-success' type='submit' name='delete'> 
+            echo "<td>
+                  <button class='btn btn-sm btn-success' 
+                  type='submit' name='updateshippedDate' value= '".$order->OrderID."' > 
                   <i class='fa fa-truck'>&nbsp</i>出貨</button></a>
                   </td>";
+            echo "<td>$order->ShippedDate</td>";
             echo "<td>$order->DeliverDate</td>";
             echo "<td>$order->CancelDate</td>";
             echo "<td>$order->MarketingID</td>";
@@ -136,8 +169,8 @@ require_once 'views/template/header.php';
           }
           ?>
         </tbody>
-       
       </table>
+      </form>
       <tfoot>
           <nav aria-label="Page navigation">
             <ul class="pagination mt-4">
@@ -167,6 +200,7 @@ require_once 'views/template/header.php';
     </div>
     <!-- /.card-body -->
   </div>
+  
   <!-- /.card -->
 </div>
 <!-- /.container-fluid -->

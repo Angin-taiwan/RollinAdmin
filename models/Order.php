@@ -59,6 +59,18 @@ class Order extends DB {
     WHERE O.OrderID = ? ;", [$id])[0];
   }
 
+  function getOrderByorderdate($timestar,$timeend) {
+    return $this->selectDB("SELECT * FROM `Order` O
+    join User      U on (U.UserID    = O.UserID)
+    join Payment   Pay on (Pay.PaymentID = O.PaymentID)
+    join recipient r on (r.OrderID   = O.OrderID)
+    join Orderdetail Od on (Od.OrderID   = O.OrderID)
+    join Product P on (P.ProductID = Od.ProductID)
+    join shipping      S on (S.shippingID    = O.shippingID)
+    WHERE OrderDate <= ?
+      AND OrderDate >= ? ;", [$timestar,$timeend]);
+  }
+
   function create($Order) {
     return $this->insertDB(
       "INSERT INTO `Order` (OrderName, Description) VALUES (?, ?) ;",
@@ -68,10 +80,11 @@ class Order extends DB {
 
 
   //還沒做好
-  function updateshipping($Order) {
+  function updateshipping($id) {
     return $this->updateDB(
-      "UPDATE Order SET BrandName = ?, Description = ? WHERE BrandID = ? ;",
-      ["$brand->BrandName", "$brand->Description", $brand->BrandID]
+      "UPDATE `Order` SET ShippedDate = ? where orderID = ? ",
+      [date("Y-m-d h:i:sa"), $id]
+      // ["$brand->BrandName", "$brand->Description", $brand->BrandID]
     );
   }
 

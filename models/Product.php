@@ -11,11 +11,14 @@ class Product extends DB {
   public $UnitPrice ;
   public $Date ;
   public $UnitInStock;
-  
 
-
-  // $BrandID_Name = [];
-
+// 計數
+  function getAllCount() {
+    return $this->selectDB(
+      "SELECT COUNT(*) as Total FROM product;"
+    )[0];
+  }
+// List
   function getAll(){
     return $this->selectDB(
       "select *, ps.ProductID P_ID,SUM(UnitInStock) TotalStock from productstock as ps -- 庫存
@@ -25,16 +28,16 @@ class Product extends DB {
             GROUP BY p.ProductID;"
     );
   }
-
+// Detail
   function getDetail($id) {
     return $this->selectDB(
       "SELECT p.* , b.BrandName, c.CategoryName , SUM(UnitInStock) TotalStock FROM Product as p
       join brand as b on p.BrandID = b.BrandID
       join category as c on p.CategoryID = c.CategoryID
-      join productstock as ps on p.ProductID = ps.ProductID
+      left outer join productstock as ps on p.ProductID = ps.ProductID
       WHERE p.ProductID = ? GROUP BY p.ProductID ;", [$id])[0];
   }
-
+// stock
   function getStock($id){
     return $this->selectDB(
       "select * from product as p 
@@ -44,7 +47,7 @@ class Product extends DB {
           WHERE p.ProductID = ? ", [$id]
     );
   }
-
+// C
   function createProduct($Product) {
     $ProductName = trim($Product->ProductName);
     return $this->insertDB(
@@ -56,8 +59,38 @@ class Product extends DB {
   }
 
   function updateProduct($Product) {
-
+    return $this->updateDB(
+      "UPDATE Product SET ProductName = ?,UnitPrice = ? , PDescription = ? WHERE ProductID = ? ;",
+      ["$Product->ProductName", "$Product->UnitPrice", "$Product->PDescription", $Product->ProductID]
+    );
   }
+
+function findmyBrandName(){
+  return $this->selectDB(
+    "select BrandID, BrandName from Brand;"
+  );
+}
+
+function findmyMainCategoryName(){
+  return $this->selectDB(
+  "select * from Category WHERE ParentID IS NULL;");
+}
+
+function findmyCldCategoryName($id=null){
+  if($id==null){
+    return $this->selectDB(
+      "select * from Category WHERE ParentID IS NOT NULL;");
+  } else{
+    return $this->selectDB(
+      "select * from Category WHERE ParentID = $id;");
+  }
+
+}
+
+function findmySizeName($id){
+  // 
+}
+
 
   function delete($id) {
 

@@ -16,6 +16,12 @@ class ProductController extends Controller {
     $this->view("product/productCreate", $product);
   }
 
+  function update($id) {
+    $product = $this->model("Product");
+    $product->id = $id;
+    $this->view("Product/ProductUpdate", $product);
+  }
+
   function detail($id) {
     $product = $this->model("Product");
     $product->id = $id;

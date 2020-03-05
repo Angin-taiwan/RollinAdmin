@@ -3,6 +3,9 @@
 $pageDir = "News";
 $pageTitle = "News Update";
 
+$pageDirTW = "消息管理";
+$pageTitle = "消息修改";
+
 $news = $data->getNewsByID($data->id);
 
 
@@ -44,17 +47,17 @@ require_once 'views/template/header.php';
             <label for="Title" class="text">
                 Title :
             </label>
-            <input type="text" class="form-control" name="Title" id="Title"  required="required" value="<?= $news->Title ?>">
+            <input type="text" class="form-control" name="Title" id="Title" placeholder="輸入修改標題" required="required" value="<?= $news->Title ?>">
         </div>
         <div class="form-group">
             <label for="Description" class="text">
                 Description :
             </label>
-            <textarea type="text" class="form-control" name="Description" id="Description" style="height:200px"  required="required"><?= $news->Description ?></textarea>
+            <textarea type="text" class="form-control" name="Description" id="Description" placeholder="輸入標題內容" style="height:200px"  required="required"><?= $news->Description ?></textarea>
         </div>
 
         <input name="action" type="hidden" value="id">
-        <button type="submit" class="btn btn-success" name="updateButton" id="updateButton">修改資料</button>
+        <button type="submit" class="btn btn-info" name="updateButton" id="updateButton">修改資料</button>
         <button type="submit" class="btn btn-danger" name="BackToList">取消</button>
 
     </form>

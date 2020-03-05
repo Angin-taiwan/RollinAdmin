@@ -21,9 +21,21 @@ $datecreate= date("Y-m-d h:i:sa");
  
 //更新出貨時間
 if (isset($_GET['updateshippedDate'])) {
-  $qqq = $_GET['updateshippedDate'];
-  $data->updateshipping($qqq);
-  echo "<script> alert('修改成功'); </script>";
+  $ss = $_GET['updateshippedDate'];
+  $data->updateshipping($ss);
+  echo "<script> alert('出貨成功'); </script>";
+  }
+//更新理貨時間
+if (isset($_GET['updateCheckedDate'])) {
+  $cc = $_GET['updateCheckedDate'];
+  $data->updatechecked($cc);
+  echo "<script> alert('理貨成功'); </script>";
+  }
+  //更新取消時間
+if (isset($_GET['updateCancelDate'])) {
+  $ccc = $_GET['updateCancelDate'];
+  $data->updateCancel($ccc);
+  echo "<script> alert('取消成功'); </script>";
   }
 
 // if (isset())
@@ -169,7 +181,6 @@ require_once 'views/template/header.php';
             <th>Pamyment</th>
             <th>OrderDate</th>
             <th>CheckedDate</th>
-            <th style="width: 10%">shipped?</th>
             <th>ShippedDate</th>
             <th>DeliverDate</th>
             <th>CancelDate</th>
@@ -180,11 +191,23 @@ require_once 'views/template/header.php';
         <tbody>
         
           <?php
-           $display=" ";
+           $displayS=" ";
+           $displayC=" ";
+           $displayD=" ";
+           $displayCancel=" ";
           
           foreach ($Orders as $order) {
             if (isset($order->ShippedDate)){
-              $display = "style='display:none;'";
+              $displayS = "style='display:none;'";
+            };
+            if (isset($order->CheckedDate)){
+              $displayC = "style='display:none;'";
+            };
+            if (isset($order->DeliverDate)){
+              $displayD = "style='display:none;'";
+            };
+            if (isset($order->CancelDate)){
+              $displayCancel = "style='display:none;'";
             };
             echo "<tr class='text-center'>";
             echo "<td>
@@ -194,20 +217,24 @@ require_once 'views/template/header.php';
             echo "<td><a href=/RollinAdmin/Order/Detail/$order->OrderID>$order->OrderID</a></td>";
             // echo "<td>$order->UserID</td>";
             echo "<td>$order->UserName</td>";
-            echo "<td>$order->PaymentName</a> </td>";
+            echo "<td>$order->PaymentName</td>";
             echo "<td>$order->OrderDate</td>";
-            echo "<td>$order->checkedDate
-            <button class='btn btn-sm btn-success' $display
-            type='submit' name='updateshippedDate' value= '".$order->OrderID."' > 
-            <i class='fa fa-truck'>&nbsp</i>理貨</button></a>
-            </td>";
+            echo "<td>$order->CheckedDate
+                  <button class='btn btn-sm btn-success' $displayC
+                  type='submit' name='updateCheckedDate' value= '".$order->OrderID."' > 
+                  <i class='fa fa-box'>&nbsp</i>理貨</button></a>
+                  </td>";
             echo "<td>$order->ShippedDate
-                  <button class='btn btn-sm btn-success' $display
+                  <button class='btn btn-sm btn-success' $displayS
                   type='submit' name='updateshippedDate' value= '".$order->OrderID."' > 
                   <i class='fa fa-truck'>&nbsp</i>出貨</button></a>
                   </td>";
             echo "<td>$order->DeliverDate</td>";
-            echo "<td>$order->CancelDate</td>";
+                  
+            echo "<td>$order->CancelDate
+                  <button class='btn btn-sm btn-danger' $displayCancel
+                  type='submit' name='updateCancelDate' value= '".$order->OrderID."' > 
+                  <i class='fa fa-ban'>&nbsp</i>取消</button></a></td>";
             echo "<td>$order->FinalPrice</td>";
             // echo $Orders->UnitPrice * $Orders->Quantity + $Orders->ShippingPrice;
             // echo "</td>";

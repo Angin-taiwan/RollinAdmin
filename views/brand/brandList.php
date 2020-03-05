@@ -12,31 +12,35 @@ $pageTitleTW = "品牌清單";
 
 // get set querystring
 parse_str($_SERVER['QUERY_STRING'], $query);
+
+// set variables
 $pageSize = isset($query["pageSize"]) ? $query["pageSize"] : 20;
-$brandName =  isset($query["brandName"]) ? $query["brandName"] : "";
+$brandName = isset($query["brandName"]) ? $query["brandName"] : "";
 $pageNo = isset($query["pageNo"]) ? $query["pageNo"] : 1;
 
-$array_colomns = [
+// set table columns
+$array_columns = [
   "BrandID" => "品牌圖片",
   "BrandName" => "品牌名稱",
-  "Description" => "品牌描述",               
+  "Description" => "品牌描述",
 ];
 
-$columns = array_keys($array_colomns);
+// get column, sort
+$columns = array_keys($array_columns);
 $column = isset($_GET['column']) && in_array($_GET['column'], $columns) ? $_GET['column'] : $columns[0];
 $sort = isset($_GET['sort']) && strtolower($_GET['sort']) == 'desc' ? 'DESC' : 'ASC';
 
-$hidInputs = array( 
-  'column' => $column, 
+// set hidden inputs
+$hidInputs = [
+  'column' => $column,
   'sort' => $sort
-); 
+];
 
-$array_pageSize = array(
-  3, 6, 20
-);
+// set page size select potions
+$array_pageSize = [3, 6, 20];
 
 // for sorting
-$up_or_down = str_replace(array('ASC','DESC'), array('up','down'), $sort); 
+$up_or_down = str_replace(['ASC','DESC'], ['up','down'], $sort);
 $asc_or_desc = $sort == 'ASC' ? 'desc' : 'asc';
 
 // for pagination
@@ -81,7 +85,7 @@ th>a {
                   <?php
                   foreach ($array_pageSize as $thisSize) {
                     $selected = $pageSize == $thisSize ? "selected" : "";
-                    echo "<option value='$thisSize' $selected >$thisSize</option>";
+                    echo "<option value='$thisSize' $selected>$thisSize</option>";
                   }
                   ?>
                 </select>
@@ -102,7 +106,7 @@ th>a {
             </label>
           </div>
         </div>
-        <?php 
+        <?php
           foreach ($hidInputs as $k => $v) {
             echo "<input type='hidden' name='$k' value='$v'>";
           }
@@ -116,7 +120,7 @@ th>a {
         <thead>
           <tr>
             <?php
-            foreach($array_colomns as $col => $colTW) {
+            foreach($array_columns as $col => $colTW) {
               $queryString = "pageSize=$pageSize&brandName=$brandName&column=$col&sort=$asc_or_desc&pageNo=$pageNo";
               $sortClass =$column == $col ? "-" . $up_or_down : "";
               echo "<th>";
@@ -145,25 +149,25 @@ th>a {
 
             $prevousNo = $pageNo - 1;
             $pageQuery['pageNo'] = $prevousNo;
-            $prevousQueryString = http_build_query($pageQuery, '', '&'); 
+            $prevousQueryString = http_build_query($pageQuery, '', '&');
             $prevousDisabled = $prevousNo <= 0 ? "disabled" : "";
 
             $nextNo =  $pageNo + 1;
             $pageQuery['pageNo'] = $nextNo;
-            $nextQueryString = http_build_query($pageQuery, '', '&'); 
+            $nextQueryString = http_build_query($pageQuery, '', '&');
             $nextDisabled = $nextNo > $pagesCount ? "disabled" : "";
-            
+
             echo "<nav aria-label='Page navigation' class='sticky-top'>";
             echo "<ul class='pagination'>";
             echo "<li class='page-item $prevousDisabled'><a class='page-link' href='./Brand/List?$prevousQueryString'>上一頁</a></li>";
-            
+
             for ($i = 1; $i <= $pagesCount; $i++) {
               $pageQuery['pageNo'] = $i;
-              $queryString = http_build_query($pageQuery, '', '&'); 
+              $queryString = http_build_query($pageQuery, '', '&');
               $active = ($pageNo == $i) ? "active" : "";
               echo "<li class='page-item $active'><a class='page-link' href='./Brand/List?$queryString'>$i</a></li>";
             }
-            
+
             echo "<li class='page-item $nextDisabled'><a class='page-link' href='./Brand/List?$nextQueryString'>下一頁</a></li>";
             echo "</ul>";
             echo "</nav>";

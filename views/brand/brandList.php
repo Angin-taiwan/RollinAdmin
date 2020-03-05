@@ -52,6 +52,37 @@ $pagesCount = ceil((int) $brandsCount / (int) $pageSize);
 // read data
 $brands = $data->getAllLike($brandName, $column, $sort, $pageStartIndex, $pageSize);
 
+function createPagination($pagesCount, $pageNo, $query) {
+  if ($pagesCount > 1) {
+    $pageQuery = $query;
+    unset($pageQuery['url']);
+
+    $prevousNo = $pageNo - 1;
+    $pageQuery['pageNo'] = $prevousNo;
+    $prevousQueryString = http_build_query($pageQuery, '', '&');
+    $prevousDisabled = $prevousNo <= 0 ? "disabled" : "";
+
+    $nextNo =  $pageNo + 1;
+    $pageQuery['pageNo'] = $nextNo;
+    $nextQueryString = http_build_query($pageQuery, '', '&');
+    $nextDisabled = $nextNo > $pagesCount ? "disabled" : "";
+
+    echo "<nav aria-label='Page navigation'>";
+    echo "<ul class='pagination'>";
+    echo "<li class='page-item $prevousDisabled'><a class='page-link' href='./Brand/List?$prevousQueryString'>上一頁</a></li>";
+
+    for ($i = 1; $i <= $pagesCount; $i++) {
+      $pageQuery['pageNo'] = $i;
+      $queryString = http_build_query($pageQuery, '', '&');
+      $active = ($pageNo == $i) ? "active" : "";
+      echo "<li class='page-item $active'><a class='page-link' href='./Brand/List?$queryString'>$i</a></li>";
+    }
+
+    echo "<li class='page-item $nextDisabled'><a class='page-link' href='./Brand/List?$nextQueryString'>下一頁</a></li>";
+    echo "</ul>";
+    echo "</nav>";
+  }
+}
 # ----------------------------------------------------------
 
 require_once 'views/template/header.php';
@@ -97,10 +128,10 @@ th>a {
               <?= "總共有：$brandsTotal 個品牌" ?>
             </label>
           </div>
-          <div class="col-3">
+          <div class="col-2">
             <input type="text" name="brandName" class="form-control float-right" placeholder="輸入品牌名稱搜尋" value="<?= $brandName ?>" onchange="this.form.submit()">
           </div>
-          <div class="col-3">
+          <div class="col-4">
             <label class="col-form-label">
               <?= "搜尋到：$brandsCount 個品牌" ?>
             </label>
@@ -142,39 +173,12 @@ th>a {
           ?>
         </tbody>
         <tfoot>
-          <?php
-          if ($pagesCount > 1) {
-            $pageQuery = $query;
-            unset($pageQuery['url']);
-
-            $prevousNo = $pageNo - 1;
-            $pageQuery['pageNo'] = $prevousNo;
-            $prevousQueryString = http_build_query($pageQuery, '', '&');
-            $prevousDisabled = $prevousNo <= 0 ? "disabled" : "";
-
-            $nextNo =  $pageNo + 1;
-            $pageQuery['pageNo'] = $nextNo;
-            $nextQueryString = http_build_query($pageQuery, '', '&');
-            $nextDisabled = $nextNo > $pagesCount ? "disabled" : "";
-
-            echo "<nav aria-label='Page navigation' class='sticky-top'>";
-            echo "<ul class='pagination'>";
-            echo "<li class='page-item $prevousDisabled'><a class='page-link' href='./Brand/List?$prevousQueryString'>上一頁</a></li>";
-
-            for ($i = 1; $i <= $pagesCount; $i++) {
-              $pageQuery['pageNo'] = $i;
-              $queryString = http_build_query($pageQuery, '', '&');
-              $active = ($pageNo == $i) ? "active" : "";
-              echo "<li class='page-item $active'><a class='page-link' href='./Brand/List?$queryString'>$i</a></li>";
-            }
-
-            echo "<li class='page-item $nextDisabled'><a class='page-link' href='./Brand/List?$nextQueryString'>下一頁</a></li>";
-            echo "</ul>";
-            echo "</nav>";
-          }
-          ?>
+          <?php createPagination($pagesCount, $pageNo, $query); ?>
         </tfoot>
       </table>
+      <div class="pl-5 pt-4"></div>
+        <?php createPagination($pagesCount, $pageNo, $query); ?>
+      </div>
     </div>
     <!-- /.card-body -->
   </div>

@@ -97,11 +97,8 @@ require_once 'views/template/header.php';
                 </td>            
               </tr>
               <tr>
-                <td>信箱<span class="font-weight-bold text-danger ml-1">*</span></td>
-                <td>
-                  <input type="text" id="userMaillnput" name="mail" class="form-control" placeholder="輸入email"
-                  value="<?= $user->Email?>" required>
-                </td>            
+                <td>信箱</td>
+                <td><?= $user->Email?></td>            
               </tr>
               <tr>
                 <td>國家</td>

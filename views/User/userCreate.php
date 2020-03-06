@@ -8,26 +8,32 @@ $pageTitleTW = "會員新增";
 
 $user = new User();
 
+
 if(isset($_POST['submit'])){
-  $user->UserName = $_POST['userName'];
-  $user->NickName = $_POST['nickName'];
-  $user->Gender = $_POST['gender'];
-  $user->Birthdate = $_POST['birthday'];
-  $user->Phone = $_POST['phone'];
-  $user->Email = $_POST['mail'];
-  $user->Password = $_POST['password'];
-  $user->Country = $_POST['country'];
-  $user->City = $_POST['city'];
-  $user->District = $_POST['district'];
-  $user->Address = $_POST['address'];
-  $user->PostalCode = $_POST['postalcode'];
-  $user->CreateDate = date('Y-m-d H:i:s');
-  $user->UserID = $data->createUser($user);
-  if ($user->UserID) {
-    header("Location: Detail/$user->UserID");
-    exit();
-  }
-}
+  if(filter_var($_POST['mail'],FILTER_VALIDATE_EMAIL)){
+    $user->UserName = $_POST['userName'];
+    $user->NickName = $_POST['nickName'];
+    $user->Gender = $_POST['gender'];
+    $user->Birthdate = $_POST['birthday'];
+    $user->Phone = $_POST['phone'];
+    $user->Email = $_POST['mail'];
+    $user->Password = $_POST['password'];
+    $user->Country = $_POST['country'];
+    $user->City = $_POST['city'];
+    $user->District = $_POST['district'];
+    $user->Address = $_POST['address'];
+    $user->PostalCode = $_POST['postalcode'];
+    $user->CreateDate = date('Y-m-d H:i:s');
+    $user->UserID = $data->createUser($user);
+    $mailDisplay = "d-none";
+    if ($user->UserID) {
+      header("Location: Detail/$user->UserID");
+      exit();
+    }
+  }else{
+      echo "<script>document.getElementById('emialError').innerHTML ='email格式錯誤'</script>";
+  } 
+};
 
 
 require_once 'views/template/header.php';
@@ -36,9 +42,10 @@ require_once 'views/template/header.php';
 
 <div class="container-fluid">
   <div class="col-md-8 mx-auto">
-    <form method="post" action="User/Create" >
+    <form method="post" action="User/Create">
       <div class="card p-3">
         <div class="card-body">
+          <span id="emialError" class=""></span>
           <table class="table table-bordered table-sm">
             <thead class="table-info">
               <tr>

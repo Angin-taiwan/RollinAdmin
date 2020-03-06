@@ -115,9 +115,9 @@ require_once 'views/template/header.php';
               <option value="10" <?= ($pageSize == "10") ? "selected=selected" : ""; ?>>10</option>
             </select>
             <label>共有 : <?= $NewsTotal ?> 筆資料</label>
-            <div class="col-9">
-              <label class="float-right">搜尋到 : <?= $NewsCount ?>資料</label>
-            </div>
+
+
+
           </div>
         </div>
         <div class="float-right form-group d-flex">
@@ -142,6 +142,7 @@ require_once 'views/template/header.php';
 
 
     <div class="card-body">
+      <label class="float-right">搜尋到 : <?= $NewsCount ?>資料</label>
       <table class="table table-hover">
         <thead>
           <tr>
@@ -226,42 +227,42 @@ require_once 'views/template/header.php';
     let items = document.getElementsByName("items");
     //全選 全消 反選 按鈕功能
     //全選checkbox
-      function checkedAll() {
-        let checkedBtn = document.getElementById("checkedBtn").checked;
-        for (let i = 0; i < items.length; i++) {
-          if (checkedBtn == true) {
-            items[i].checked = true;
-          } else {
-            items[i].checked = false;
-          }
-        }
-      }
-
-    //全選按鈕
-      let checkedAllBtn = document.getElementById("checkedAllBtn");
-      checkedAllBtn.onclick = function() {
-        for (let i = 0; i < items.length; i++) {
+    function checkedAll() {
+      let checkedBtn = document.getElementById("checkedBtn").checked;
+      for (let i = 0; i < items.length; i++) {
+        if (checkedBtn == true) {
           items[i].checked = true;
-        }
-      }
-
-    //全消按鈕
-      let checkedNoBtn = document.getElementById("checkedNoBtn");
-      checkedNoBtn.onclick = function() {
-        for (let i = 0; i < items.length; i++) {
+        } else {
           items[i].checked = false;
         }
       }
+    }
+
+    //全選按鈕
+    let checkedAllBtn = document.getElementById("checkedAllBtn");
+    checkedAllBtn.onclick = function() {
+      for (let i = 0; i < items.length; i++) {
+        items[i].checked = true;
+      }
+    }
+
+    //全消按鈕
+    let checkedNoBtn = document.getElementById("checkedNoBtn");
+    checkedNoBtn.onclick = function() {
+      for (let i = 0; i < items.length; i++) {
+        items[i].checked = false;
+      }
+    }
 
     //反選按鈕
-        let checkedRevBtn = document.getElementById("checkedRevBtn");
-        checkedRevBtn.onclick = function() {
-          for (let i = 0; i < items.length; i++) {
-            if (items[i].checked) {
-              items[i].checked = false;
-            } else {
-              items[i].checked = true;
-            }
-          }
+    let checkedRevBtn = document.getElementById("checkedRevBtn");
+    checkedRevBtn.onclick = function() {
+      for (let i = 0; i < items.length; i++) {
+        if (items[i].checked) {
+          items[i].checked = false;
+        } else {
+          items[i].checked = true;
         }
+      }
+    }
   </script>

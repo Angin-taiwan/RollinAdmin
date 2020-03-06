@@ -4,7 +4,7 @@ $pageDir = "Course";
 $pageTitle = "Course Update";
 
 $pageDirTW = "課程管理";
-$pageTitleTW = "課程修改"
+$pageTitleTW = "課程修改";
 
 $Course = $data->getCourseByID($data->id);
 

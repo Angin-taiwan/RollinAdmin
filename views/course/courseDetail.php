@@ -70,7 +70,8 @@ $Course = new Course();
       </div>
     </div>  
     <a href="/RollinAdmin/Course/Update/<?= $GetCourse->CourseID?>"><button type="button" class="btn btn-info">修改資料</button></a> 
-    <a href="/RollinAdmin/Course/List"><button type="button" class="btn btn-primary">返回清單</button></a> 
+    <a href="/RollinAdmin/Course/List"><button type="button" class="btn btn-primary">返回清單</button></a>
+    <a href="/RollinAdmin/Course/Student/<?= $GetCourse->CourseID?>"><button type="button" class="btn btn-danger float-right">報名會員</button></a>
   </div>
   &nbsp;
 <!-- /.container-fluid -->

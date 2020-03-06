@@ -26,6 +26,6 @@ LOCK TABLES `Payment` WRITE;
 
 INSERT INTO `Payment` (`PaymentName`) VALUES ('信用卡');
 INSERT INTO `Payment` (`PaymentName`) VALUES ('ATM轉帳');
-INSERT INTO `Payment` (`PaymentName`) VALUES ('貨到附款');
+INSERT INTO `Payment` (`PaymentName`) VALUES ('貨到付款');
 
 UNLOCK TABLES;

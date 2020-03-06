@@ -15,7 +15,6 @@ if (isset($_POST["delete"])) {
     header("location= /RollinAdmin/Course/Student/1");
 }
 
-$
 
 
 

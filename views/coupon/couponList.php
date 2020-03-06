@@ -248,9 +248,16 @@ if (isset($_POST['key'])) {
   $data->keyword = $_POST['keywordbox'];
   $coupons  = $data->getCouponList($data);
 }
-
-
-
+if (isset($_SERVER['QUERY_STRING']) && strrpos($_SERVER['QUERY_STRING'], 'page') != false) {
+  $p = $_SERVER['QUERY_STRING'];
+  $page = '';
+  for ($i = strlen($p) - 1; $i >= 0; $i--) {
+    if ($p[$i] == '=') break;
+    $page = $p[$i] . $page;
+  }
+  echo $page;
+  // $page=substr($_SERVER['QUERY_STRING'], 4,$_SERVER['QUERY_STRING']);
+}
 require_once 'views/template/header.php';
 
 ?>
@@ -265,6 +272,12 @@ require_once 'views/template/header.php';
     cursor: pointer;
     outline: inherit;
   }
+
+  select {
+    border: 1px solid #d2d2d2;
+    padding: 3px;
+    /* text-align:center; */
+  }
 </style>
 <?php
 $pagenum = count($coupons);
@@ -276,7 +289,6 @@ if (isset($_POST['page']))
 <div class="container-fluid">
   <div class="card">
     <div class="card-header" style="width:100%;">
-
       <form method="post" action="">
         <div class="row mt-2">
           <div class="col-12" style="text-align:center;">
@@ -286,10 +298,12 @@ if (isset($_POST['page']))
             <button type="submit" class="btn btn-primary btn-sm" name='key'>查詢</button>
           </div>
           <!-- 條件式 -->
-          <div class="col-12 mt-2" style="text-align:center; ">
+          <div class="col-12 mt-2" style="text-align:center; vertical-align:middle ">
             <label for='keywordbox'>進階查詢&nbsp;&nbsp;</label>
             <select>
-              <option></option>
+              <option hidden selected>請選擇</option>
+              <option>編號</option>
+              <!-- <option></option> -->
             </select>
             <input type="textbox" name="Advancedkeywordbox">
             &nbsp;&nbsp;
@@ -500,7 +514,7 @@ if (isset($_POST['page']))
               echo "<td>" . $coupon->EndDate . "</td>";
               echo "<td>" . $coupon->ExpEndDate . "</td>";
               echo "<td>" . '<a href=/RollinAdmin/Coupon/Detail/' . $coupon->CouponID . '> <button type="button" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></button>' . "&nbsp;" . '</a>';
-              echo '<button name="deleteOne" value="' . $coupon->CouponID . '" type="submit" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button>' . "</td>";
+              echo '<button name="deleteOne" value="' . $coupon->CouponID . '" onclick="return deletealert();" type="submit" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button>' . "</td>";
               echo "</tr>";
             }
             ?>
@@ -533,10 +547,10 @@ if (isset($_POST['page']))
               if ($i == $page)
                 echo '<li class="page-item active"><span class="page-link">' . $i . '<span class="sr-only">(current)</span></span></li>';
               else
-                echo '<li class="page-item"><a class="page-link" href="#">' . $i . '</a></li>';
+                echo '<li class="page-item"><a class="page-link" href="/RollinAdmin/Coupon/List?page=' . $i . '">' . $i . '</a></li>';
             }
             if ($pagenum % ($showpageUB - $showpageLB + 1) > 0)
-              echo '<li class="page-item"><a class="page-link" href="#">' . (intval($pagenum / ($showpageUB - $showpageLB + 1)) + 1) . '</a></li>';
+              echo '<li class="page-item"><a class="page-link" href="/RollinAdmin/Coupon/List?page=' . (intval($pagenum / ($showpageUB - $showpageLB + 1)) + 1) . '">' . (intval($pagenum / ($showpageUB - $showpageLB + 1)) + 1) . '</a></li>';
             ?>
             <li class="page-item">
               <a class="page-link" href="#" aria-label="Next">
@@ -563,6 +577,10 @@ if (isset($_POST['page']))
         var checkbox = document.getElementById("CouponListCheckbox" + obj[id]['CouponID']);
         checkbox.checked = status;
       }
+    }
+
+    function deletealert() {
+      return confirm('是否確定刪除?\n註:擁有此券的使用者資料會一同刪除')
     }
   </script>
 

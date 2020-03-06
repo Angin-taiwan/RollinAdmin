@@ -26,7 +26,7 @@ require_once 'views/template/header.php';
       <?php echo '<h4 style="display:inline-block;">' . $coupons->CouponName . '</h4>' ?>
       <div style='float:right'>
         <a <?= 'href=/RollinAdmin/Coupon/User/' . $coupons->CouponID ?>><button name="use" class="btn btn-secondary btn-sm">領取/使用狀況</button></a>
-        <a <?= 'href=/RollinAdmin/Coupon/Update/' . $coupons->CouponID ?>><button name="edit" class="btn btn-info btn-sm">編輯</button></a>
+        <a <?= 'href=/RollinAdmin/Coupon/Update/' . $coupons->CouponID ?>><button name="edit" class="btn btn-primary btn-sm">編輯</button></a>
         <button class="btn btn-danger btn-sm" data-toggle="modal" data-target='#deleteAlert'>刪除</button>
       </div>
     </div>
@@ -55,7 +55,7 @@ require_once 'views/template/header.php';
       </table>
     </div>
     <div class="card-footer">
-      <a href=<?='/RollinAdmin/Coupon/List'?>><button class="btn btn-success float-right btn-sm">返回</button></a>
+      <a href=<?='/RollinAdmin/Coupon/List'?>><button class="btn btn-dark float-right btn-sm">返回</button></a>
     </div>
   </div>
 
@@ -80,9 +80,7 @@ require_once 'views/template/header.php';
 <!-- /.container-fluid -->
 
 <script>
-  function showAlert() {
 
-  }
 </script>
 
 

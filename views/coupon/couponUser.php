@@ -7,6 +7,8 @@ $pageTitle = "Coupon User";
 $pageDirTW = "折價券管理";
 $pageTitleTW = "折價券使用情況";
 
+$createErr = "";
+
 if ($data->id != 'all')
   $coupons = $data->getCouponUser($data->id);
 else
@@ -17,16 +19,47 @@ if (isset($_POST['createusercoupon'])) {
   $coupon = new Coupon();
   $coupon->UserID = $_POST['user'];
   $coupon->CouponID = $_POST['usercoupon'];
-  // echo $coupon->UserID.' '.$coupon->CouponID;
-  $coupon->CouponID = $data->createCouponUser($coupon);
-  header("Location: ../User/$data->id");
+  $result = $data->createCouponUser($coupon);
+
+  if ($result == 'error') {
+    $user = $data->getUserById($coupon->UserID);
+    $cou = $data->getCouponDetail($coupon->CouponID);
+    $createErr = '*' . $user->UserName . '已有"' . $cou->CouponName . '"折價券';
+  } else {
+    $createErr = '';
+    header("Location: ../User/$data->id");
+  }
+  // echo $result.' '.$createErr;
 }
 
+if (isset($_POST['delete'])) {
+  $arruser = array();
+  $arrcoupon = array();
+  if (!empty($_POST['check'])) {
+    foreach ($_POST['check'] as $check) {
+      echo $check;
+      array_push($arruser, $_POST['User' . $check]);
+      array_push($arrcoupon, $_POST['Coupon' . $check]);
+    }
+  }
+  $data->deleteUser($arruser, $arrcoupon);
+  header("Location: ../User/$data->id");
+  exit();
+}
+
+if (isset($_POST['deleteOne'])) {
+  $arruser = array();
+  $arrcoupon = array();
+  array_push($arruser, $_POST['User' . $_POST['deleteOne']]);
+  array_push($arrcoupon, $_POST['Coupon' . $_POST['deleteOne']]);
+  $data->deleteUser($arruser, $arrcoupon);
+  header("Location: ../User/$data->id");
+  exit();
+}
 
 
 require_once 'views/template/header.php';
 ?>
-
 
 <style>
   .theadbtn {
@@ -38,12 +71,23 @@ require_once 'views/template/header.php';
     cursor: pointer;
     outline: inherit;
   }
+
+  .error {
+    color: red;
+    font-size: 10pt;
+  }
+  .coupontable{
+    text-align:center;
+  }
+  .coupontable a{
+    color:black;
+  }
 </style>
 
 <div class="container-fluid">
   <div class="card">
     <div class="card-header">
-      <h4 style="display:inline-block; text-align:center">
+      <h4 style="display:inline;" class="my-auto">
         <?php
         if ($data->id != 'all') {
           $coupon = $data->getCouponDetail($data->id);
@@ -53,13 +97,13 @@ require_once 'views/template/header.php';
         }
         ?>
       </h4>
-      <vutton class="btn btn-info float-right btn-md" data-toggle="modal" data-target='#addusercoupon'>系統發送</button>
+      <button class="btn btn-primary float-right btn-md my-auto" onclick="showmodal();">系統發送</button>
     </div>
 
     <div class="card-body" style="overflow:auto;">
       <form method="post" action=''>
-        <button type="submit" class="btn btn-danger btn-sm mb-2" name="delete">刪除</button>
-        <table class="table table-bordered table-hover" style="width: auto; table-layout:fit-content; white-space: nowrap">
+        <button type="submit" class="btn btn-danger btn-sm mb-2" onclick="return deletealert();" name="delete">刪除</button>
+        <table class="table table-bordered table-hover coupontable" style="width: auto; table-layout:fit-content; white-space: nowrap">
           <thead>
             <tr>
               <th scope="col"><input type="checkbox" id='selectallcheckbox' onclick="selectall();"></th>
@@ -70,21 +114,26 @@ require_once 'views/template/header.php';
               ?>
               <th scope="col"><button class='theadbtn' name='thead' value="tid">會員&nbsp;</button></th>
               <th scope="col"><button class='theadbtn' name='thead' value="tid">訂單&nbsp;</button></th>
-              <th scope="col">刪除</th>
+              <th scope="col">管理</th>
             </tr>
           </thead>
           <tbody>
             <?php
+            $n = 0;
             foreach ($coupons as $coupon) {
+              $n++;
               echo "<tr>";
-              echo "<td><input type='checkbox' id = 'CouponListCheckbox" . $coupon->CouponID . "' name = 'check[]' value='" . $coupon->CouponID . "'></td>";
+              echo "<td><input type='checkbox' name = 'check[]' value='" . $n . "'id = 'UserCouponCheckbox" . $n . "'></td>";
               if ($data->id == 'all') {
-                echo "<td><a href='/RollinAdmin/Coupon/Detail/" . $coupon->CouponID . "'>" . $coupon->CouponName . "</a></td>";
-              }
-              echo "<td><a href='/RollinAdmin/User/Detail/" . $coupon->UserID . "'>" . $coupon->UserName . "</a></td>";
+                echo "<td><input type='hidden' name='Coupon" . $n . "' value='" . $coupon->CouponID . "'><a href='/RollinAdmin/Coupon/Detail/" . $coupon->CouponID . "'>" . $coupon->CouponName . "</a></td>";
+              } else
+                echo " <input type='hidden' name='Coupon" . $n . "' value='" . $coupon->CouponID . "'>";
+              echo "<td><input type='hidden' name='User" . $n . "' value='" . $coupon->UserID . "'><a href='/RollinAdmin/User/Detail/" . $coupon->UserID . "'>" . $coupon->UserName . "</a></td>";
               echo "<td><a href='/RollinAdmin/Order/Detail/" . $coupon->OrderID . "'>" . $coupon->OrderID . "</a></td>";
               echo "<td>";
-              echo '<button name="deleteOne" value="' . $coupon->CouponID . '" type="submit" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button>' . "</td>";
+              // echo '<button name="edit" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></button>';
+              // echo '&nbsp;';
+              echo '<button name="deleteOne" onclick="return deletealert();"value="' . $n . '" type="submit" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button>' . "</td>";
               echo "</tr>";
             }
             ?>
@@ -96,21 +145,21 @@ require_once 'views/template/header.php';
     <div class="card-footer">
       <?php
       if ($data->id == 'all')
-        echo '<a href=/RollinAdmin/Coupon/List><button class="btn btn-success float-right btn-sm">返回</button></a>';
+        echo '<a href=/RollinAdmin/Coupon/List><button class="btn btn-dark float-right btn-sm">返回</button></a>';
       else
-        echo '<a href=/RollinAdmin/Coupon/Detail/' . $data->id . '><button class="btn btn-success float-right btn-sm">返回</button></a>';
+        echo '<a href=/RollinAdmin/Coupon/Detail/' . $data->id . '><button class="btn btn-dark float-right btn-sm">返回</button></a>';
       ?>
 
     </div>
   </div>
 
-  <div class='modal' id='addusercoupon'>
+  <div class='modal' id='addusercoupon' style="display: none;">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
           <span>折價券發送</span>
-          <button type="button" class="close" data-dismiss="modal">
-            <span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+          <button type="button" class="close">
+            <span aria-hidden="true" onclick='showmodal();'>&times;</span><span class="sr-only">Close</span></button>
         </div>
         <form method='post'>
           <div class="modal-body">
@@ -133,21 +182,54 @@ require_once 'views/template/header.php';
               else {
                 $allcoupons = $data->getAll();
                 foreach ($allcoupons as $allcoupon) {
-                  echo '<option value="' . $allcoupon->CouponID . '" selected>' . $allcoupon->CouponName . '</option>';
+                  echo '<option value="' . $allcoupon->CouponID . '" >' . $allcoupon->CouponName . '</option>';
                 }
               }
               ?>
             </select>
-
+            <span class="error"><?php if ($createErr != '') echo '<br>';
+                                echo $createErr; ?></span>
           </div>
           <div class="modal-footer">
-            <button type="submit" class="btn btn-success btn-sm" name='createusercoupon'>新增</button>
-            <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">取消</button>
+            <button type="submit" class="btn btn-primary btn-sm" name='createusercoupon'>新增</button>
+            <button type="button" class="btn btn-default btn-sm" onclick='showmodal();'>取消</button>
           </div>
         </form>
       </div>
     </div>
   </div>
+
+  <?php
+  if ($createErr != '') {
+    echo "<script>
+    var modal = document.getElementById('addusercoupon');
+    modal.style.display = 'block';
+    </script>";
+  }
+  ?>
+  <script>
+    function deletealert() {
+      return confirm('是否確定刪除?\n註:擁有此券的使用者資料會一同刪除')
+    }
+
+    function selectall() {
+      var allornot = document.getElementById("selectallcheckbox");
+      var status = allornot.checked;
+      var obj = JSON.parse('<?php echo json_encode($coupons) ?>');
+      for (i = 1; i <= Object.keys(obj).length; i++) {
+        var checkbox = document.getElementById("UserCouponCheckbox" + i);
+        checkbox.checked = status;
+      }
+    }
+
+    function showmodal() {
+      var modal = document.getElementById('addusercoupon');
+      if (modal.style.display == 'none')
+        modal.style.display = 'block';
+      else
+        modal.style.display = 'none';
+    }
+  </script>
 </div>
 <!-- /.container-fluid -->
 

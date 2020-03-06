@@ -43,4 +43,10 @@ class CouponController extends Controller
     $coupon=$this->model("Coupon");
     $this->view("coupon/couponTypeDetail", $coupon);
   }
+
+  function typeupdate($id){
+    $coupon = $this->model("Coupon");
+    $coupon->id = $id;
+    $this->view("coupon/couponTypeUpdate", $coupon);
+  }
 }

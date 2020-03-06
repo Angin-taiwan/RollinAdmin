@@ -8,17 +8,38 @@ $pageTitleTW = "會員詳細資料";
 
 $user = $data->getUserById($data->id); 
 
+//性別轉中文
+$chGender = $user->Gender;
+switch($chGender){
+  case "F":  
+    $chGender = "女";
+    break;
+  case "M":
+    $chGender = "男";
+    break;
+  case "U":
+    $chGender = "其他";
+    break;
+}
+
 require_once 'views/template/header.php';
 
 ?>
+
+<style>
+  th {
+    color: #ffffff;
+    background-color: #5289AE;
+  }
+</style>
 
 
 <div class="container-fluid">
   <div class="col-md-8 mx-auto">
     <div class="card p-3">
       <div class="card-body">
-        <table class="table table-bordered table-hover table-sm">
-          <thead class="table-info">
+        <table class="table table-bordered table-hover ">
+          <thead>
             <tr>
               <th>欄位</th>
               <th>資料</th>
@@ -39,7 +60,7 @@ require_once 'views/template/header.php';
             </tr>
             <tr>
               <td>性別</td>
-              <td><?= $user->Gender?></td>            
+              <td><?= $chGender?></td>            
             </tr>
             <tr>
               <td>生日</td>
@@ -56,10 +77,6 @@ require_once 'views/template/header.php';
             <tr>
               <td>國家</td>
               <td><?= $user->Country?></td>            
-            </tr>
-            <tr>
-              <td>郵遞區號</td>
-              <td><?= $user->PostalCode?></td>            
             </tr>
             <tr>
               <td>地址</td>

@@ -34,6 +34,13 @@ class CourseController extends Controller {
     $Course->id = $id;
     $this->view("Course/CourseList", $Course);
   }
+  
+  function student($id) {
+    $Course = $this->model("Course");
+    $Course->id = $id;
+    $this->view("Course/CourseStudent", $Course);
+  }
+
 }
 
 ?>

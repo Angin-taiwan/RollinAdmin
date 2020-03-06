@@ -21,3 +21,11 @@ CREATE TABLE `MarketingType`(
 --
 -- Dumping data for table `MarketingType`
 --
+
+LOCK TABLES `MarketingType` WRITE;
+
+INSERT INTO MarketingType (MarketingTypeName) VALUES ("全店免運");
+INSERT INTO MarketingType (MarketingTypeName) VALUES ("全店滿額免運");
+
+
+UNLOCK TABLES;

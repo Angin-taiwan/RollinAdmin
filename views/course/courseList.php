@@ -2,15 +2,21 @@
 
 $pageDir = "Course";
 $pageTitle = "Course List";
+//中文化
+$pageDirTW = "課程管理";
+$pageTitleTW = "課程清單";
+
 $CourseGet = $data->getAll();
 $Course = new Course();
 
+//刪除按鈕
 if (isset($_POST["delete"])) {
   $Course->CourseID = $_POST["delete"];
   $data->delete([$Course->CourseID]);
   header("location= /RollinAdmin/course/List");
 }
 
+//checkbox勾選刪除
 if (isset($_POST["checkedDeleteBtn"])) {
   $arr = array();
   foreach ($_POST['items'] as $check) {
@@ -20,6 +26,26 @@ if (isset($_POST["checkedDeleteBtn"])) {
   $data->delete($arr);
   header("location: /RollinAdmin/course/List");
 }
+
+//搜尋
+if (isset($_POST['searchButton'])) {
+  $searchTerm = $_POST['keyword'];
+  $newsGet = $data->search($searchTerm);   // 欄位名字 , 要跟輸出名字一致
+}
+
+// get set querystring
+parse_str($_SERVER['QUERY_STRING'], $query);
+$pageSize = isset($query["pageSize"]) ? ($query["pageSize"]) : 3;
+$keyword = isset($query["keyword"]) ? $query["keyword"] : "";
+$pageNo = isset($query["pageNo"]) ? $query["pageNo"] : 1;
+
+// // for pagination
+$pageStartIndex = ($pageNo - 1) * $pageSize;
+$CourseTotal = get_object_vars($data->getAllCount())["Total"]; // 所有資料筆數
+$CourseGet = $keyword == "" ? $data->getAllpage($pageStartIndex, $pageSize) : $data->getAllLike($keyword, $pageStartIndex, $pageSize);
+//當沒有收尋的時候 顯示所有資料 , 有收尋就合併所收尋關鍵字的資料^^^
+$CourseCount = $keyword == "" ? $CourseTotal : get_object_vars($data->getAllLikeCount($keyword))["Count"];
+$pagesCount = ceil((int) $CourseCount / (int) $pageSize);
 
 require_once 'views/template/header.php';
 
@@ -45,6 +71,7 @@ require_once 'views/template/header.php';
   }
 
   th {
+    color: #ffffff;
     background-color: #5289AE;
   }
 
@@ -53,64 +80,70 @@ require_once 'views/template/header.php';
   }
 </style>
 
+<div class="container-fluid">
+  <div class="card">
+    <div class="card-header">
+      <form method="get" action="">
+        <div class="form-group d-flex align-items-end">
+          <label class="float-left mr-2" for="pageSize">每頁顯示多少筆 : </label>
+          <select style="width:80px" name="pageSize" class="form-control mr-2" onchange="this.form.submit()">
+            <option value="3" <?= ($pageSize == "3") ? "selected=selected" : ""; ?>>3</option>
+            <option value="5" <?= ($pageSize == "5") ? "selected=selected" : ""; ?>>5</option>
+            <option value="10" <?= ($pageSize == "10") ? "selected=selected" : ""; ?>>10</option>
+          </select>
+          <label>共有 : <?= $CourseTotal ?> 筆資料</label>
+        </div>
 
-<div class="form-group">
-  <label>每頁顯示多少筆 : </label>
-  <select>
-    <option name="pageSize" class="form-control"></option>
-  </select>
-</div>
+        <div class="float-right form-group d-flex">
+          <input class="form-control mr-2" type="text" placeholder="search" name="keyword">
+          <input type="submit" class="btn btn-dark" value="搜尋" name="searchButton" onchange="this.form.submit()">
+          <br>
+        </div>
+      </form>
 
 
-
-
-<form method="post" action="course/List">
-  <div>
-    <input type="button" class="btn btn-outline-info" id="checkedAllBtn" value="全選">
-    <input type="button" class="btn btn-outline-info" id="checkedNoBtn" value="全消">
-    <input type="button" class="btn btn-outline-info" id="checkedRevBtn" value="反選">
-    <input type="submit" class="btn btn-outline-danger" id="checkedDeleteBtn" name="checkedDeleteBtn" value="勾選刪除" onclick="return confirm('是否確認刪除勾選資料')">
-    <div class="float-right form-group">
-      <input type="text" placeholder="search" name="keyword">
-      <input type="submit" class="btn btn-dark" value="搜尋" name="searchButton">
-      <br>
+      <form method="post" action="course/List">
+        <div>
+          <input type="button" class="btn btn-outline-info" id="checkedAllBtn" value="全選">
+          <input type="button" class="btn btn-outline-info" id="checkedNoBtn" value="全消">
+          <input type="button" class="btn btn-outline-info" id="checkedRevBtn" value="反選">
+          <input type="submit" class="btn btn-outline-danger" id="checkedDeleteBtn" name="checkedDeleteBtn" value="勾選刪除" onclick="return confirm('是否確認刪除勾選資料')">
+        </div>
     </div>
-  </div>
 
-  <div class="container-fluid">
-    <table class="table table-hover">
-      <thead>
-        <tr>
-          <th type="checkbox" width="3%"></th>
-          <th width="8%">CourseID</th>
-          <th width="8%">Title</th>
-          <th>Description</th>
-          <th width="7%">Price</th>
-          <th width="10%">StartDate</th>
-          <th width="10%">EndDate</th>
-          <th width="10%">CreateDate</th>
-          <th width="10%">UpdateDate</th>
-          <th>功能</th>
-        </tr>
-      </thead>
+    <div class="card-body">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th width="3%"><input type="checkbox" id="checkedBtn" onclick="checkedAll()"></th>
+            <th width="8%">CourseID</th>
+            <th width="8%">Title</th>
+            <th>Description</th>
+            <th width="7%">Price</th>
+            <th width="10%">StartDate</th>
+            <th width="10%">EndDate</th>
+            <th width="10%">CreateDate</th>
+            <th width="10%">UpdateDate</th>
+            <th>功能</th>
+          </tr>
+        </thead>
+        <tbody>
+          <?php
 
-      <tbody>
-        <?php
-
-        foreach ($CourseGet as $Course) {
-          echo "<tr>";
-          echo "<td>
+          foreach ($CourseGet as $Course) {
+            echo "<tr>";
+            echo "<td>
                 <input type='checkbox' id='check' name='items[]' value='" . $Course->CourseID . "'>
                 </td>";
-          echo "<td>" .  $Course->CourseID . "</td>";
-          echo "<td>" .  $Course->Title . "</td>";
-          echo "<td class='col1'>" .  $Course->Description . "</td>";
-          echo "<td>" .  '$ ' . $Course->Price . "</td>";
-          echo "<td>" .  $Course->StartDate . "</td>";
-          echo "<td>" .  $Course->EndDate . "</td>";
-          echo "<td>" .  $Course->CreateDate . "</td>";
-          echo "<td>" .  $Course->UpdateDate . "</td>";
-          echo "<td> 
+            echo "<td>" .  $Course->CourseID . "</td>";
+            echo "<td>" .  $Course->Title . "</td>";
+            echo "<td class='col1'>" .  $Course->Description . "</td>";
+            echo "<td>" .  '$ ' . $Course->Price . "</td>";
+            echo "<td>" .  $Course->StartDate . "</td>";
+            echo "<td>" .  $Course->EndDate . "</td>";
+            echo "<td>" .  $Course->CreateDate . "</td>";
+            echo "<td>" .  $Course->UpdateDate . "</td>";
+            echo "<td> 
                 <a href='/RollinAdmin/Course/Detail/$Course->CourseID' class='btn btn-info'><i class='fa fa-search'></i></a>
 
                 <a href='/RollinAdmin/Course/Update/$Course->CourseID' class='btn btn-secondary'>
@@ -119,18 +152,44 @@ require_once 'views/template/header.php';
                 <button class='btn btn-danger' type='submit' name='delete' value=' " . $Course->CourseID . " '> <i class='fa fa-trash'>&nbsp</i></button>
                 </td>";
 
-          echo "</tr>";
-        }
-        ?>
+            echo "</tr>";
+          }
+          ?>
 
-      </tbody>
-    </table>
-    <tfoot>
-    </tfoot>
+        </tbody>
+      </table>
+      <div class="row mt-4">
+        <nav aria-label="Page navigation" class="m-auto">
+          <ul class="pagination">
+            <?php
+            if ($pagesCount > 1) {
+              $queryString = "?";
+              if ($pageSize != "") {
+                $queryString .= "pageSize" . $pageSize;
+              };
+              if ($keyword != "") {
+                $queryString .= "&keyword=$keyword";
+              };
+              $prevous = $pageNo - 1;
+              $next = $pageNo + 1;
+              $prevousDisabled = $prevous <= 0 ? "disabled" : "";
+              $nextDisabled = $next > $pagesCount ? "disabled" : "";
+              echo "<li class='page-item $prevousDisabled'><a class='page-link' href='./Course/List/$queryString&pageNo=$prevous'>上一頁</a></li>";
+              for ($i = 1; $i <= $pagesCount; $i++) {
+                echo "<li class='page-item'><a class='page-link' href='./Course/List/$queryString&pageNo=$i'>$i</a></li>";
+              }
+              echo "<li class='page-item $nextDisabled'><a class='page-link' href='./Course/List/$queryString&pageNo=$next'>下一頁</a></li>";
+            }
+            ?>
+          </ul>
+        </nav>
+      </div>
+    </div>
+    </form>
   </div>
-</form>
+</div>
+</div>
 <!-- /.container-fluid -->
-
 <?php
 
 require_once 'views/template/footer.php';
@@ -139,7 +198,20 @@ require_once 'views/template/footer.php';
 
 <script>
   let items = document.getElementsByName("items[]");
+  
+//全選全消checked
+  function checkedAll() {
+        let checkedBtn = document.getElementById("checkedBtn").checked;
+        for (let i = 0; i < items.length; i++) {
+          if (checkedBtn == true) {
+            items[i].checked = true;
+          } else {
+            items[i].checked = false;
+          }
+        }
+      }
 
+//全選按鈕
   let checkedAllBtn = document.getElementById("checkedAllBtn");
   checkedAllBtn.onclick = function() {
     for (let i = 0; i < items.length; i++) {
@@ -147,6 +219,7 @@ require_once 'views/template/footer.php';
     }
   }
 
+//全消按鈕
   let checkedNoBtn = document.getElementById("checkedNoBtn");
   checkedNoBtn.onclick = function() {
     for (let i = 0; i < items.length; i++) {
@@ -154,6 +227,7 @@ require_once 'views/template/footer.php';
     }
   }
 
+//反選按鈕
   let checkedRevBtn = document.getElementById("checkedRevBtn");
   checkedRevBtn.onclick = function() {
     for (let i = 0; i < items.length; i++) {

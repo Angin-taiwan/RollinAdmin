@@ -14,10 +14,10 @@ DROP TABLE IF EXISTS `Favorite`;
 
 CREATE TABLE `Favorite`(
    UserID      INT   NOT NULL,
-   ProductID   INT   NOT NULL, 
-   SizeID      INT   NOT NULL ,  
+   ProductID   INT   NOT NULL,
+   SizeID      INT   NOT NULL ,
    ColorID     INT   NOT NULL,
-   PRIMARY KEY ( UserID, ProductID, SizeID, ColorID ) 
+   PRIMARY KEY ( UserID, ProductID, SizeID, ColorID )
 );
 
 --

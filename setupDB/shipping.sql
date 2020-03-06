@@ -12,10 +12,10 @@ use Rollin;
 
 DROP TABLE IF EXISTS `Shipping`;
 
-CREATE TABLE `rollin`.`shipping` ( 
-  `ShippingID`      INT             NOT NULL    AUTO_INCREMENT, 
-  `ShippingName`    VARCHAR(20)     NOT NULL, 
-  `ShippingPrice`   INT             NOT NULL    , 
+CREATE TABLE `rollin`.`shipping` (
+  `ShippingID`      INT             NOT NULL    AUTO_INCREMENT,
+  `ShippingName`    VARCHAR(20)     NOT NULL,
+  `ShippingPrice`   INT             NOT NULL    ,
   PRIMARY KEY (`ShippingID`)
 );
 

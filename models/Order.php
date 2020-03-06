@@ -23,16 +23,29 @@ class Order extends DB {
     )[0];
   }
 
-  function getAllLike($OrderID, $startIndex = 0, $pageSize = 3) {
+  function getAllLike($OrderID, $startDate , $endDate , $startIndex = 0, $pageSize = 3) {
     return $this->selectDB(
       "SELECT O.*, U.UserName, Pay.PaymentName, P.ProductName FROM `Order` O 
       join `User` U on (U.UserId = O.UserId)
       join Orderdetail Od on (Od.OrderID   = O.OrderID)
       join Product P on (P.ProductID = Od.ProductID)
       join Payment Pay on (Pay.PaymentID = O.PaymentID)
-      WHERE UserName LIKE CONCAT('%',?,'%') ORDER BY OrderID ASC LIMIT ?, ? ;",
-      [$OrderID, $startIndex, $pageSize]
+      WHERE UserName LIKE CONCAT('%',?,'%')
+      and OrderDate >= ? AND OrderDate <= ? ORDER BY OrderID ASC LIMIT ?, ? ;",
+      [$OrderID, $startDate , $endDate , $startIndex, $pageSize]
     );
+  }
+
+  function getOrderByorderdate($startDate,$endDate) {
+    return $this->selectDB("SELECT * FROM `Order` O
+    join User      U on (U.UserID    = O.UserID)
+    join Payment   Pay on (Pay.PaymentID = O.PaymentID)
+    join recipient r on (r.OrderID   = O.OrderID)
+    join Orderdetail Od on (Od.OrderID   = O.OrderID)
+    join Product P on (P.ProductID = Od.ProductID)
+    join shipping      S on (S.shippingID    = O.shippingID)
+    WHERE OrderDate <= ?
+      AND OrderDate >= ? ;", [$startDate,$endDate]);
   }
     
 
@@ -59,17 +72,7 @@ class Order extends DB {
     WHERE O.OrderID = ? ;", [$id])[0];
   }
 
-  function getOrderByorderdate($timestar,$timeend) {
-    return $this->selectDB("SELECT * FROM `Order` O
-    join User      U on (U.UserID    = O.UserID)
-    join Payment   Pay on (Pay.PaymentID = O.PaymentID)
-    join recipient r on (r.OrderID   = O.OrderID)
-    join Orderdetail Od on (Od.OrderID   = O.OrderID)
-    join Product P on (P.ProductID = Od.ProductID)
-    join shipping      S on (S.shippingID    = O.shippingID)
-    WHERE OrderDate <= ?
-      AND OrderDate >= ? ;", [$timestar,$timeend]);
-  }
+
 
   function create($Order) {
     return $this->insertDB(
@@ -78,8 +81,21 @@ class Order extends DB {
     );
   }
 
-
-  //還沒做好
+  function updatechecked($id) {
+    return $this->updateDB(
+      "UPDATE `Order` SET CheckedDate = ? where orderID = ? ",
+      [date("Y-m-d h:i:sa"), $id]
+      // ["$brand->BrandName", "$brand->Description", $brand->BrandID]
+    );
+  }
+  function updateCancel($id) {
+    return $this->updateDB(
+      "UPDATE `Order` SET CancelDate = ? where orderID = ? ",
+      [date("Y-m-d h:i:sa"), $id]
+      // ["$brand->BrandName", "$brand->Description", $brand->BrandID]
+    );
+  }
+  
   function updateshipping($id) {
     return $this->updateDB(
       "UPDATE `Order` SET ShippedDate = ? where orderID = ? ",

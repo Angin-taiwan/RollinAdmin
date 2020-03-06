@@ -88,7 +88,7 @@ a.bs-wizard-dot.yellow::after {
   box-shadow: none;
   background: #abe0ed;
 }
-  
+
 .bs-wizard-step.complete > .progress > .progress-bar {
   width: 100%;
 }
@@ -99,25 +99,25 @@ a.bs-wizard-dot.yellow::after {
 
 .bs-wizard-step.disabled > .bs-wizard-dot:after {
   opacity: 0;
-} 
+}
 
 .bs-wizard-step > .progress > .current {
   width: 50% !important;
 }
-  
+
 </style>
 
 <div class="container-fluid">
   <div class="card">
-    <h5 class="card-header">訂單資訊</h5>
+    <h5 class="card-header">訂單狀態</h5>
     <div class="card-body">
-      <h5 class="card-title">訂單狀態</h5>
-      <div id="progress-wrap" class="row">
-        <!-- progressbar -->
+      <!-- <h5 class="card-title">訂單狀態</h5> -->
+      <div id="progress-wrap my-auto">
+        <div class="row">
         <?php
           foreach($order_status as $status => $date) {
             $complete = is_null($date) ? "disabled" : "complete";
-            echo "<div class='col-xs-3 col-sm-3 col-md-3 col-lg-3 bs-wizard-step $complete'>";
+            echo "<div class='col-xs-3 col-sm-3 col-md-3 col-lg-3 col-xl-3 bs-wizard-step $complete'>";
             echo "<div class='text-center bs-wizard-stepnum'>$status</div>";
             echo "<div class='progress'>";
             echo "<div class='progress-bar'></div>";
@@ -127,6 +127,7 @@ a.bs-wizard-dot.yellow::after {
             echo "</div>";
           }
         ?>
+        </div>
       </div>
       <hr>
       <div id="accordion">
@@ -185,13 +186,13 @@ a.bs-wizard-dot.yellow::after {
         <div class="card">
           <div class="card-header" id="headingTwo">
             <h5 class="mb-0">
-              <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+              <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo show">
                 收件者資訊
               </button>
-              <a class="btn btn-outline-dark float-right" href="/RollinAdmin/User/Detail/<?=$order->UserID?>">訂購者資訊</a>
+              <a class="btn btn-outline-primary float-right" href="/RollinAdmin/User/Detail/<?=$order->UserID?>">訂購者資訊</a>
             </h5>
           </div>
-          <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo">
+          <div id="collapseTwo" class="collapse show" aria-labelledby="headingTwo">
             <div class="card-body px-5">
               <dl class="row">
                 <dt class="col-sm-3">姓名</dt>
@@ -205,7 +206,7 @@ a.bs-wizard-dot.yellow::after {
                 <dt class="col-sm-3">縣市</dt>
                 <dd class="col-sm-9"><?= $order->RecipientCity ?></dd>
                 <dt class="col-sm-3">地址</dt>
-                <dd class="col-sm-9"><?= $order->RecipientAddress ?></dd>                
+                <dd class="col-sm-9"><?= $order->RecipientAddress ?></dd>
               </dl>
             </div>
           </div>

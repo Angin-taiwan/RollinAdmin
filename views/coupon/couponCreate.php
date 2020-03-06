@@ -3,6 +3,10 @@
 $pageDir = "Coupon";
 $pageTitle = "Coupon Create";
 
+// breadcrumb 中文化
+$pageDirTW = "折價券管理";
+$pageTitleTW = "折價券新增";
+
 require_once 'views/template/header.php';
 
 $coupon = new Coupon();

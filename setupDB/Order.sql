@@ -25,20 +25,20 @@ CREATE TABLE `Order` (
    `MarketingID`   VARCHAR(20)              DEFAULT NULL ,
    `CouponID`      VARCHAR(20)              DEFAULT NULL ,
    `FinalPrice`    INT         NOT NULL ,
-   PRIMARY KEY ( OrderID )
+   PRIMARY KEY ( `OrderID` )
 );
 
 --
 -- Dumping data for table `Order`
 --
 
-LOCK TABLES `Order` WRITE;
+-- LOCK TABLES `Order` WRITE;
 
 INSERT INTO `Order`
-(UserID, PaymentID, ShippingID, OrderDate, CheckedDate, ShippedDate, DeliverDate, CancelDate, MarketingID, CouponID, FinalPrice) VALUES 
+(`UserID`, `PaymentID`, `ShippingID`, `OrderDate`, `CheckedDate`, `ShippedDate`, `DeliverDate`, `CancelDate`, `MarketingID`, `CouponID`, `FinalPrice`) VALUES 
 (1, 1, 2, NOW(), NULL, NULL, NULL, NULL, NULL, NULL, 7580),
 (2, 2, 1, NOW(), NOW(), NULL, NULL, NULL, NULL, NULL, 1003),
 (3, 3, 2, NOW(), NOW(), NOW(), NULL, NULL, NULL, NULL, 3333),
 (4, 4, 1, NOW(), NOW(), NOW(), NOW(), NULL, NULL, NULL, 4444);
 
-UNLOCK TABLES;
+-- UNLOCK TABLES;

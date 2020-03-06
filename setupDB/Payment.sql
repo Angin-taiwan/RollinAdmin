@@ -12,9 +12,9 @@ use Rollin;
 
 DROP TABLE IF EXISTS `Payment`;
 
-CREATE TABLE `rollin`.`Payment` ( 
-   `PaymentID`       INT            NOT NULL      AUTO_INCREMENT, 
-   `PaymentName`     VARCHAR(20)    NOT NULL, 
+CREATE TABLE `rollin`.`Payment` (
+   `PaymentID`       INT            NOT NULL      AUTO_INCREMENT,
+   `PaymentName`     VARCHAR(20)    NOT NULL,
    PRIMARY KEY (`PaymentID`)
 );
 

@@ -14,11 +14,11 @@ DROP TABLE IF EXISTS `Review`;
 
 CREATE TABLE `Review`(
    ProductID      INT            NOT NULL,
-   UserID         INT            NOT NULL, 
-   Star           INT            NOT NULL,  
-   CommentTitle   VARCHAR(20)    NOT NULL, 
+   UserID         INT            NOT NULL,
+   Star           INT            NOT NULL,
+   CommentTitle   VARCHAR(20)    NOT NULL,
    CommentContent VARCHAR(500),
-   CommentDate    DATETIME       NOT NULL   DEFAULT CURRENT_TIMESTAMP, 
+   CommentDate    DATETIME       NOT NULL   DEFAULT CURRENT_TIMESTAMP,
    PRIMARY KEY ( ProductID, UserID )
 );
 

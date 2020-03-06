@@ -18,10 +18,30 @@ class Product extends DB {
       "SELECT COUNT(*) as Total FROM product;"
     )[0];
   }
+// 搜尋+計數
+function getAllLikeCount($whatyouwhant) {
+  return $this->selectDB(
+    "SELECT COUNT(*) Count FROM product WHERE ProductName LIKE CONCAT('%',?,'%') ;",
+    [$whatyouwhant]
+  )[0];
+}
+function getAllLike($ProductName) {
+  // $sort = $sort == "DESC" ? "DESC" : "ASC"; 
+  // $column_white_list = ['ProductID','ProductName','Description'];
+  // $column = in_array($column, $column_white_list) ? $column : $column_white_list[0];
+  return $this->selectDB(
+    "SELECT *, ps.ProductID P_ID,SUM(UnitInStock) TotalStock from productstock as ps 
+    right outer join Product as p on p.ProductID = ps.ProductID   
+    left outer join brand as b on p.BrandID = b.BrandID           
+    left outer join category as c on p.CategoryID = c.CategoryID   
+          WHERE ProductName LIKE CONCAT('%',?,'%') GROUP BY p.ProductID ;",
+    [$ProductName]
+  );
+}
 // List
   function getAll(){
     return $this->selectDB(
-      "select *, ps.ProductID P_ID,SUM(UnitInStock) TotalStock from productstock as ps -- 庫存
+      "SELECT *, ps.ProductID P_ID,SUM(UnitInStock) TotalStock from productstock as ps -- 庫存
       right outer join Product as p on p.ProductID = ps.ProductID    -- 商品
 			left outer join brand as b on p.BrandID = b.BrandID            -- 品牌
 			left outer join category as c on p.CategoryID = c.CategoryID   -- 類別

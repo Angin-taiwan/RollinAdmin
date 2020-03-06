@@ -5,9 +5,7 @@ $pageTitle = "Product List";
 
 require_once 'views/template/header.php';
 
-#拿資料________________________________
-$products = $data->getAll();
-#______________________________________
+
 
 // get set querystring
 parse_str($_SERVER['QUERY_STRING'], $query);
@@ -39,12 +37,15 @@ $up_or_down = str_replace(array('ASC','DESC'), array('up','down'), $sort);
 $asc_or_desc = $sort == 'ASC' ? 'desc' : 'asc';
 
 // for pagination
-// $pageStartIndex = ($pageNo - 1) * $pageSize;
-$ProductsTotal = get_object_vars($data->getAllCount())["Total"];
-$ProductsCount = $ProductName == "" ? $ProductsTotal : get_object_vars($data->getAllLikeCount($ProductName))["Count"];
-// $pagesCount = ceil((int) $ProductsCount / (int) $pageSize);
+$pageStartIndex = ($pageNo - 1) * $pageSize;
+$ProductsTotal = $data->getAllCount()->Total;
+$ProductsCount = $ProductName == "" ? $ProductsTotal : $data->getAllLikeCount($ProductName)->Count;
+$pagesCount = ceil((int) $ProductsCount / (int) $pageSize);
 
-
+#拿資料________________________________
+// $products = $data->getAll();
+$products = $data->getAllLike($ProductName, $column, $sort, $pageStartIndex, $pageSize);
+#______________________________________
 ?>
 
 
@@ -105,13 +106,13 @@ function checkbox() {
             </label>
           </div>
           <div class="col-3">
-            <input type="text" name="brandName" class="form-control float-right" placeholder="輸入品牌名稱搜尋" value="<?= $ProductName ?>" onchange="this.form.submit()">
+            <input type="text" name="ProductName" class="form-control float-right" placeholder="輸入品牌名稱搜尋" value="<?= $ProductName ?>"  >
 
           </div>
           <div class="col-3">
           <input type="submit" class="btn btn-dark" value="搜尋" name="searchButton">
-            <label class="col-form-label" style="display: ;">"搜尋到：XXX 個品牌"
-              <!-- <?= "搜尋到：$brandsCount 個品牌" ?> -->
+            <label class="col-form-label" style="display: ;">
+              <?= "搜尋到：$ProductsCount 個項目" ?> 
             </label>
           </div>
         </div>

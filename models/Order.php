@@ -23,18 +23,22 @@ class Order extends DB {
     )[0];
   }
 
-  function getAllLike($OrderID, $startDate , $endDate , $startIndex = 0, $pageSize = 3) {
+  function getAllLike($UserName, $startDate, $endDate, $startIndex = 0, $pageSize = 3) {
+    var_dump($startDate);
+    var_dump($endDate);
     return $this->selectDB(
       "SELECT O.*, U.UserName, Pay.PaymentName, P.ProductName FROM `Order` O 
       join `User` U on (U.UserId = O.UserId)
       join Orderdetail Od on (Od.OrderID   = O.OrderID)
       join Product P on (P.ProductID = Od.ProductID)
       join Payment Pay on (Pay.PaymentID = O.PaymentID)
-      WHERE UserName LIKE CONCAT('%',?,'%')
-      and OrderDate >= ? AND OrderDate <= ? ORDER BY OrderID ASC LIMIT ?, ? ;",
-      [$OrderID, $startDate , $endDate , $startIndex, $pageSize]
+      WHERE UserName LIKE CONCAT('%$UserName%')  
+      and OrderDate >= '$startDate' AND OrderDate <= '$endDate'
+      ORDER BY OrderID ASC LIMIT $startIndex, $pageSize ;",
+     
     );
   }
+  // -- and OrderDate >= '?' AND OrderDate <= '?' 
 
   function getOrderByorderdate($startDate,$endDate) {
     return $this->selectDB("SELECT * FROM `Order` O
@@ -81,13 +85,29 @@ class Order extends DB {
     );
   }
 
+
+
+  //理貨時間相關
+
   function updatechecked($id) {
     return $this->updateDB(
-      "UPDATE `Order` SET CheckedDate = ? where orderID = ? ",
-      [date("Y-m-d h:i:sa"), $id]
+      "UPDATE `Order` SET CheckedDate = current_timestamp() where orderID = $id ",
       // ["$brand->BrandName", "$brand->Description", $brand->BrandID]
     );
   }
+
+  function checkedupdatechecked($ids = []) {
+    if (empty($ids)) {return "error: ids is empty";}
+    return $this->deleteDB(
+      "UPDATE `Order` SET checkedDate = current_timestamp() where orderID in (" . str_repeat("?,", count($ids) -1) . "?);",
+      $ids);
+  }
+
+
+
+
+  //取消訂單相關
+
   function updateCancel($id) {
     return $this->updateDB(
       "UPDATE `Order` SET CancelDate = ? where orderID = ? ",
@@ -95,14 +115,35 @@ class Order extends DB {
       // ["$brand->BrandName", "$brand->Description", $brand->BrandID]
     );
   }
+  function checkedupdatecancel($ids = []) {
+    if (empty($ids)) {return "error: ids is empty";}
+    return $this->deleteDB(
+      "UPDATE `Order` SET CancelDate = current_timestamp() where orderID in (" . str_repeat("?,", count($ids) -1) . "?);",
+      $ids);
+  }
   
+
+
+
+  //出貨訂單相關
+  function checkedupdateshipping($ids = []) {
+    if (empty($ids)) {return "error: ids is empty";}
+    return $this->deleteDB(
+      "UPDATE `Order` SET ShippedDate = current_timestamp() where orderID in (" . str_repeat("?,", count($ids) -1) . "?);",
+      $ids);
+  }
+
   function updateshipping($id) {
     return $this->updateDB(
-      "UPDATE `Order` SET ShippedDate = ? where orderID = ? ",
-      [date("Y-m-d h:i:sa"), $id]
+      "UPDATE `Order` SET ShippedDate = current_timestamp() where orderID = ? ",
+      [$id]
       // ["$brand->BrandName", "$brand->Description", $brand->BrandID]
     );
   }
+
+
+
+
 
   function delete($ids = []) {
     if (empty($ids)) {return "error: ids is empty";}

@@ -7,7 +7,8 @@ class CategoryController extends Controller {
   }
 
   function list() {
-    $this->view("category/categoryList");
+    $category = $this->model("Category");
+    $this->view("category/categoryList", $category);
   }
 
   function create() {
@@ -19,6 +20,7 @@ class CategoryController extends Controller {
     $category->id = $id;
     $this->view("category/categoryDetail", $category);
   }
+
 }
 
 ?>

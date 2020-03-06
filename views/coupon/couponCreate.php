@@ -179,7 +179,7 @@ if (isset($_POST['addCouponType'])) {
         <input class="col-md-4 col-sm-8" type="datetime-local" id='couponxpEndDate' name='couponExpEndDate' value="<?php echo $cexpenddate; ?>" required>
         <span class="error col-4"><?php echo $expenddateErr; ?></span>
         <br>
-        <input type='submit' class="btn btn-success float-left btn-sm mt-3" name='add' value='新增'>
+        <input type='submit' class="btn btn-primary float-left btn-sm mt-3" name='add' value='新增'>
       </form>
       <form method="post" action="" id="card2" <?php if ($page == 1) {
                                                   echo "style='display:none'";
@@ -190,11 +190,11 @@ if (isset($_POST['addCouponType'])) {
         <input class="col-4" type="text" id='couponTypeName2' name='couponTypeName2' value="<?php echo $ccoupontypename; ?>" required>
         <span class="error col-4"><?php echo $coupontypenameErr; ?></span>
         <br>
-        <input type='submit' class="btn btn-success float-left btn-sm" name='addCouponType' value='新增' required>
+        <input type='submit' class="btn btn-primary float-left btn-sm" name='addCouponType' value='新增' required>
       </form>
     </div>
     <div class="card-footer">
-      <button class="btn btn-dark btn-sm ml-2" onclick="goback();">返回</button>
+      <button class="btn btn-dark btn-sm ml-2 float-right" onclick="goback();">返回</button>
 
     </div>
   </div>

@@ -25,6 +25,7 @@ $pageTotal = ceil( (int)$userCount / (int)$pageSize);
 //全部會員一覽
 if(isset($_POST["showAll"])){
   $search = "";
+  $column = "";
   $pageSize = 20 ;
   $users = $data->getAll($startIndex,$pageSize);
   $userCount = get_object_vars($data->getAllCount())["Total"];
@@ -143,6 +144,9 @@ require_once 'views/template/header.php';
       ?>
 
       <form method="post">
+        <input type="button" name="checkAll" class="btn btn-sm btn-outline-secondary mb-1" onclick="check_all()" value="全選"></input>
+        <input type="button" name="ChangeCheck" class="btn btn-sm btn-outline-secondary mb-1" onclick="change_check()" value="反選"></input>
+        <input type="button" name="unCheckAll" class="btn btn-sm btn-outline-secondary mb-1" onclick="un_check_all()" value="取消"></input>
         <button type="submit" name="deleteSubmit" class="btn btn-sm btn-warning mb-1">多筆刪除</button>
         <table class="table table-bordered table-hover">
           <thead class="table-info">
@@ -189,10 +193,6 @@ require_once 'views/template/header.php';
 </div>
 
 
-  <?php 
-  ?>
-
-
 <!-- /.container-fluid -->
 
 <?php
@@ -200,3 +200,42 @@ require_once 'views/template/header.php';
 require_once 'views/template/footer.php';
 
 ?>
+
+<script>
+//全選、全取消、反選
+function check_all(){
+  var checkitem = document.getElementsByName("checkBox[]");
+  for(var i=0 ; i<checkitem.length ;i++){
+    checkitem[i].checked = true;
+  }
+}
+
+//全取消
+function un_check_all(){
+  var checkitem = document.getElementsByName("checkBox[]");
+  for(var i=0 ; i<checkitem.length ;i++){
+    checkitem[i].checked = false;
+  }
+}
+
+//反選
+function change_check(){
+  var checkitem = document.getElementsByName("checkBox[]");
+  for(var i=0 ; i<checkitem.length ;i++){
+    checkitem[i].checked = !checkitem[i].checked;
+  }
+}
+
+
+
+// function check_all(){
+//   var checkitem = document.form.elements["checkBox[]"];
+//   var checkallbtn = document.form.checkAll;
+//   console.log(checkbox);
+//   for(let i=0 ; i<checkBox.length ; i++){
+//   }
+// }
+
+
+
+</script>

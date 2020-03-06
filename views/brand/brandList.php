@@ -106,10 +106,14 @@ th>a {
   width: 150px;
   height: 150px;
 }
-.img-thumbnail-wrap {
+.grid-img-wrap {
   width: 150px;
   height: 150px;
   margin: 1px;
+}
+.grid-img {
+  width: 100%;
+  height: 100%;
 }
 </style>
 
@@ -201,8 +205,8 @@ th>a {
           <div class="row">
             <?php
               foreach($brands as $brand) {
-                echo "<div class='img-thumbnail-wrap'>";
-                echo "<a href='/RollinAdmin/Brand/Detail/$brand->BrandID'><img class='img-thumbnail' src='image/BrandImage/$brand->BrandID.jpg' title='$brand->BrandName' alt='$brand->BrandName 目前沒有圖片'/></a>";
+                echo "<div class='grid-img-wrap m-1'>";
+                echo "<a href='/RollinAdmin/Brand/Detail/$brand->BrandID'><img class='grid-img' src='image/BrandImage/$brand->BrandID.jpg' title='$brand->BrandName' alt='$brand->BrandName 目前沒有圖片'/></a>";
                 echo "</div>";
               }
             ?>

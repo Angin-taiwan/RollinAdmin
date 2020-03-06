@@ -8,7 +8,7 @@ $pageDirTW = "折價券管理";
 $pageTitleTW = "折價券編輯";
 
 $coupons = $data->getCouponDetail($data->id);
-echo $coupons->CouponID;
+// echo $coupons->CouponID;
 $quantityErr = $priceErr = $priceconditionErr = $enddateErr = $expenddateErr = "";
 
 if (isset($_POST['update'])) {
@@ -67,6 +67,13 @@ if (isset($_POST['update'])) {
         header("Location: /RollinAdmin/Coupon/Detail/$coupons->CouponID");
         exit();
     }
+}
+if (isset($_POST['delete'])) {
+    $arr = array();
+    array_push($arr, $coupons->CouponID);
+    $data->delete($arr);
+    header("Location: ../List");
+    exit();
 }
 
 require_once 'views/template/header.php';
@@ -137,7 +144,7 @@ require_once 'views/template/header.php';
                         <span class="error col-4">' . $priceErr . '</span>
                         <br>';
                 echo '<label for="couponPriceCondition" class="col-md-4 col-sm-12">滿額可用</label>
-                      <input class="col-md-4 col-sm-8" type="text" id="couponPriceCondition" name="couponPriceCondition" value="' . $coupons->PriceCondition . '" required>;
+                      <input class="col-md-4 col-sm-8" type="text" id="couponPriceCondition" name="couponPriceCondition" value="' . $coupons->PriceCondition . '" required>
                       <span class="error col-4">' . $priceconditionErr . '</span>
                       <br>';
                 echo '<label for="couponStartDate" class="col-md-4 col-sm-12">開始領取/使用時間</label>
@@ -152,17 +159,21 @@ require_once 'views/template/header.php';
                       <span class="error col-4">' . $expenddateErr . '</span>
                       <br>';
                 ?>
-                <button type="submit" name="update" class="btn btn-success btn-sm">修改</button>
-                <button type="submit" name="delete" class="btn btn-danger btn-sm">刪除</button>
+                <button type="submit" name="update" class="btn btn-primary btn-sm">修改</button>
+                <button type="submit" onclick="deletealert();" name="delete" class="btn btn-danger btn-sm">刪除</button>
             </form>
         </div>
         <div class="card-footer">
-            <button class="btn btn-success float-right btn-sm" onclick="javascript:history.go(-1)">返回</button>
+            <a href="/RollinAdmin/Coupon/Detail/<?= $data->id?>"><button class="btn btn-dark float-right btn-sm">返回</button></a>
         </div>
     </div>
 </div>
 <!-- /.container-fluid -->
-
+<script>
+    function deletealert() {
+        return confirm('是否確定刪除?');
+    }
+</script>
 <?php
 
 require_once 'views/template/footer.php';

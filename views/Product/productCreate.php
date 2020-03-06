@@ -5,7 +5,11 @@ $pageTitle = "Product Create";
 
 require_once 'views/template/header.php';
 
+// 建立商品
 $newProduct = new Product();
+// 建立商品庫存
+$newProductstocks = new Product();
+// 按下按鈕
 if (isset($_POST["insertButton"])){
   $newProduct->ProductName = $_POST["ProductName"];
   $newProduct->BrandID = $_POST["BrandID"];
@@ -14,18 +18,26 @@ if (isset($_POST["insertButton"])){
   $newProduct->Discontinued = $_POST["Discontinued"];
   $newProduct->UnitPrice = $_POST["UnitPrice"];
   $newProduct->ProductID = $data->createProduct($newProduct);
+    $newProductstocks->ProductID = $newProduct->ProductID ;
+    $newProductstocks->SizeID = $_POST["SizeID"];
+    $newProductstocks->ColorID = $_POST["ColorID"];
+    $newProductstocks->UnitInStock = $_POST["UnitInStock"];
+    $newProductstocks->ProductID = $data->stocksFirst($newProductstocks);
+
   if ($newProduct->ProductID) {
     echo "<script> alert('新增成功');location.href = '/RollinAdmin/Product/Detail/$newProduct->ProductID' </script>";
     exit();
   }
-  $data->createProduct($newProduct);
+  // $data->createProduct($newProduct);
   // echo "<script> alert('新增成功');location.href = '/RollinAdmin/Product/List' </script>";
 }
 
 # 讀資調_________________________
 $findmyBrandName = $data->findmyBrandName();
 $findmyMainCategoryName = $data->findmyMainCategoryName();
-$findmyCldCategoryName = $data->findmyCldCategoryName();
+// $findmyCldCategoryName = $data->findmyCldCategoryName(); #移至下方
+$findmySizeName = $data->findmySizeName(); 
+$findmyColorName = $data->findmyColorName();
 
 # ----------------------------------------------------------
 ?>
@@ -88,24 +100,29 @@ $findmyCldCategoryName = $data->findmyCldCategoryName();
       <div class="col col-md-3">
         <label for="txtCategoryID_All">子類別</label>
 
-
+<!-- 全部選單 -->
         <select class="form-control" name="CategoryID_All" id="txtCategoryID_All">
           <option selected disabled>Choose Category</option>
+
           <?php
           foreach ($findmyMainCategoryName as $mcn){
+            $mynumber=1;
             $findmyCldCategoryName = $data->findmyCldCategoryName($mcn->CategoryID);
             echo  "<option disabled name=\"ParentTitle\">－－－$mcn->CategoryID - $mcn->CategoryName －－－</option>" ;
 
             foreach ($findmyCldCategoryName as $ccn) {
               echo  <<<here
-              <option name="Parent$ccn->ParentID" value="$ccn->CategoryID">$ccn->ParentID - $ccn->CategoryID - $ccn->CategoryName</option>
+              <option name="Parent$ccn->ParentID" value="$ccn->CategoryID">$ccn->ParentID - $mynumber 　$ccn->CategoryName</option>
               here;
+              $mynumber++;
             }
           }
             ?>
           </select>
+<!-- 部分選單 -->
           <?php
           foreach ($findmyMainCategoryName as $mcn){
+            $mynumber=1;
             echo  <<<here
             <select class="form-control" name="CategoryID" style="display:none" onchange="SetCvalue(this.value);">
             <option selected disabled >－－－$mcn->CategoryID - $mcn->CategoryName －－－</option>
@@ -113,16 +130,13 @@ $findmyCldCategoryName = $data->findmyCldCategoryName();
             $findmyCldCategoryName = $data->findmyCldCategoryName($mcn->CategoryID);
             foreach ($findmyCldCategoryName as $ccn) {
               echo  <<<here
-              <option name="Parent$ccn->ParentID" value="$ccn->CategoryID">$ccn->ParentID - $ccn->CategoryID - $ccn->CategoryName</option>
+              <option name="Parent$ccn->ParentID" value="$ccn->CategoryID">$ccn->ParentID - $mynumber 　$ccn->CategoryName</option>
               here;
+              $mynumber++;
             }
             echo "</select>";
           }
             ?>
-
-
-
-
       </div>
       <div class="col col-md-3">
         <label for="txtUnitPrice">單價</label>
@@ -150,19 +164,27 @@ $findmyCldCategoryName = $data->findmyCldCategoryName();
       <div class="col col-md-4">
         <label for="txtSizeID">尺寸</label>
         <select class="form-control" name="SizeID" id="txtSizeID">
-          <option selected>Choose Size</option>
-          <option value="1">1</option>
-          <option value="2">2</option>
-          <option value="3">3</option>
+          <option value="0" selected>One Size</option>
+          <?php
+          foreach ($findmySizeName as $sn) {
+            echo  <<<here
+            <option value="$sn->SizeID" name="cID$sn->CategoryID">$sn->SizeName</option>
+            here;
+          }
+            ?>
           </select>
       </div>
       <div class="col col-md-4">
         <label for="ColorID">顏色</label>
         <select class="form-control" name="ColorID" id="txtColorID">
-          <option selected>Choose Color</option>
-          <option value="1">1</option>
-          <option value="2">2</option>
-          <option value="3">3</option>
+          <option value="0" selected>None Color</option>
+          <?php
+          foreach ($findmyColorName as $cn) {
+            echo  <<<here
+            <option value="$cn->ColorID">$cn->Color</option>
+            here;
+          }
+            ?>
           </select>
       </div>
       <div class="col col-md-4">
@@ -171,7 +193,7 @@ $findmyCldCategoryName = $data->findmyCldCategoryName();
       </div>
     </div>
     
-    <div class="form-row">
+    <!-- <div class="form-row">
       <div class="col col-md-4">
         <label for="txtSizeID">尺寸</label>
         <select class="form-control" name="SizeID" id="txtSizeID">
@@ -181,6 +203,7 @@ $findmyCldCategoryName = $data->findmyCldCategoryName();
           <option value="3">3</option>
           </select>
       </div>
+
       <div class="col col-md-4">
         <label for="ColorID">顏色</label>
         <select class="form-control" name="ColorID" id="txtColorID">
@@ -190,10 +213,11 @@ $findmyCldCategoryName = $data->findmyCldCategoryName();
           <option value="3">3</option>
           </select>
       </div>
+      
       <div class="col col-md-4">
         <label for="txtUnitInStock">數量</label>
         <input type="number" class="form-control" name="UnitInStock" id="txtUnitInStock" placeholder="UnitInStock">
-      </div>
+      </div> -->
     </div>
 
     <div id="tablhere">table will generate here</div>

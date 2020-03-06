@@ -20,8 +20,8 @@ require_once 'views/template/header.php';
 
 <style>
   .cover {
-    width: 230px;
-    height: 230px;
+    width: 220px;
+    height: auto;
     object-fit: cover;
   }
   .brand-desc {

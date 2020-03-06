@@ -255,7 +255,7 @@ if (isset($_SERVER['QUERY_STRING']) && strrpos($_SERVER['QUERY_STRING'], 'page')
     if ($p[$i] == '=') break;
     $page = $p[$i] . $page;
   }
-  echo $page;
+  // echo $page;
   // $page=substr($_SERVER['QUERY_STRING'], 4,$_SERVER['QUERY_STRING']);
 }
 require_once 'views/template/header.php';

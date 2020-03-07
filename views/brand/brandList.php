@@ -73,7 +73,7 @@ function createPagination($pagesCount, $pageNo, $query) {
     $nextDisabled = $nextNo > $pagesCount ? "disabled" : "";
 
     echo "<nav aria-label='Page navigation'>";
-    echo "<ul class='pagination'>";
+    echo "<ul class='pagination justify-content-center'>";
     echo "<li class='page-item $prevousDisabled'><a class='page-link' href='./Brand/List?$prevousQueryString'>上一頁</a></li>";
 
     for ($i = 1; $i <= $pagesCount; $i++) {
@@ -95,9 +95,15 @@ require_once 'views/template/header.php';
 ?>
 
 <style>
+th {
+  background-color: #5289AE;
+}
 th>a {
   text-decoration:none;
-  color:#000;
+  color:#fff;
+}
+th>a:hover {
+  color:#fff;
 }
 .td-w {
   width: 170px;
@@ -182,7 +188,7 @@ th>a {
                   $queryString = "pageSize=$pageSize&brandName=$brandName&column=$col&sort=$asc_or_desc&pageNo=$pageNo&show=l";
                   $sortClass =$column == $col ? "-" . $up_or_down : "";
                   echo "<th>";
-                  echo "<a href='/RollinAdmin/Brand/List?$queryString'>$colTW<i class='fas fa-sort$sortClass'></i></a>";
+                  echo "<a href='/RollinAdmin/Brand/List?$queryString'>$colTW <i class='fas fa-sort$sortClass'></i></a>";
                   echo "</th>";
                 }
                 ?>

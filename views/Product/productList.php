@@ -20,10 +20,10 @@ $show = isset($query["show"]) ? $query["show"] : "l";
 
 // set table columns
 $array_columns = [
-  "p.ProductID" => "編<br>號",
-  "p.ProductName" => "品名",
-  "b.BrandName" => "品牌",
-  "c.CategoryName" => "類別",
+  "ProductID" => "編<br>號",
+  "ProductName" => "品名",
+  "BrandName" => "品牌",
+  "CategoryName" => "類別",
   "PDescription" => "詳細",
   "TotalStock" => "總庫存",
   "StockOnOrder" => "訂單量",
@@ -106,6 +106,10 @@ th>a {
   color:#000;
 }
 
+#thCheckbox{
+  width:3%;
+}
+
 #ProductID{
   padding:3px;
   width:3%;
@@ -115,6 +119,28 @@ th>a {
   width:15%;
 }
 
+#BrandName{
+  width:7%;
+}
+
+#CategoryName{
+  width:10%;
+}
+#PDescription{
+
+}
+#TotalStock{
+  width:7%;
+}
+#StockOnOrder{
+  width:7%;
+}
+#UnitPrice{
+  width:7%;
+}
+#Date{
+  width:10%;
+}
 /* .td-w {
   width: 170px;
 }
@@ -186,7 +212,7 @@ th>a {
       <table id="listTable" class="table table-bordered table-hover">
         <thead>
           <tr>
-          <th><input type="checkbox" id="selectallcheckbox" onclick="SALLcheckbox()"></th>
+          <th id="thCheckbox"><input type="checkbox" id="selectallcheckbox" onclick="SALLcheckbox()"></th>
           <?php
                 foreach($array_columns as $col => $colTW) {
                   $queryString = "pageSize=$pageSize&ProductName=$ProductName&column=$col&sort=$asc_or_desc&pageNo=$pageNo";
@@ -196,22 +222,13 @@ th>a {
                   echo "</th>";
                 }
                 ?>            
-<!-- 
-            <th style='width:2%'>ID</th>
-            <th style='width:15%'>Name</th>
-            <th>Brand</th>
-            <th>Category</th>
-            <th>Description</th>
-            <th style='width:7%'>總庫存</th>
-            <th style='width:7%'>訂單量</th>
-            <th>單價</th>
-            <th>更新日期</th> Date -->
           </tr>
         </thead>
         <tbody>
           <?php
-          $Productsubtitle = "";
+          
           foreach ($products as $pd) {
+            $Productsubtitle = "";
             if($pd->Discontinued==1){
               $Productsubtitle = "(未上架)";
             }
@@ -240,7 +257,7 @@ th>a {
                     <td bgcolor="#778899"></td>
                     <td bgcolor="#778899"></td>
                     <td bgcolor="#778899"></td>
-                    <td bgcolor="#778899">Size:$SizeName </td>
+                    <td bgcolor="#778899">Size:<br>$SizeName </td>
                     <td bgcolor="#778899">Color:$pdst->Color </td>
                     <td bgcolor="#778899"></td>
                     <td bgcolor="#778899">pdst:$pdst->UnitInStock</td>

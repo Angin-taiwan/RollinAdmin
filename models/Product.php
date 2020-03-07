@@ -79,24 +79,23 @@ function getAllLike($ProductName, $column = "p.ProductID", $sort = "ASC", $start
 // C______________________________________________________
   function createProduct($Product) {
     $ProductName = trim($Product->ProductName);
+    $Product->Discontinued = ($Product->Discontinued == 1 ? 1 : 0); 
     return $this->insertDB(
       "INSERT INTO `product` (`ProductName`, `BrandID`, `CategoryID`, `PDescription`, `Discontinued`, 
       `UnitPrice`) VALUES (?,?,?,?,?,?) ;", 
       ["$Product->ProductName" , "$Product->BrandID" , $Product->CategoryID , $Product->PDescription , 
       "$Product->Discontinued" , "$Product->UnitPrice" ]
     );
-
-
   }
 
   function stocksFirst($Productstocks){
     return $this->insertDB(
       "INSERT INTO `productstock` (`ProductID`, `SizeID`, `ColorID`, `UnitInStock`, `UnitsOnOrder`) VALUES
       (?, ?, ?, ?, 0);", 
-      ["$Productstocks->ProductID" , $Productstocks->SizeID , $Productstocks->ColorID , $Productstocks->UnitInStock]
+      [$Productstocks->ProductID , $Productstocks->SizeID , $Productstocks->ColorID , $Productstocks->UnitInStock]
     );
-      
   }
+
 // U______________________________________________________
   function updateProduct($Product) {
     return $this->updateDB(
@@ -105,6 +104,25 @@ function getAllLike($ProductName, $column = "p.ProductID", $sort = "ASC", $start
     );
   }
 
+  function updateProductStocks($Stock) { 
+    $newSizeID = $Stock->SizeID ;
+    $newColorID = $Stock->ColorID ;
+    $newStock = $Stock->UnitInStock ;
+    return $this->updateDB(
+      "UPDATE productstock SET SizeID = $newSizeID,ColorID = $newColorID , UnitInStock = $newStock 
+        WHERE ProductID = ? AND SizeID = $newSizeID, ColorID = $newColorID ;",
+      [$Stock->ProductID]
+    );
+  }
+
+  function updateProductDiscontinued($Product) { #working
+    return $this->updateDB(
+      "UPDATE Product SET Discontinued = ?,UnitPrice = ? , PDescription = ? WHERE ProductID = ? ;",
+      ["$Product->ProductName", "$Product->UnitPrice", "$Product->PDescription", $Product->ProductID]
+    );
+  }
+
+  // Show name______________________________________________________
 function findmyBrandName(){
   return $this->selectDB(
     "select BrandID, BrandName from Brand;"

@@ -35,6 +35,13 @@ require_once 'views/template/header.php';
 
 ?>
 
+<style>
+  th {
+    color: #ffffff;
+    background-color: #5289AE;
+  }
+</style>
+
 
 
 <div class="container-fluid">
@@ -43,7 +50,7 @@ require_once 'views/template/header.php';
       <div class="card p-3">
         <div class="card-body">
           <table class="table table-bordered table-sm">
-            <thead class="table-info">
+            <thead>
               <tr>
                 <th>欄位</th>
                 <th>資料</th>

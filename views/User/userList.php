@@ -50,6 +50,13 @@ require_once 'views/template/header.php';
 
 ?>
 
+<style>
+  th {
+    color: #ffffff;
+    background-color: #5289AE;
+  }
+</style>
+
 
 <div class="container-fluid">
   <div class="card">
@@ -93,7 +100,8 @@ require_once 'views/template/header.php';
             $display_none = "d-none";
           };
     
-          echo "<div class='ml-4 text-info $display_none'> &nbsp&nbsp搜尋結果：「 $ch_cloumn 」>>「 $search 」，共有 $userCount 筆資料&nbsp&nbsp </div>";
+          echo "<div class='ml-4 text-info $display_none'> &nbsp&nbsp搜尋結果：
+            「 $ch_cloumn 」>>「 $search 」，共有 $userCount 筆資料&nbsp&nbsp </div>";
         ?>
       <!-- </form> -->
       <br>
@@ -130,7 +138,7 @@ require_once 'views/template/header.php';
           $preDisabled = $prePage < 1 ? "disabled" : "";
           $nextDisabled = $nextPage > $pageTotal ? "disabled" : "";
           
-          echo "<div class='float-right'>目前頁 ─ 第 $pageNo 頁</div>" ;
+          echo "<div class='float-right'>目前頁 ： 第 $pageNo 頁</div>" ;
           echo "<br>";
           echo "<ul class='pagination d-flex justify-content-center'>";
           echo "<li class='page-item $preDisabled'><a href='User/List?$queryString&pageNo=$prePage' class='page-link'>上一頁</a></li>";
@@ -147,11 +155,29 @@ require_once 'views/template/header.php';
         <input type="button" name="checkAll" class="btn btn-sm btn-outline-secondary mb-1" onclick="check_all()" value="全選"></input>
         <input type="button" name="ChangeCheck" class="btn btn-sm btn-outline-secondary mb-1" onclick="change_check()" value="反選"></input>
         <input type="button" name="unCheckAll" class="btn btn-sm btn-outline-secondary mb-1" onclick="un_check_all()" value="取消"></input>
-        <button type="submit" name="deleteSubmit" class="btn btn-sm btn-warning mb-1">多筆刪除</button>
+        <button type="button" class="btn btn-sm btn-danger mb-1" data-toggle="modal" data-target="#deleteModal">多筆刪除</button>
+        <!-- Modal -->
+        <div id="deleteModal" class="modal" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header"></div>
+                        <div class="modal-body">
+                            <p class="ml-3 mt-2">刪除的資料將無法復原，確定要刪除這幾筆資料？</p>
+                        </div>
+                        <div class="modal-footer">
+                            <a class="btn btn-secondary" href="User/List" >返回</a>
+                            <button type="submit" name="deleteSubmit" class="btn btn-danger" >確定刪除</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+        
+        
         <table class="table table-bordered table-hover">
-          <thead class="table-info">
+          <thead>
             <tr>
-                <th></th>
+                <th><input type="checkbox" onclick="change_check()"></th>
                 <th>會員ID</th>
                 <th>姓名</th>
                 <th>暱稱</th>
@@ -166,12 +192,25 @@ require_once 'views/template/header.php';
           <tbody>
             <?php
               foreach ($users as $user){
+                //性別轉中文
+                $chGender = $user->Gender;
+                switch($chGender){
+                  case "F":  
+                    $chGender = "女";
+                    break;
+                  case "M":
+                    $chGender = "男";
+                    break;
+                  case "U":
+                    $chGender = "其他";
+                    break;
+                }
                 echo "<tr>";
                 echo '<td><input type="checkbox" name="checkBox[]" value='.$user->UserID.'></td>';
                 echo "<td>".$user->UserID."</td>";
                 echo "<td>".$user->UserName."</td>";
                 echo "<td>".$user->NickName."</td>";
-                echo "<td>".$user->Gender."</td>";
+                echo "<td>".$chGender."</td>";
                 echo "<td>".$user->Birthdate."</td>";
                 echo "<td>".$user->Phone."</td>";
                 echo "<td>".$user->Email."</td>";
@@ -180,14 +219,41 @@ require_once 'views/template/header.php';
                       </td>";
                 echo "<td>
                         <a href='/RollinAdmin/User/Update/$user->UserID' class='btn btn-sm btn-secondary mr-2'> 修改</a>";
-                echo   "<a href='/RollinAdmin/User/Delete/$user->UserID' class='btn btn-sm btn-warning'> 刪除</a>
+                echo   "<a href='/RollinAdmin/User/Delete/$user->UserID' class='btn btn-sm btn-danger'> 刪除</a>
                       </td>";
                 echo "</tr>";
               }
+
             ?>
           </tbody>
         </table>
       </form>
+      <?php //下方分頁按鈕
+        if($pageTotal>1){
+          $queries = array(
+            'pageSize' => $pageSize,
+            'column' => $column,
+            'search' => $search
+          );
+
+          $queryString = http_build_query($queries,'','&');
+
+          $prePage =  $pageNo - 1;
+          $nextPage = $pageNo + 1;
+          $preDisabled = $prePage < 1 ? "disabled" : "";
+          $nextDisabled = $nextPage > $pageTotal ? "disabled" : "";
+          
+          echo "<br>";
+          echo "<ul class='pagination d-flex justify-content-center'>";
+          echo "<li class='page-item $preDisabled'><a href='User/List?$queryString&pageNo=$prePage' class='page-link'>上一頁</a></li>";
+          for($i=1 ; $i<= $pageTotal ; $i++){
+              $active = $pageNo == $i ? "active" : "";
+            echo "<li class='page-item $active'><a href='User/List?$queryString&pageNo=$i' class='page-link'> $i </a></li>";
+          };
+          echo "<li class='page-item $nextDisabled'><a href='User/List?$queryString&pageNo=$nextPage' class='page-link'>下一頁</a></li>";
+          echo "</ul>";
+        };
+      ?>
     </div>
   </div>
 </div>
@@ -202,7 +268,7 @@ require_once 'views/template/footer.php';
 ?>
 
 <script>
-//全選、全取消、反選
+//全選
 function check_all(){
   var checkitem = document.getElementsByName("checkBox[]");
   for(var i=0 ; i<checkitem.length ;i++){

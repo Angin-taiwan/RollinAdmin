@@ -3,11 +3,13 @@
 class MarketingController extends Controller {
 
   function index() {
-    $this->view("marketing/marketingList");
+    $marketing = $this->model("Marketing");
+    $this->view("marketing/marketingList", $marketing);
   }
 
   function list() {
-    $this->view("marketing/marketingList");
+    $marketing = $this->model("Marketing");
+    $this->view("marketing/marketingList", $marketing);
   }
 
   function create() {

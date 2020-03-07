@@ -14,6 +14,7 @@ class Product extends DB {
   public $SizeID;
   public $ColorID;
   public $UnitsOnOrder;
+  public $TotalonOreder;
   
 
 // 計數
@@ -34,10 +35,13 @@ function getAllLike($ProductName, $column = "p.ProductID", $sort = "ASC", $start
   $column_white_list = ['p.ProductID','ProductName','Description'];
   // $column = in_array($column, $column_white_list) ? $column : $column_white_list[0];
   return $this->selectDB(
-    "SELECT p.ProductID, p.ProductName, p.BrandID, p.CategoryID, p.PDescription, p.Discontinued, p.UnitPrice, p.Date, b.BrandName, c.CategoryName, ps.ProductID P_ID,SUM(ps.UnitInStock) TotalStock from product as p
-    left outer join productstock as ps on p.ProductID = ps.ProductID   
-    left outer join brand as b on p.BrandID = b.BrandID           
-    left outer join category as c on p.CategoryID = c.CategoryID   
+    "SELECT p.ProductID, p.ProductName, p.BrandID, p.CategoryID, p.PDescription, p.Discontinued, p.UnitPrice,
+    p.Date, b.BrandName, c.CategoryName, ps.ProductID P_ID,SUM(ps.UnitInStock) TotalStock, SUM(od.Quantity) StockOnOrder 
+    from product as p
+       left outer join productstock as ps on p.ProductID = ps.ProductID   
+       left outer join brand as b on p.BrandID = b.BrandID           
+       left outer join category as c on p.CategoryID = c.CategoryID   
+       left outer join orderdetail as od on od.ProductID = p.ProductID
           WHERE p.ProductName LIKE CONCAT('%',?,'%') 
           GROUP BY p.ProductID 
           ORDER BY $column $sort
@@ -56,6 +60,8 @@ function getAllLike($ProductName, $column = "p.ProductID", $sort = "ASC", $start
             GROUP BY p.ProductID;"
     );
   }
+
+
 // Detail
   function getDetail($id) {
     return $this->selectDB(
@@ -79,24 +85,23 @@ function getAllLike($ProductName, $column = "p.ProductID", $sort = "ASC", $start
 // C______________________________________________________
   function createProduct($Product) {
     $ProductName = trim($Product->ProductName);
+    $Product->Discontinued = ($Product->Discontinued == 1 ? 1 : 0); 
     return $this->insertDB(
       "INSERT INTO `product` (`ProductName`, `BrandID`, `CategoryID`, `PDescription`, `Discontinued`, 
       `UnitPrice`) VALUES (?,?,?,?,?,?) ;", 
       ["$Product->ProductName" , "$Product->BrandID" , $Product->CategoryID , $Product->PDescription , 
       "$Product->Discontinued" , "$Product->UnitPrice" ]
     );
-
-
   }
 
   function stocksFirst($Productstocks){
     return $this->insertDB(
       "INSERT INTO `productstock` (`ProductID`, `SizeID`, `ColorID`, `UnitInStock`, `UnitsOnOrder`) VALUES
       (?, ?, ?, ?, 0);", 
-      ["$Productstocks->ProductID" , $Productstocks->SizeID , $Productstocks->ColorID , $Productstocks->UnitInStock]
+      [$Productstocks->ProductID , $Productstocks->SizeID , $Productstocks->ColorID , $Productstocks->UnitInStock]
     );
-      
   }
+
 // U______________________________________________________
   function updateProduct($Product) {
     return $this->updateDB(
@@ -105,6 +110,25 @@ function getAllLike($ProductName, $column = "p.ProductID", $sort = "ASC", $start
     );
   }
 
+  function updateProductStocks($Stock) { 
+    $newSizeID = $Stock->SizeID ;
+    $newColorID = $Stock->ColorID ;
+    $newStock = $Stock->UnitInStock ;
+    return $this->updateDB(
+      "UPDATE productstock SET SizeID = $newSizeID,ColorID = $newColorID , UnitInStock = $newStock 
+        WHERE ProductID = ? AND SizeID = $newSizeID, ColorID = $newColorID ;",
+      [$Stock->ProductID]
+    );
+  }
+
+  function updateProductDiscontinued($Product) { #working
+    return $this->updateDB(
+      "UPDATE Product SET Discontinued = ?,UnitPrice = ? , PDescription = ? WHERE ProductID = ? ;",
+      ["$Product->ProductName", "$Product->UnitPrice", "$Product->PDescription", $Product->ProductID]
+    );
+  }
+
+  // Show name______________________________________________________
 function findmyBrandName(){
   return $this->selectDB(
     "select BrandID, BrandName from Brand;"
@@ -113,22 +137,22 @@ function findmyBrandName(){
 
 function findmyMainCategoryName(){
   return $this->selectDB(
-  "select * from Category WHERE ParentID IS NULL;");
+  "SELECT * from Category WHERE ParentID IS NULL;");
 }
 
 function findmyCldCategoryName($id=null){
   if($id==null){
     return $this->selectDB(
-      "select * from Category WHERE ParentID IS NOT NULL;");
+      "SELECT * from Category WHERE ParentID IS NOT NULL;");
   } else{
     return $this->selectDB(
-      "select * from Category WHERE ParentID = $id;");
+      "SELECT * from Category WHERE ParentID = $id;");
   }
 }
 
 function findmySizeName($id=null){
   return $this->selectDB(
-    "select s.SizeID, s.SizeName, cs.CategoryID, c.CategoryName from Size as s
+    "SELECT s.SizeID, s.SizeName, cs.CategoryID, c.CategoryName from Size as s
     join categorysize as cs on cs.SizeID = s.SizeID
     join category as c on cs.CategoryID = c.CategoryID
     -- WHERE cs.CategoryID = $id
@@ -138,13 +162,36 @@ function findmySizeName($id=null){
 
 function findmyColorName(){
   return $this->selectDB(
-    "select ColorID, Color from Color;"
+    "SELECT ColorID, Color from Color;"
   );
 }
+function findmyTotalonOreder($id){
+    return $this->selectDB(
+      "SELECT p.ProductID, SUM(od.Quantity) StockOnOrder from product as p 
+      left outer join orderdetail as od on od.ProductID = p.ProductID
+      WHERE p.ProductID = $id GROUP BY od.ProductID 
+      ;"
+      )[0];
+}
+# D_____________________________________________________
+function delete($ids = []){
+if (empty($ids)) {return "error: ids is empty";}
+return $this->deleteDB(
+  "DELETE FROM Product WHERE ProductID IN (" . str_repeat("?,", count($ids) -1) . "?);",
+  $ids);
+}
 
-
-  function delete($id) {
-
+function ONsale($ids = []){
+  if (empty($ids)) {return "error: ids is empty";}
+  return $this->deleteDB(
+    "UPDATE Product SET Discontinued =0 WHERE ProductID IN (" . str_repeat("?,", count($ids) -1) . "?);",
+    $ids);
+  }
+function OFFsale($ids = []){
+  if (empty($ids)) {return "error: ids is empty";}
+  return $this->deleteDB(
+    "UPDATE Product SET Discontinued =1 WHERE ProductID IN (" . str_repeat("?,", count($ids) -1) . "?);",
+    $ids);
   }
 
 }

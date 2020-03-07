@@ -27,28 +27,28 @@ CREATE TABLE `rollin`.`Size` (
 LOCK TABLES `Size` WRITE;
 
 -- 板身CategoryID = '5' ; 6.5 ~ 10.25 O=One Size
-    INSERT INTO `Size` (`SizeName`) VALUES ('6.5');
-    INSERT INTO `Size` (`SizeName`) VALUES ('6.75');
-    INSERT INTO `Size` (`SizeName`) VALUES ('7');
-    INSERT INTO `Size` (`SizeName`) VALUES ('7.25');
-    INSERT INTO `Size` (`SizeName`) VALUES ('7.375');
-    INSERT INTO `Size` (`SizeName`) VALUES ('7.5');
-    INSERT INTO `Size` (`SizeName`) VALUES ('7.625');
-    INSERT INTO `Size` (`SizeName`) VALUES ('7.75');
-    INSERT INTO `Size` (`SizeName`) VALUES ('7.875');
-    INSERT INTO `Size` (`SizeName`) VALUES ('8');
-    INSERT INTO `Size` (`SizeName`) VALUES ('8.125');
-    INSERT INTO `Size` (`SizeName`) VALUES ('8.25');
-    INSERT INTO `Size` (`SizeName`) VALUES ('8.375');
-    INSERT INTO `Size` (`SizeName`) VALUES ('8.5');
-    INSERT INTO `Size` (`SizeName`) VALUES ('8.625');
-    INSERT INTO `Size` (`SizeName`) VALUES ('8.75');
-    INSERT INTO `Size` (`SizeName`) VALUES ('8.875');
-    INSERT INTO `Size` (`SizeName`) VALUES ('9');
-    INSERT INTO `Size` (`SizeName`) VALUES ('9.25');
-    INSERT INTO `Size` (`SizeName`) VALUES ('9.5');
-    INSERT INTO `Size` (`SizeName`) VALUES ('10');
-    INSERT INTO `Size` (`SizeName`) VALUES ('10.25');
+    INSERT INTO `Size` (`SizeName`) VALUES ('6.5"');
+    INSERT INTO `Size` (`SizeName`) VALUES ('6.75"');
+    INSERT INTO `Size` (`SizeName`) VALUES ('7.0"');
+    INSERT INTO `Size` (`SizeName`) VALUES ('7.25"');
+    INSERT INTO `Size` (`SizeName`) VALUES ('7.375"');
+    INSERT INTO `Size` (`SizeName`) VALUES ('7.5"');
+    INSERT INTO `Size` (`SizeName`) VALUES ('7.625"');
+    INSERT INTO `Size` (`SizeName`) VALUES ('7.75"');
+    INSERT INTO `Size` (`SizeName`) VALUES ('7.875"');
+    INSERT INTO `Size` (`SizeName`) VALUES ('8.0"');
+    INSERT INTO `Size` (`SizeName`) VALUES ('8.125"');
+    INSERT INTO `Size` (`SizeName`) VALUES ('8.25"');
+    INSERT INTO `Size` (`SizeName`) VALUES ('8.375"');
+    INSERT INTO `Size` (`SizeName`) VALUES ('8.5"');
+    INSERT INTO `Size` (`SizeName`) VALUES ('8.625"');
+    INSERT INTO `Size` (`SizeName`) VALUES ('8.75"');
+    INSERT INTO `Size` (`SizeName`) VALUES ('8.875"');
+    INSERT INTO `Size` (`SizeName`) VALUES ('9.0"');
+    INSERT INTO `Size` (`SizeName`) VALUES ('9.25"');
+    INSERT INTO `Size` (`SizeName`) VALUES ('9.5"');
+    INSERT INTO `Size` (`SizeName`) VALUES ('10.0"');
+    INSERT INTO `Size` (`SizeName`) VALUES ('10.25"');
 
  -- 鞋子 CategoryID = '2' ; US 7- ~ US 13+
     INSERT INTO `Size` (`SizeName`) VALUES ('US 7-');

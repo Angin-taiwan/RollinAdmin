@@ -13,17 +13,17 @@ $pageTitleTW = "商品清單";
 parse_str($_SERVER['QUERY_STRING'], $query);
 
 // set variables
-$pageSize = isset($query["pageSize"]) ? $query["pageSize"] : 20;
+$pageSize = isset($query["pageSize"]) ? $query["pageSize"] : 5;
 $ProductName = isset($query["ProductName"]) ? $query["ProductName"] : "";
 $pageNo = isset($query["pageNo"]) ? $query["pageNo"] : 1;
 $show = isset($query["show"]) ? $query["show"] : "l";
 
 // set table columns
 $array_columns = [
-  "p.ProductID" => "編<br>號",
-  "p.ProductName" => "品名",
-  "b.BrandName" => "品牌",
-  "c.CategoryName" => "類別",
+  "ProductID" => "編<br>號",
+  "ProductName" => "品名",
+  "BrandName" => "品牌",
+  "CategoryName" => "類別",
   "PDescription" => "詳細",
   "TotalStock" => "總庫存",
   "StockOnOrder" => "訂單量",
@@ -44,7 +44,7 @@ $hidInputs = [
 ];
 
 // set page size select potions
-$array_pageSize = [3, 6, 20];
+$array_pageSize = [5, 10, 20];
 
 // for sorting
 $up_or_down = str_replace(array('ASC','DESC'), array('up','down'), $sort); 
@@ -65,6 +65,31 @@ $pagesCount = ceil((int) $ProductsCount / (int) $pageSize);
 $products = $data->getAllLike($ProductName, $column, $sort, $pageStartIndex, $pageSize);
 #______________________________________
 
+#刪除->一鍵上架
+if (isset($_POST['ONsale'])) {
+  $arr = array();
+  if (!empty($_POST['check'])) {
+    foreach ($_POST['check'] as $check) {
+      array_push($arr, $check);
+    }
+  }
+  $data->ONsale($arr);
+  header("Location: ./List");
+  exit();
+}
+if (isset($_POST['OFFsale'])) {
+  $arr = array();
+  if (!empty($_POST['check'])) {
+    foreach ($_POST['check'] as $check) {
+      array_push($arr, $check);
+    }
+  }
+  $data->OFFsale($arr);
+  header("Location: ./List");
+  exit();
+}
+
+
 function createPagination($pagesCount, $pageNo, $query) {
   if ($pagesCount > 1) {
     $pageQuery = $query;
@@ -80,7 +105,7 @@ function createPagination($pagesCount, $pageNo, $query) {
     $nextQueryString = http_build_query($pageQuery, '', '&');
     $nextDisabled = $nextNo > $pagesCount ? "disabled" : "";
 
-    echo "<nav aria-label='Page navigation'>";
+    echo "<nav aria-label='Page navigation' class='m-auto'>";
     echo "<ul class='pagination'>";
     echo "<li class='page-item $prevousDisabled'><a class='page-link' href='./Product/List?$prevousQueryString'>上一頁</a></li>";
 
@@ -103,7 +128,14 @@ require_once 'views/template/header.php';
 <style>
 th>a {
   text-decoration:none;
-  color:#000;
+  color:#ffffff;
+}
+th {
+    color: #ffffff;
+    background-color: #5289AE;
+  }
+#thCheckbox{
+  width:3%;
 }
 
 #ProductID{
@@ -115,6 +147,28 @@ th>a {
   width:15%;
 }
 
+#BrandName{
+  width:7%;
+}
+
+#CategoryName{
+  width:10%;
+}
+#PDescription{
+
+}
+#TotalStock{
+  width:7%;
+}
+#StockOnOrder{
+  width:7%;
+}
+#UnitPrice{
+  width:7%;
+}
+#Date{
+  width:10%;
+}
 /* .td-w {
   width: 170px;
 }
@@ -160,7 +214,7 @@ th>a {
             <input type="text" name="ProductName" class="form-control float-right" placeholder="輸入商品名稱搜尋" value="<?= $ProductName ?>"  onchange="this.form.submit()">
 
           </div>
-          <div class="col-2">
+          <div class="col-4">
           <input type="submit" class="btn btn-dark" value="搜尋" name="searchButton">
             <label class="col-form-label" style="display: ;">
               <?= "搜尋到：$ProductsCount 個項目" ?> 
@@ -178,15 +232,19 @@ th>a {
     </div>
     <!-- /.card-header -->
     <div class="card-body">
-    <?php createPagination($pagesCount, $pageNo, $query); ?>
+    <form method="post" action=''>
+    <div class="row">
+    <?php createPagination($pagesCount, $pageNo, $query); ?></div>
     <div class=""> <!-- button -->
-        <input type="button" class="btn btn-outline-info" id="checkedRevBtn" value="反選">
-        <input type="submit" class="btn btn-outline-danger" id="checkedDeleteBtn" name="checkedDeleteBtn" value="勾選下架" onclick="return confirm('是否確認刪除勾選資料')">
+        <input type="button" class="btn btn-sm btn-outline-secondary mb-1" id="checkedRevBtn" value="反選">
+        <button type="submit" class="btn btn-sm btn-outline-info mb-1" name="ONsale">一鍵上架</button>
+        <button type="submit" class="btn btn-sm btn-danger  mb-1" name="OFFsale">下架</button>
+        <!-- <input type="submit" class="btn btn-outline-danger" id="checkedDeleteBtn" name="checkedDeleteBtn" value="勾選下架" onclick="return confirm('是否確認刪除勾選資料')"> -->
       </div>
       <table id="listTable" class="table table-bordered table-hover">
         <thead>
           <tr>
-          <th><input type="checkbox" id="selectallcheckbox" onclick="SALLcheckbox()"></th>
+          <th id="thCheckbox"><input type="checkbox" id="selectallcheckbox" onclick="SALLcheckbox()"></th>
           <?php
                 foreach($array_columns as $col => $colTW) {
                   $queryString = "pageSize=$pageSize&ProductName=$ProductName&column=$col&sort=$asc_or_desc&pageNo=$pageNo";
@@ -196,35 +254,30 @@ th>a {
                   echo "</th>";
                 }
                 ?>            
-<!-- 
-            <th style='width:2%'>ID</th>
-            <th style='width:15%'>Name</th>
-            <th>Brand</th>
-            <th>Category</th>
-            <th>Description</th>
-            <th style='width:7%'>總庫存</th>
-            <th style='width:7%'>訂單量</th>
-            <th>單價</th>
-            <th>更新日期</th> Date -->
           </tr>
         </thead>
         <tbody>
           <?php
-          $Productsubtitle = "";
           foreach ($products as $pd) {
+            $Productsubtitle = "";
             if($pd->Discontinued==1){
               $Productsubtitle = "(未上架)";
             }
+            $too =$data->findmyTotalonOreder($pd->ProductID);
+            $myStockOnOrder="0";
+            if(isset($too->StockOnOrder)){
+              $myStockOnOrder = "$too->StockOnOrder";
+            }
             //  onclick=\"window.location='/RollinAdmin/Product/Detail/" . $pd->ProductID . "'\"
             echo "<tr ondblclick=\"displayMore('$pd->ProductID');\">";
-            echo '<td><input type="checkbox" name="checkbox" id="checkbox' . $pd->ProductID . '" ></td>';
+            echo '<td><input type="checkbox" id="checkbox' . $pd->ProductID . '" name = "check[]" value="' . $pd->ProductID . '"></td>';
             echo "<td>" .$pd->ProductID."</td>";
             echo "<td><a href=/RollinAdmin/Product/Detail/$pd->ProductID>".$pd->ProductName."</a>".$Productsubtitle."</td>";
             echo "<td>".$pd->BrandName."</td>";
             echo "<td>$pd->CategoryName</td>";
             echo "<td>" . substr($pd->PDescription,0,69) . "</td>";
             echo "<td>$pd->TotalStock</td>";
-            echo "<td>002</td>";
+            echo "<td>".$myStockOnOrder."</td>";
             echo "<td>$pd->UnitPrice</td>";
             echo "<td>$pd->Date</td>";
             echo "</tr>";
@@ -240,7 +293,7 @@ th>a {
                     <td bgcolor="#778899"></td>
                     <td bgcolor="#778899"></td>
                     <td bgcolor="#778899"></td>
-                    <td bgcolor="#778899">Size:$SizeName </td>
+                    <td bgcolor="#778899">Size:<br>$SizeName </td>
                     <td bgcolor="#778899">Color:$pdst->Color </td>
                     <td bgcolor="#778899"></td>
                     <td bgcolor="#778899">pdst:$pdst->UnitInStock</td>
@@ -257,6 +310,9 @@ th>a {
         <tfoot>
         </tfoot>
       </table>
+      </form>
+      <div class="row">
+    <?php createPagination($pagesCount, $pageNo, $query); ?></div>
     </div>
     <!-- /.card-body -->
   </div>

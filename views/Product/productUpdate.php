@@ -118,7 +118,7 @@ require_once 'views/template/header.php';
             <th>更新日期</th> <!-- Date -->
           </tr>
         </thead>
-      <?php
+      <?php #表頭
                   echo <<<here
                   <tr>
                   <td style='width:2%'> $Product->ProductID </td>
@@ -131,7 +131,8 @@ require_once 'views/template/header.php';
                   <td>$Product->Date</td>
                   </tr>
                   here;
-                  foreach ($Stocks as $pdst) {
+              #表身
+                  foreach ($Stocks as $pdst) { 
                     echo  <<<here
                     <tr>
                     <td></td>

@@ -112,6 +112,9 @@ th>a:hover {
   width: 150px;
   height: 150px;
 }
+.list-brandname {
+  font-size: 1.3em;
+}
 .grid-img-wrap {
   width: 150px;
   height: 150px;
@@ -198,8 +201,8 @@ th>a:hover {
               <?php
               foreach ($brands as $brand) {
                 echo "<tr>";
-                echo "<td class='td-w'><img class='list-image' src='image/BrandImage/$brand->BrandID.jpg' title='$brand->BrandName' alt='$brand->BrandName 目前沒有圖片'/></td>";
-                echo "<td class='td-w'><a href='/RollinAdmin/Brand/Detail/$brand->BrandID'>$brand->BrandName</a></td>";
+                echo "<td class='td-w'><a href='/RollinAdmin/Brand/Detail/$brand->BrandID'><img class='list-image' src='image/BrandImage/$brand->BrandID.jpg' title='$brand->BrandName' alt='$brand->BrandName 目前沒有圖片'/></a></td>";
+                echo "<td class='td-w'><a href='/RollinAdmin/Brand/Detail/$brand->BrandID' class='list-brandname'>$brand->BrandName</a></td>";
                 echo "<td>$brand->Description</td>";
                 echo "</tr>";
               }

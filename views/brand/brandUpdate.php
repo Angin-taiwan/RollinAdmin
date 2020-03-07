@@ -6,7 +6,7 @@ $pageTitle = "Brand Update";
 
 // breadcrumb 中文化
 $pageDirTW = "品牌管理";
-$pageTitleTW = "修改品牌";
+$pageTitleTW = "品牌修改";
 
 # ----------------------------------------------------------
 

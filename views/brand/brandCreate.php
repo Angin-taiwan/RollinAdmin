@@ -6,7 +6,7 @@ $pageTitle = "Brand Create";
 
 // breadcrumb 中文化
 $pageDirTW = "品牌管理";
-$pageTitleTW = "新增品牌";
+$pageTitleTW = "品牌新增";
 
 # ----------------------------------------------------------
 

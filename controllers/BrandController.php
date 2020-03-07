@@ -3,7 +3,8 @@
 class BrandController extends Controller {
 
   function index() {
-    $this->view("Brand/brandList");
+    $brand = $this->model("Brand");
+    $this->view("Brand/brandList", $brand);
   }
 
   function list() {

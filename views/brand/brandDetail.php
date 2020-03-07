@@ -25,6 +25,7 @@ require_once 'views/template/header.php';
     object-fit: cover;
   }
   .brand-desc {
+    font-size: 1.2em;
     min-height: 150px;
   }
 </style>
@@ -34,9 +35,9 @@ require_once 'views/template/header.php';
   <div class="col-md-12">
     <div class="card flex-md-row mb-4 box-shadow h-md-250">
       <div class="card-body d-flex flex-column">
-        <h3 class="mb-0">
+        <h2 class="mb-0">
           <span class="text-dark"><?=$brand->BrandName?></span>
-        </h3>
+        </h2>
         <div class="brand-desc">
           <p class="card-text my-3"><?=$brand->Description?></p>
         </div>

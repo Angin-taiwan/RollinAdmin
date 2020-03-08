@@ -17,7 +17,7 @@ CREATE TABLE `Order` (
    `UserID`        INT         NOT NULL ,
    `PaymentID`     INT         NOT NULL ,
    `ShippingID`    INT         NOT NULL ,
-   `OrderDate`     DATETIME    NOT NULL     DEFAULT CURRENT_TIMESTAMP ,
+   `OrderDate`     DATETIME    NOT NULL    DEFAULT CURRENT_TIMESTAMP ,
    `CheckedDate`   DATETIME                 DEFAULT NULL ,
    `ShippedDate`   DATETIME                 DEFAULT NULL ,
    `DeliverDate`   DATETIME                 DEFAULT NULL ,
@@ -32,13 +32,17 @@ CREATE TABLE `Order` (
 -- Dumping data for table `Order`
 --
 
--- LOCK TABLES `Order` WRITE;
 
 INSERT INTO `Order`
 (`UserID`, `PaymentID`, `ShippingID`, `OrderDate`, `CheckedDate`, `ShippedDate`, `DeliverDate`, `CancelDate`, `MarketingID`, `CouponID`, `FinalPrice`) VALUES 
 (1, 1, 2, NOW(), NULL, NULL, NULL, NULL, NULL, NULL, 7580),
 (2, 2, 1, NOW(), NOW(), NULL, NULL, NULL, NULL, NULL, 1003),
 (3, 3, 2, NOW(), NOW(), NOW(), NULL, NULL, NULL, NULL, 3333),
-(4, 4, 1, NOW(), NOW(), NOW(), NOW(), NULL, NULL, NULL, 4444);
+(4, 4, 1, NOW(), NOW(), NOW(), NOW(), NULL, NULL, NULL, 4444),
+(16, 2, 2, '2020-02-03 19:13:29', NULL, NULL, NULL, NULL, NULL, NULL, 3313),
+(7, 3, 3, '2020-03-01 19:13:29', NULL, NULL, NULL, NULL, NULL, NULL, 12131), 
+(12, 2, 2, '2020-02-19 19:13:29', NULL, NULL, NULL, NULL, NULL, NULL, 2210), 
+(20, 2, 2, '2020-03-02 19:13:29', NULL, NULL, NULL, NULL, NULL, NULL, 2580), 
+(14, 2, 2, '2020-01-22 19:13:29', NULL, NULL, NULL, NULL, NULL, NULL, 2200),
+(27, 2, 2, '2020-01-22 19:13:29', NULL, NULL, NULL, NULL, NULL, NULL, 3210);
 
--- UNLOCK TABLES;

@@ -3,6 +3,7 @@
 class Course extends DB
 {
 
+
   function getAll()
   {
     return $this->selectDB("SELECT * FROM Course");
@@ -29,12 +30,19 @@ class Course extends DB
     );
   }
 
+  function updateTitle($Course)
+  {
+    return $this->updateDB(
+      "UPDATE Course SET Title = ? WHERE CourseID = ? ;",
+      ["$Course->Title", $Course->CourseID]
+    );
+  }
+
   function delete($ids = [])
   {
     if (empty($ids)) {
       return "error: ids is empty";
     }
-    echo "wwwwwwwwwwwww";
     return $this->deleteDB(
       "DELETE FROM Course WHERE CourseID IN (" . str_repeat("?,", count($ids) - 1) . "?);",
       $ids
@@ -45,6 +53,20 @@ class Course extends DB
   {
     return $this->selectDB("SELECT * FROM News WHERE Title LIKE '%$searchTerm%' ");
     // ["$news->searchTerm"];
+  }
+
+  function searchUserName($id,$searchTerm)
+  {
+    return $this->selectDB("SELECT Course.CourseID , Course.Title , User.UserID, User.UserName FROM Student JOIN Course ON Student.CourseID = Course.CourseID JOIN User ON Student.UserID = User.UserID WHERE Student.CourseID = ? AND User.UserName LIKE '%$searchTerm%'",[$id]);
+
+  }
+
+  function searchUserNameCount($id,$searchTerm)
+  {
+    return $this->selectDB("SELECT COUNT(*) Count FROM Student JOIN Course ON Student.CourseID = Course.CourseID JOIN User ON Student.UserID = User.UserID WHERE Student.CourseID = ? AND User.UserName LIKE CONCAT('%$searchTerm%')",
+    [$id]
+    )[0];
+
   }
 
   function getAllCount()
@@ -100,9 +122,11 @@ class Course extends DB
   function StudentName($id)
   {
     return $this->selectDB(
-      "SELECT Student.CourseID , Course.Title , User.UserID, User.UserName FROM Student JOIN User ON Student.UserID = User.UserID JOIN Course ON Student.CourseID = Course.CourseID WHERE Student.CourseID = ? ;",[$id]
+      "SELECT Course.CourseID , Course.Title , User.UserID, User.UserName FROM Student JOIN Course ON Student.CourseID = Course.CourseID JOIN User ON Student.UserID = User.UserID WHERE Student.CourseID = ? ;",[$id]
     );
   }
+
+ 
 
   function deleteStudent($ids = [])
   {
@@ -110,7 +134,7 @@ class Course extends DB
       return "error: ids is empty";
     }
     return $this->deleteDB(
-      "DELETE FROM Student WHERE UserID IN (" . str_repeat("?,", count($ids) - 1) . "?);",
+      "DELETE FROM Student WHERE CourseID = ? AND UserID = ? ;",
       $ids
     );
   }
@@ -118,6 +142,13 @@ class Course extends DB
   function getAllCountStudent() {
     return $this->selectDB(
       "SELECT COUNT(*) as Total FROM Student;"  // 總共有幾筆資料
+    )[0];
+  }
+
+  function getAllStudentCount($id)
+  {
+    return $this->selectDB(
+      "SELECT COUNT(*) as Total FROM Student JOIN Course ON Student.CourseID = Course.CourseID JOIN User ON Student.UserID = User.UserID WHERE Student.CourseID = ?;",[$id]  // 總共有幾筆資料
     )[0];
   }
 

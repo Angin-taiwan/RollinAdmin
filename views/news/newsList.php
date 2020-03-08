@@ -33,7 +33,7 @@ if (isset($_POST["checkedDeleteBtn"])) {
   }
   $str = implode("','", $arr);
   $data->delete($arr);
-  header("location: /RollinAdmin/News/List");
+  // header("location: /RollinAdmin/News/List");
 }
 
 
@@ -62,6 +62,12 @@ require_once 'views/template/header.php';
 
 <!-----------------------------------------------------CSS----------------------------------------------------------------------------------->
 <style>
+  #container {
+    margin: 0 auto;
+    width: 550px;
+
+  }
+
   .navbar-center {
     display: inline-block;
     float: none;
@@ -78,6 +84,11 @@ require_once 'views/template/header.php';
     table-layout: fixed;
   }
 
+  .content {
+    margin: auto;
+  }
+
+
   th,
   td {
     text-align: left;
@@ -85,9 +96,6 @@ require_once 'views/template/header.php';
     border: 1px solid #ddd;
     font-size: 15px;
 
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
   }
 
   th {
@@ -96,7 +104,10 @@ require_once 'views/template/header.php';
   }
 
   .col1 {
-    height: 100px;
+    height: 70px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 </style>
 <!------------------------------------------------------------------------------------------------------------------------------------------->
@@ -105,164 +116,200 @@ require_once 'views/template/header.php';
 <div class="container-fluid">
   <div class="card">
     <div class="card-header">
-      <form method="get" action="">
-        <div class="form-group">
-          <div class="d-flex align-items-end">
-            <label for="pageSize">每頁顯示多少筆 : </label>
-            <select style="width:68px" class="form-control form-control ml-2 mr-2 " name="pageSize" onchange="this.form.submit()">
-              <option value="3" <?= ($pageSize == "3") ? "selected=selected" : ""; ?>>3</option>
-              <option value="5" <?= ($pageSize == "5") ? "selected=selected" : ""; ?>>5</option>
-              <option value="10" <?= ($pageSize == "10") ? "selected=selected" : ""; ?>>10</option>
-            </select>
-            <label>共有 : <?= $NewsTotal ?> 筆資料</label>
-
-
-
+      <div>
+        <label class="float-right">搜尋到 : <?= $NewsCount ?>資料</label>
+      </div>
+      <div class="row">
+        <form method="get" action="">
+          <div class="form-group">
+            <div class="d-flex align-items-end float-left">
+              <label for="pageSize">每頁顯示多少筆 : </label>
+              <select style="width:68px" class="form-control form-control ml-2 mr-2 " name="pageSize" onchange="this.form.submit()">
+                <option value="3" <?= ($pageSize == "3") ? "selected=selected" : ""; ?>>3</option>
+                <option value="5" <?= ($pageSize == "5") ? "selected=selected" : ""; ?>>5</option>
+                <option value="10" <?= ($pageSize == "10") ? "selected=selected" : ""; ?>>10</option>
+              </select>
+              <label>共有 : <?= $NewsTotal ?> 筆資料</label>
+            </div>
           </div>
-        </div>
-        <div class="float-right form-group d-flex">
-          <input class="form-control mr-2" type="text" placeholder="search" name="keyword">
-          <select class="form-control mr-2" style="width:130px" name="Categorysearch">
-            <option value="Title">Title</option>
-            <option value="CreateDate">CreateDate</option>
-          </select>
-          <input type="submit" class="btn btn-dark" value="搜尋" name="searchButton" onchange="this.form.submit()">
-        </div>
+      </div>
 
-
+      <div class="float-right form-group d-flex">
+        <input class="form-control mr-2" type="text" placeholder="search" name="keyword">
+        <select class="form-control mr-2" style="width:130px" name="Categorysearch">
+          <option value="Title">Title</option>
+          <option value="CreateDate">CreateDate</option>
+        </select>
+        <input type="submit" class="btn btn-dark" value="搜尋" name="searchButton" onchange="this.form.submit()">
+      </div>
       </form>
-      <form method="post" action="News/List">
-        <div>
-          <input type="button" class="btn btn-outline-info" id="checkedAllBtn" value="全選">
-          <input type="button" class="btn btn-outline-info" id="checkedNoBtn" value="全消">
-          <input type="button" class="btn btn-outline-info" id="checkedRevBtn" value="反選">
-          <input type="submit" class="btn btn-outline-danger" id="checkedDeleteBtn" name="checkedDeleteBtn" value="勾選刪除" onclick="return confirm('是否確認刪除勾選資料')">
-        </div>
     </div>
 
+    <form method="post" action="News/List">
+      <div class="card-body">
 
-    <div class="card-body">
-      <label class="float-right">搜尋到 : <?= $NewsCount ?>資料</label>
-      <table class="table table-hover">
-        <thead>
-          <tr>
-            <th><input type="checkbox" id="checkedBtn" onclick="checkedAll()"></th>
-            <th width="7%">NewsID</th>
-            <!--<input type="button" name="sort" value="NewsID">-->
-            <th width="16%">Title</th>
-            <th width="26%">Description</th>
-            <th width="11%">CreateDate</th>
-            <th width="11%">UpdateDate</th>
-            <th width="26%">功能</th>
-          </tr>
-        </thead>
+        <div class="row">
+          <div class="mb-3">
+            <input type="button" class="btn btn-outline-info" id="checkedAllBtn" value="全選">
+            <input type="button" class="btn btn-outline-info" id="checkedNoBtn" value="全消">
+            <input type="button" class="btn btn-outline-info" id="checkedRevBtn" value="反選">
+            <input type="submit" class="btn btn-outline-danger" id="checkedDeleteBtn" name="checkedDeleteBtn" value="勾選刪除" onclick="return confirm('是否確認刪除勾選資料')">
+          </div>
 
-        <tbody>
-          <?php
+          <div id="container">
+            <nav aria-label="Page navigation" class="m-auto">
+              <ul class="pagination">
+                <?php
+                if ($pagesCount > 1) {
+                  $queryString = "?";
+                  if ($pageSize != "") {
+                    $queryString .= "pageSize" . $pageSize;
+                  };
+                  if ($keyword != "") {
+                    $queryString .= "&keyword=$keyword";
+                  };
+                  $prevous = $pageNo - 1;
+                  $next = $pageNo + 1;
+                  $prevousDisabled = $prevous <= 0 ? "disabled" : "";
+                  $nextDisabled = $next > $pagesCount ? "disabled" : "";
+                  echo "<li class='page-item $prevousDisabled'><a class='page-link' href='./News/List/$queryString&pageNo=$prevous'>上一頁</a></li>";
+                  for ($i = 1; $i <= $pagesCount; $i++) {
+                    echo "<li class='page-item'><a class='page-link' href='./News/List/$queryString&pageNo=$i'>$i</a></li>";
+                  }
+                  echo "<li class='page-item $nextDisabled'><a class='page-link' href='./News/List/$queryString&pageNo=$next'>下一頁</a></li>";
+                }
+                ?>
+              </ul>
+            </nav>
+          </div>
 
-          foreach ($newsGet as $news) {
-            echo "<tr>";
-            echo "<td>
-                <input type='checkbox' id='check' name='items' value='" . $news->NewsID . "'>
-                </td>";
-            echo "<td>" .  $news->NewsID . "</td>";
-            echo "<td>" .  $news->Title . "</td>";
-            echo "<td class='col1'>" .  $news->Description . "</td>";
-            echo "<td>" .  $news->CreateDate . "</td>";
-            echo "<td>" .  $news->UpdateDate . "</td>";
-            echo "<td> 
+
+
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th width="3%" style="vertical-align:middle;text-align:center"><input type="checkbox" id="checkedBtn" onclick="checkedAll()"></th>
+                <th width="7%">ID編號</th>
+                <!--<input type="button" name="sort" value="NewsID">-->
+                <th>消息標題</th>
+                <th>消息內容</th>
+                <th>創建時間</th>
+                <th>更新時間</th>
+                <th width="25%">功能</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <?php
+
+              foreach ($newsGet as $news) {
+                echo "<tr>";
+                echo "<td  style='vertical-align:middle;text-align:center'>
+                 <input type='checkbox' id='check' name='items[]' value='" . $news->NewsID . "'>
+                 </td>";
+                echo "<td>" .  $news->NewsID . "</td>";
+                echo "<td>" .  $news->Title . "</td>";
+                echo "<td class='col1'>" .  $news->Description . "</td>";
+                echo "<td>" .  $news->CreateDate . "</td>";
+                echo "<td>" .  $news->UpdateDate . "</td>";
+                echo "<td> 
                 <a href='/RollinAdmin/News/Detail/$news->NewsID' class='btn btn-info'><i class='fa fa-search'></i>查看</a>
 
                 <a href='/RollinAdmin/News/Update/$news->NewsID' class='btn btn-secondary'>
                 <i class='fa fa-edit'></i>修改</a>
 
-                <button class='btn btn-danger' type='submit' name='delete' value=' " . $news->NewsID . " '> <i class='fa fa-trash'>&nbsp</i>刪除</button>
+                <button class='btn btn-danger' type='submit' name='delete' onclick='return deleteNews()' value=' " . $news->NewsID . " '> <i class='fa fa-trash'>&nbsp</i>刪除</button>
                 </td>";
 
-            echo "</tr>";
-          }
-          ?>
-
-        </tbody>
-      </table>
-      <!--分頁功能-->
-      <div class="row">
-        <nav aria-label="Page navigation" class="m-auto">
-          <ul class="pagination mt-4">
-            <?php
-            if ($pagesCount > 1) {
-              $queryString = "?";
-              if ($pageSize != "") {
-                $queryString .= "pageSize" . $pageSize;
-              };
-              if ($keyword != "") {
-                $queryString .= "&keyword=$keyword";
-              };
-              $prevous = $pageNo - 1;
-              $next = $pageNo + 1;
-              $prevousDisabled = $prevous <= 0 ? "disabled" : "";
-              $nextDisabled = $next > $pagesCount ? "disabled" : "";
-              echo "<li class='page-item $prevousDisabled'><a class='page-link' href='./News/List/$queryString&pageNo=$prevous'>上一頁</a></li>";
-              for ($i = 1; $i <= $pagesCount; $i++) {
-                echo "<li class='page-item'><a class='page-link' href='./News/List/$queryString&pageNo=$i'>$i</a></li>";
+                echo "</tr>";
               }
-              echo "<li class='page-item $nextDisabled'><a class='page-link' href='./News/List/$queryString&pageNo=$next'>下一頁</a></li>";
-            }
-            ?>
-          </ul>
-        </nav>
-      </div>
-    </div>
+              ?>
+
+            </tbody>
+          </table>
+          <!--分頁功能-->
+
+          <nav aria-label="Page navigation" class="m-auto">
+            <ul class="pagination mt-4">
+              <?php
+              if ($pagesCount > 1) {
+                $queryString = "?";
+                if ($pageSize != "") {
+                  $queryString .= "pageSize" . $pageSize;
+                };
+                if ($keyword != "") {
+                  $queryString .= "&keyword=$keyword";
+                };
+                $prevous = $pageNo - 1;
+                $next = $pageNo + 1;
+                $prevousDisabled = $prevous <= 0 ? "disabled" : "";
+                $nextDisabled = $next > $pagesCount ? "disabled" : "";
+                echo "<li class='page-item $prevousDisabled'><a class='page-link' href='./News/List/$queryString&pageNo=$prevous'>上一頁</a></li>";
+                for ($i = 1; $i <= $pagesCount; $i++) {
+                  echo "<li class='page-item'><a class='page-link' href='./News/List/$queryString&pageNo=$i'>$i</a></li>";
+                }
+                echo "<li class='page-item $nextDisabled'><a class='page-link' href='./News/List/$queryString&pageNo=$next'>下一頁</a></li>";
+              }
+              ?>
+            </ul>
+          </nav>
+        </div>
+
     </form>
   </div>
+</div>
 
-  <?php
+<?php
 
-  require_once 'views/template/footer.php';
+require_once 'views/template/footer.php';
 
-  ?>
-  <i class='fas fa-sort'></i>
+?>
+<i class='fas fa-sort'></i>
 
-  <script>
-    let items = document.getElementsByName("items");
-    //全選 全消 反選 按鈕功能
-    //全選checkbox
-    function checkedAll() {
-      let checkedBtn = document.getElementById("checkedBtn").checked;
-      for (let i = 0; i < items.length; i++) {
-        if (checkedBtn == true) {
-          items[i].checked = true;
-        } else {
-          items[i].checked = false;
-        }
-      }
-    }
-
-    //全選按鈕
-    let checkedAllBtn = document.getElementById("checkedAllBtn");
-    checkedAllBtn.onclick = function() {
-      for (let i = 0; i < items.length; i++) {
+<script>
+  let items = document.getElementsByName("items[]");
+  //全選 全消 反選 按鈕功能
+  //全選checkbox
+  function checkedAll() {
+    let checkedBtn = document.getElementById("checkedBtn").checked;
+    for (let i = 0; i < items.length; i++) {
+      if (checkedBtn == true) {
         items[i].checked = true;
-      }
-    }
-
-    //全消按鈕
-    let checkedNoBtn = document.getElementById("checkedNoBtn");
-    checkedNoBtn.onclick = function() {
-      for (let i = 0; i < items.length; i++) {
+      } else {
         items[i].checked = false;
       }
     }
+  }
 
-    //反選按鈕
-    let checkedRevBtn = document.getElementById("checkedRevBtn");
-    checkedRevBtn.onclick = function() {
-      for (let i = 0; i < items.length; i++) {
-        if (items[i].checked) {
-          items[i].checked = false;
-        } else {
-          items[i].checked = true;
-        }
+  //全選按鈕
+  let checkedAllBtn = document.getElementById("checkedAllBtn");
+  checkedAllBtn.onclick = function() {
+    for (let i = 0; i < items.length; i++) {
+      items[i].checked = true;
+    }
+  }
+
+  //全消按鈕
+  let checkedNoBtn = document.getElementById("checkedNoBtn");
+  checkedNoBtn.onclick = function() {
+    for (let i = 0; i < items.length; i++) {
+      items[i].checked = false;
+    }
+  }
+
+  //反選按鈕
+  let checkedRevBtn = document.getElementById("checkedRevBtn");
+  checkedRevBtn.onclick = function() {
+    for (let i = 0; i < items.length; i++) {
+      if (items[i].checked) {
+        items[i].checked = false;
+      } else {
+        items[i].checked = true;
       }
     }
-  </script>
+  }
+
+  function deleteNews() {
+    return confirm("是否確認刪除 ??");
+  }
+</script>

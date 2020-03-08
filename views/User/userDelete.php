@@ -84,10 +84,6 @@ require_once 'views/template/header.php';
                         <td><?= $user->Email?></td>            
                     </tr>
                     <tr>
-                        <td>密碼</td>
-                        <td><?= $user->Password?></td>            
-                    </tr>
-                    <tr>
                         <td>國家</td>
                         <td><?= $user->Country?></td>            
                     </tr>
@@ -96,14 +92,9 @@ require_once 'views/template/header.php';
                         <td><?= $user->City?><?= $user->District?><?= $user->Address?></td>            
                     </tr>
                     <tr>
-                        <td>註冊日期</td>
+                        <td>註冊時間</td>
                         <td><?= $user->CreateDate?></td>            
                     </tr>           
-                    <tr>
-                        <td>Coupon</td>
-                        <td></td>
-                        <!-- 之後再連Coupon資料 -->
-                    </tr>
                 </tbody>
             </table>
             

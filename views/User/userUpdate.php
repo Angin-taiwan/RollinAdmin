@@ -15,14 +15,13 @@ if(isset($_POST['submit'])){
     $user->Gender = $_POST['gender'];
     $user->Birthdate = $_POST['birthday'];
     $user->Phone = $_POST['phone'];
-    $user->Email = $_POST['mail'];
     $user->Password = $_POST['password'];
     $user->Country = $_POST['country'];
     $user->City = $_POST['city'];
     $user->District = $_POST['district'];
     $user->Address = $_POST['address'];
     $user->PostalCode = $_POST['postalcode'];
-    $user->CreateDate = date('Y-m-d H:i:s');
+    //$user->CreateDate = date('Y-m-d H:i:s');
     $data->updateUser($user);
     if ($user->UserID) {
       header("Location: ../Detail/$user->UserID");

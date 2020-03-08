@@ -14,7 +14,8 @@ $pageNo = isset($query["pageNo"]) ? $query["pageNo"] : 1;
 $column = isset($query["column"]) ? $query["column"] : "";
 $search = isset($query["search"]) ? $query["search"] : "";
 
-//搜尋
+
+//分頁、搜尋
 $userTotal= get_object_vars($data->getAllCount())["Total"];
 $startIndex = ($pageNo - 1) * $pageSize ;
 $users = $search == "" ? $data->getAll($startIndex,$pageSize) : $data->getAllLike($column,$search,$startIndex,$pageSize);
@@ -43,7 +44,6 @@ if(isset($_POST["deleteSubmit"])){
   header("Location: ./List");
   exit();
 };
-
 
 
 require_once 'views/template/header.php';
@@ -76,12 +76,13 @@ require_once 'views/template/header.php';
           <option value="UserName" <?= ($column =="UserName") ? "selected=selected":""; ?>>姓名</option>
           <option value="Email" <?= ($column =="Email") ? "selected=selected":""; ?>>信箱</option>
           <option value="Phone"<?= ($column =="Phone") ? "selected=selected":""; ?>>電話</option>
+          <!-- <option value="Gender"<?= ($column =="Gender") ? "selected=selected":""; ?>>性別</option> -->
         </select>
         <input type="text" name="search" class="form-control form-control-sm col-sm-3 ml-2" 
                 value="<?=$search?>" placeholder="請輸入查詢關鍵字">
         <button type="submit" class="btn btn-sm btn-info ml-2">送出</button>
         
-        <?php
+        <?php //搜尋結果顯示
           $ch_cloumn = "";
           switch($column){
             case "UserName" : 
@@ -123,7 +124,7 @@ require_once 'views/template/header.php';
       </div>
   
 
-      <?php
+      <?php //分頁按鈕
         if($pageTotal>1){
           $queries = array(
             'pageSize' => $pageSize,
@@ -151,18 +152,20 @@ require_once 'views/template/header.php';
         };
       ?>
 
+      <!-- 多筆刪除 按鈕,modal -->
       <form method="post">
         <input type="button" name="checkAll" class="btn btn-sm btn-outline-secondary mb-1" onclick="check_all()" value="全選"></input>
         <input type="button" name="ChangeCheck" class="btn btn-sm btn-outline-secondary mb-1" onclick="change_check()" value="反選"></input>
         <input type="button" name="unCheckAll" class="btn btn-sm btn-outline-secondary mb-1" onclick="un_check_all()" value="取消"></input>
         <button type="button" class="btn btn-sm btn-danger mb-1" data-toggle="modal" data-target="#deleteModal">多筆刪除</button>
+        <span id="ckCounter" class="text-secondary ml-2"></span>
         <!-- Modal -->
         <div id="deleteModal" class="modal" role="dialog">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header"></div>
                         <div class="modal-body">
-                            <p class="ml-3 mt-2">刪除的資料將無法復原，確定要刪除這幾筆資料？</p>
+                            <p id=modalText class="ml-3 mt-2"></p>
                         </div>
                         <div class="modal-footer">
                             <a class="btn btn-secondary" href="User/List" >返回</a>
@@ -206,7 +209,7 @@ require_once 'views/template/header.php';
                     break;
                 }
                 echo "<tr>";
-                echo '<td><input type="checkbox" name="checkBox[]" value='.$user->UserID.'></td>';
+                echo '<td><input type="checkbox" name="checkBox[]" value='.$user->UserID.' onclick="checkedCount()"></td>';
                 echo "<td>".$user->UserID."</td>";
                 echo "<td>".$user->UserName."</td>";
                 echo "<td>".$user->NickName."</td>";
@@ -268,40 +271,60 @@ require_once 'views/template/footer.php';
 ?>
 
 <script>
+
 //全選
-function check_all(){
-  var checkitem = document.getElementsByName("checkBox[]");
-  for(var i=0 ; i<checkitem.length ;i++){
-    checkitem[i].checked = true;
+  function check_all(){
+    var checkitem = document.getElementsByName("checkBox[]");
+    for(var i=0 ; i<checkitem.length ;i++){
+      checkitem[i].checked = true;
+    }
+    var counter = checkitem.length;
+    document.getElementById("ckCounter").innerHTML = `已勾選 ${counter} 筆`;
+    document.getElementById("modalText").innerHTML = `刪除的資料將無法復原，確定要刪除這 ${counter} 筆資料？`;
   }
-}
 
-//全取消
-function un_check_all(){
-  var checkitem = document.getElementsByName("checkBox[]");
-  for(var i=0 ; i<checkitem.length ;i++){
-    checkitem[i].checked = false;
+  //全取消
+  function un_check_all(){
+    var checkitem = document.getElementsByName("checkBox[]");
+    for(var i=0 ; i<checkitem.length ;i++){
+      checkitem[i].checked = false;
+    }
+    document.getElementById("ckCounter").innerHTML = `已勾選 0 筆`;
+    document.getElementById("modalText").innerHTML = `刪除的資料將無法復原，確定要刪除這 ${counter} 筆資料？`;
   }
-}
 
-//反選
-function change_check(){
-  var checkitem = document.getElementsByName("checkBox[]");
-  for(var i=0 ; i<checkitem.length ;i++){
-    checkitem[i].checked = !checkitem[i].checked;
+  //反選
+  function change_check(){
+    var checkitem = document.getElementsByName("checkBox[]");
+    for(var i=0 ; i<checkitem.length ;i++){
+      checkitem[i].checked = !checkitem[i].checked;
+    }
+    let counter = 0;
+    for(var i=0 ; i<checkitem.length ; i++){
+      if(checkitem[i].checked){
+        counter ++;
+      }
+    }
+    document.getElementById("ckCounter").innerHTML = `已勾選 ${counter} 筆`;
+    document.getElementById("modalText").innerHTML = `刪除的資料將無法復原，確定要刪除這 ${counter} 筆資料？`;
   }
-}
+  
+  //計算勾選筆數
+  function checkedCount(){
+    var checkitem = document.getElementsByName("checkBox[]");
+    //console.log(checkcount);
+    let counter = 0;
+    for(var i=0 ; i<checkitem.length ; i++){
+      if(checkitem[i].checked){
+        counter ++;
+      }
+    }
+    document.getElementById("ckCounter").innerHTML = `已勾選 ${counter} 筆`;
+    document.getElementById("modalText").innerHTML = `刪除的資料將無法復原，確定要刪除這 ${counter} 筆資料？`;
+  }
 
-
-
-// function check_all(){
-//   var checkitem = document.form.elements["checkBox[]"];
-//   var checkallbtn = document.form.checkAll;
-//   console.log(checkbox);
-//   for(let i=0 ; i<checkBox.length ; i++){
-//   }
-// }
-
-
-
+  
 </script>
+
+
+

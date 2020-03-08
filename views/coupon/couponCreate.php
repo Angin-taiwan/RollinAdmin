@@ -7,8 +7,6 @@ $pageTitle = "Coupon Create";
 $pageDirTW = "折價券管理";
 $pageTitleTW = "折價券新增";
 
-require_once 'views/template/header.php';
-
 $coupon = new Coupon();
 
 $quantityErr = $priceErr = $priceconditionErr = $enddateErr = $expenddateErr = "";
@@ -31,7 +29,7 @@ if (isset($_POST['add'])) {
   } else {
     if (intval($_POST['couponPrice']) <= 0)
       $priceErr = '金額或折數需>0';
-    else if ($_POST['couponPrice'] == 'value' && intval($_POST['couponPrice']) > 100)
+    else if ($_POST['priceType'] == 'discount' && intval($_POST['couponPrice']) > 100)
       $priceErr = '折數不可大於100%';
   }
 
@@ -68,6 +66,10 @@ if (isset($_POST['add'])) {
     $coupon->CouponEndDate = $_POST['couponEndDate'];
     $coupon->CouponExpEndDate = $_POST['couponExpEndDate'];
     $coupon->CouponID = $data->create($coupon);
+    if ($coupon->CouponID) {
+      header("Location: /RollinAdmin/Coupon/Detail/$coupon->CouponID");
+      exit();
+    }
   } else {
     $cname = $_POST["couponName"];
     $ccode = $_POST['couponCode'];
@@ -99,23 +101,24 @@ if (isset($_POST['addCouponType'])) {
   $page = 2;
 }
 
-
+require_once 'views/template/header.php';
 ?>
 
 
 <head>
-<link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css" />
-<style>
-  .error {
-    color: red;
-    font-size: 10pt;
-  }
+  <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css" />
+  <style>
+    .error {
+      color: red;
+      font-size: 10pt;
+      font-family: '微軟正黑體';
+    }
 
-  select {
-    border: 1px solid #d2d2d2;
-    padding: 5px;
-  }
-</style>
+    select {
+      border: 1px solid #d2d2d2;
+      padding: 5px;
+    }
+  </style>
 </head>
 
 
@@ -129,56 +132,71 @@ if (isset($_POST['addCouponType'])) {
                                                 } else {
                                                   echo "style='display:none'";
                                                 } ?>>
-        <label for="couponName" class="col-md-4 col-sm-12">名稱</i></label>
-        <input class="col-md-4 col-sm-8" type="text" id='couponName' name='couponName' value="<?php echo $cname; ?>" required>
-        <br>
-        <label for="couponCode" class="col-md-4 col-sm-12">折價券代碼</label>
-        <input class="col-md-4 col-sm-8" type="text" id='couponCode' name='couponCode' value="<?php echo $ccode; ?>">
-        <br>
-        <label for="couponType" class="col-md-4 col-sm-12">類型</label>
-        <select class="col-md-4 col-sm-8 d-inline" id="couponType" name='couponType' required>
-          <option value="-1" hidden>請選擇</option>
-          <?php
-          $types = $data->getCouponType();
-          foreach ($types as $type) {
-            echo '<option value = "' . $type->CouponTypeID . '" ';
-            if ($ctype == $type->CouponTypeID)
-              echo 'selected';
-            echo '>' . $type->CouponTypeName . '</option>';
-          }
-          ?>
-        </select>
-        <br>
-        <label for="couponQuantity" class="col-md-4 col-sm-12">數量(全店適用請填all)</label>
-        <input class="col-md-4 col-sm-8" type="text" id='couponQuantity' name='couponQuantity' value="<?php echo $cquantity; ?>" required>
-        <span class="error col-4"><?php echo $quantityErr; ?></span>
-        <br>
-        <label for="priceType" class="col-md-4 col-sm-12">折扣類型</label>
-        <select class="col-md-4 col-sm-8 d-inline" id="priceType" name='priceType' value="<?php echo $cpricetype; ?>" required>
-          <option value="" disabled selected hidden>請選擇</option>
-          <option value="price" <?php if ($cpricetype == 'price') echo 'selected'; ?>>折價</option>
-          <option value="discount" <?php if ($cpricetype == 'discount') echo 'selected'; ?>>打折</option>
-        </select>
-        <br>
-        <label for="couponPrice" class="col-md-4 col-sm-12">金額(元)/折數(%)</label>
-        <input class="col-md-4 col-sm-8" type="text" id='couponPrice' name='couponPrice' value="<?php echo $cprice; ?>" required>
-        <span class="error col-4"><?php echo $priceErr; ?></span>
-        <br>
-        <label for="couponPriceCondition" class="col-md-4 col-sm-12">滿額可用</label>
-        <input class="col-md-4 col-sm-8" type="text" id='couponPriceCondition' name='couponPriceCondition' value="<?php echo $cpricecondition; ?>" required>
-        <span class="error col-4"><?php echo $priceconditionErr; ?></span>
-        <br>
-        <label for="couponStartDate" class="col-md-4 col-sm-12">開始領取/使用時間</label>
-        <input class="col-md-4 col-sm-8" type="datetime-local" id='couponStartDate' name='couponStartDate' value="<?php echo $cstartdate; ?>" required>
-        <br>
-        <label for="couponEndDate" class="col-md-4 col-sm-12">結束領取時間</label>
-        <input class="col-md-4 col-sm-8" type="datetime-local" id='couponEndDate' name='couponEndDate' value="<?php echo $cenddate; ?>" required>
-        <span class="error col-4"><?php echo $enddateErr; ?></span>
-        <br>
-        <label for="couponExpEndDate" class="col-md-4 col-sm-12">結束時間</label>
-        <input class="col-md-4 col-sm-8" type="datetime-local" id='couponxpEndDate' name='couponExpEndDate' value="<?php echo $cexpenddate; ?>" required>
-        <span class="error col-4"><?php echo $expenddateErr; ?></span>
-        <br>
+        <div class="form-group">
+          <label for="couponName">名稱</i></label>
+          <input class="col-4 form-control" type="text" id='couponName' name='couponName' value="<?php echo $cname; ?>" required>
+        </div>
+        <div class="form-group">
+          <label for="couponCode">折價券代碼</label>
+          <input class="col-4 form-control" type="text" id='couponCode' name='couponCode' value="<?php echo $ccode; ?>">
+        </div>
+        <div class="form-group">
+          <label for="couponType">類型</label>
+          <select class="col-4 form-control" id="couponType" name='couponType' required>
+            <option value="-1" hidden>請選擇</option>
+            <?php
+            $types = $data->getCouponType();
+            foreach ($types as $type) {
+              echo '<option value = "' . $type->CouponTypeID . '" ';
+              if ($ctype == $type->CouponTypeID)
+                echo 'selected';
+              echo '>' . $type->CouponTypeName . '</option>';
+            }
+            ?>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="couponQuantity">數量(全店適用請填all)</label>
+          <input class="col-4 form-control" type="text" id='couponQuantity' name='couponQuantity' value="<?php echo $cquantity; ?>" required>
+          <span class="error"><?php echo $quantityErr; ?></span>
+        </div>
+        <div class="row">
+          <div class="form-group col-4">
+            <label for="priceType">折扣類型</label>
+            <select class="form-control" id="priceType" name='priceType' value="<?php echo $cpricetype; ?>" required>
+              <option value="" disabled selected hidden>請選擇</option>
+              <option value="price" <?php if ($cpricetype == 'price') echo 'selected'; ?>>折價</option>
+              <option value="discount" <?php if ($cpricetype == 'discount') echo 'selected'; ?>>打折</option>
+            </select>
+          </div>
+          <div class="form-group col-4">
+            <label for="couponPrice">金額(元)/折數(%)</label>
+            <input class="form-control" type="text" id='couponPrice' name='couponPrice' value="<?php echo $cprice; ?>" required>
+            <span class="error"><?php echo $priceErr; ?></span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="couponPriceCondition">折扣限制(滿額可用)</label>
+          <input class="form-control col-4" type="text" id='couponPriceCondition' name='couponPriceCondition' value="<?php echo $cpricecondition; ?>" required>
+          <span class="error"><?php echo $priceconditionErr; ?></span>
+        </div>
+        <div class="row">
+          <div class="form-group col-4">
+            <label for="couponStartDate">開始領取/使用時間</label>
+            <input class="form-control" type="datetime-local" id='couponStartDate' name='couponStartDate' value="<?php echo $cstartdate; ?>" required>
+          </div>
+          <div class="form-group col-4">
+            <label for="couponEndDate">結束領取時間</label>
+            <input class="form-control" type="datetime-local" id='couponEndDate' name='couponEndDate' value="<?php echo $cenddate; ?>" required>
+            <span class="error"><?php echo $enddateErr; ?></span>
+          </div>
+          <div class="form-group col-4">
+            <label for="couponExpEndDate">結束時間</label>
+            <input class="form-control" type="datetime-local" id='couponxpEndDate' name='couponExpEndDate' value="<?php echo $cexpenddate; ?>" required>
+            <span class="error"><?php echo $expenddateErr; ?></span>
+          </div>
+        </div>
         <input type='submit' class="btn btn-primary float-left btn-sm mt-3" name='add' value='新增'>
       </form>
       <form method="post" action="" id="card2" <?php if ($page == 1) {
@@ -186,15 +204,16 @@ if (isset($_POST['addCouponType'])) {
                                                 } else {
                                                   echo "style='display:block'";
                                                 } ?>>
-        <label for="couponTypeName2" class="col-4">折價券類型名稱</label>
-        <input class="col-4" type="text" id='couponTypeName2' name='couponTypeName2' value="<?php echo $ccoupontypename; ?>" required>
-        <span class="error col-4"><?php echo $coupontypenameErr; ?></span>
-        <br>
+        <div class="form-group">
+          <label for="couponTypeName2">折價券類型名稱</label>
+          <input class="col-6 form-control" type="text" id='couponTypeName2' name='couponTypeName2' value="<?php echo $ccoupontypename; ?>" required>
+          <span class="error"><?php echo $coupontypenameErr; ?></span>
+        </div>
         <input type='submit' class="btn btn-primary float-left btn-sm" name='addCouponType' value='新增' required>
       </form>
     </div>
     <div class="card-footer">
-      <button class="btn btn-dark btn-sm ml-2 float-right" onclick="goback();">返回</button>
+      <a href=/RollinAdmin/Coupon/List> <button class="btn btn-outline-secondary btn-sm ml-2 float-right">返回</button></a>
 
     </div>
   </div>

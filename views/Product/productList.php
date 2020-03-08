@@ -338,7 +338,7 @@ function displayMore(TagName){
     }
  };
 }
-var obj = document.getElementsByName("checkbox");
+var obj = document.getElementsByName("check[]");
 // checkbox點擊全選或取消
 function SALLcheckbox() {
   var selectallcheckbox = document.getElementById("selectallcheckbox").checked;

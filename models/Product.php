@@ -101,7 +101,14 @@ function getAllLike($ProductName, $column = "p.ProductID", $sort = "ASC", $start
       [$Productstocks->ProductID , $Productstocks->SizeID , $Productstocks->ColorID , $Productstocks->UnitInStock]
     );
   }
-
+// str_repeat( "(?, ?, ?, ?, 0)," , count($Productstocks)-1)) . "(?, ?, ?, ?, 0);", $Productstocks
+// (value2_1, value2_2, value2_3,···),(value2_1, value2_2, value2_3,···),(value2_1, value2_2, value2_3,···)
+// function delete($ids = []){
+//   if (empty($ids)) {return "error: ids is empty";}
+//   return $this->deleteDB(
+//     "DELETE FROM Product WHERE ProductID IN (" . str_repeat("?,", count($ids) -1) . "?);",
+//     $ids);
+//   }
 // U______________________________________________________
   function updateProduct($Product) {
     return $this->updateDB(
@@ -140,23 +147,26 @@ function findmyMainCategoryName(){
   "SELECT * from Category WHERE ParentID IS NULL;");
 }
 
-function findmyCldCategoryName($id=null){
-  if($id==null){
+function findmyCldCategoryName($id=NULL){
+  if($id==0){
+    $id=NULL;
+  }
+  if($id==NULL){
     return $this->selectDB(
       "SELECT * from Category WHERE ParentID IS NOT NULL;");
   } else{
     return $this->selectDB(
-      "SELECT * from Category WHERE ParentID = $id;");
+      "SELECT * from Category WHERE ParentID LIKE ?", [$id]
+    );
   }
 }
 
-function findmySizeName($id=null){
+function findmySizeName($id='%%'){
   return $this->selectDB(
     "SELECT s.SizeID, s.SizeName, cs.CategoryID, c.CategoryName from Size as s
     join categorysize as cs on cs.SizeID = s.SizeID
     join category as c on cs.CategoryID = c.CategoryID
-    -- WHERE cs.CategoryID = $id
-    ;"
+    WHERE cs.CategoryID LIKE ?", [$id]
   );
 }
 
@@ -165,6 +175,7 @@ function findmyColorName(){
     "SELECT ColorID, Color from Color;"
   );
 }
+
 function findmyTotalonOreder($id){
     return $this->selectDB(
       "SELECT p.ProductID, SUM(od.Quantity) StockOnOrder from product as p 
@@ -194,4 +205,12 @@ function OFFsale($ids = []){
     $ids);
   }
 
+
+  function OFFsaleONE($ids, $SaleSitu = 0){
+    if (empty($ids)) {return "error: ids is empty";}
+    return $this->deleteDB(
+      "UPDATE Product SET Discontinued = ? WHERE ProductID IN (" . str_repeat("?,", count($ids) -1) . "?)",
+      [$SaleSitu , $ids]);
+    }
+  
 }

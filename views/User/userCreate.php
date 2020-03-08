@@ -29,7 +29,6 @@ if(isset($_POST['submit'])){
     $user->City = $_POST['city'];
     $user->District = $_POST['district'];
     $user->Address = $_POST['address'];
-    $user->PostalCode = $_POST['postalcode'];
     $user->CreateDate = date('Y-m-d H:i:s');
     $user->UserID = $data->createUser($user);
     $mailDisplay = "d-none";

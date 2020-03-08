@@ -24,7 +24,7 @@ $pageTitleTW = "訂單清單";
 $datecreate= date("Y-m-d h:i:sa");
 
 
- 
+
 //更新出貨時間
 if (isset($_GET['updateshippedDate'])) {
   $ss = $_GET['updateshippedDate'];
@@ -57,7 +57,7 @@ if (isset($_GET["checkedshippBtn"])) {
 }
   //全部理貨按鈕
   if (isset($_GET["checkedBtn"])) {
-    
+
     $arr = array();
     foreach ($_GET['items'] as $check) {
       array_push($arr, $check);
@@ -79,7 +79,7 @@ if (isset($_GET["checkedshippBtn"])) {
       echo "<script> alert('勾選理貨成功'); </script>";
       break;
     }
-    
+
     // header("location: /RollinAdmin/order/List");
   }
 
@@ -145,7 +145,7 @@ echo  $Searchtext, "<br>";
 
 
 
-// for pagination  
+// for pagination
 $pageStartIndex = ($pageNo - 1) * $pageSize;
 $OrdersTotal = get_object_vars($data->getAllCount())["Total"];
 $Orders = $Searchtext  == "" && $ordertype == "" ? $data->getAll($pageStartIndex, $pageSize) : $data->getAllLike($ordertype, $keywords, $Searchtext, $startDate, $endDate, $pageStartIndex, $pageSize);
@@ -210,7 +210,7 @@ require_once 'views/template/header.php';
           <label for="example-date-input" class="col-xs-1.5 col-form-label">-</label>
           <div class="col-5">
             <input class="form-control w-100 small-box" type="date" name="endDate" value="<?= $endDate ?>" id="example-date-input">
-          </div>   
+          </div>
         </div>
         </div>
 
@@ -236,13 +236,13 @@ require_once 'views/template/header.php';
             <option value="O.orderID" <?= ($keywords == "O.orderID") ? "selected=selected" : ""; ?>>編號</option>
             <option value="UserName" <?= ($keywords == "UserName") ? "selected=selected" : ""; ?>>姓名</option>
           </select>
-      
+
           <div class="col-3 ml-2">
           <!-- onchange="this.form.submit() -->
             <input type="text" name="Searchtext" class="form-control float-right " value = "<?= isset($_GET["Searchtext"]) ? $_GET["Searchtext"] : ""; ?>"
             placeholder="輸入關鍵字搜尋" >
           </div>
-          <input type="submit" class= "ml-2 btn btn-info btn-secondary" name="submitSearch" value="Search">     
+          <input type="submit" class= "ml-2 btn btn-info btn-secondary" name="submitSearch" value="Search">
         </div>
         <div class="col-12 d-flex flex-row-reverse">
             <label class="col-form-label ml-4">
@@ -252,12 +252,12 @@ require_once 'views/template/header.php';
       </div>
     </form>
         <!-- /.form-row -->
-      
+
     <form method="get" action="order/List">
-    
+
     <!-- /.card-header -->
     <div class="card-body">
-    
+
       <div class="mb-1 d-flex  flex-row ">
         <input type="button" class="btn btn-outline-info btn-sm mr-1 " id="checkedAllBtn" value="全選">
         <input type="button" class="btn btn-outline-info btn-sm mr-1" id="checkedNoBtn" value="全消">
@@ -267,7 +267,7 @@ require_once 'views/template/header.php';
         <i class='fa fa-truck'>&nbsp</i>出貨</button></a>
         <button type="button" class="btn btn-danger btn-sm mr-1" data-toggle="modal" data-target="#CancelModal">
         <i class='fa fa-ban'>&nbsp</i>取消</button></a>
-      </div>  
+      </div>
       <div id="CancelModal" class="modal" role="dialog">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -282,7 +282,7 @@ require_once 'views/template/header.php';
                     </div>
                 </div>
             </div>
-      
+
       <br>
       <?php //下方分頁按鈕
         if($pagesCount>1){
@@ -301,7 +301,7 @@ require_once 'views/template/header.php';
           $nextPage = $pageNo + 1;
           $preDisabled = $prePage < 1 ? "disabled" : "";
           $nextDisabled = $nextPage > $pagesCount ? "disabled" : "";
-          
+
           echo "<br>";
           echo "<ul class='pagination d-flex justify-content-center'>";
           echo "<li class='page-item $preDisabled'><a href='Order/List?$queryString&pageNo=$prePage' class='page-link'>上一頁</a></li>";
@@ -336,36 +336,36 @@ require_once 'views/template/header.php';
                 $TypedisplayCancel = "";
               break;
             };
-      
 
-      
+
+
       echo "<table id='listTable' class='table table-bordered table-hover table-sm'>";
       echo "<thead>";
       echo "<tr class='text-center'>";
       echo "<th></th>";
-      echo "<th>ID</th>";
-      
-      echo "<th>UserName</th>";
-      echo "<th>Pamyment</th>";
-      echo "<th>OrderDate</th>";
-      echo "<th $TypedisplayC>CheckedDate</th>";
-      echo "<th $TypedisplayS>ShippedDate</th>";
-      echo "<th>DeliverDate</th>";
-      echo "<th $TypedisplayCancel>CancelDate</th>";
-      echo "<th>FinalPrice</th>";
+      echo "<th>訂單編號</th>";
+
+      echo "<th>訂購者</th>";
+      echo "<th>付款方式</th>";
+      echo "<th>下訂日期</th>";
+      echo "<th $TypedisplayC>理貨日期</th>";
+      echo "<th $TypedisplayS>出貨日期</th>";
+      echo "<th>送達日期</th>";
+      echo "<th $TypedisplayCancel>取消日期</th>";
+      echo "<th>總價</th>";
 
       echo "</tr>";
       echo "</thead>";
       echo "<tbody>";
-        
-       
+
+
            $displayS=" ";
            $displayC=" ";
            $displayD=" ";
            $displayCancel=" ";
-          
+
           foreach ($Orders as $order) {
-            
+
             if (isset($order->ShippedDate)){
               $displayS = "style='display:none;'";
             }else{
@@ -389,26 +389,26 @@ require_once 'views/template/header.php';
             <input type='checkbox' id='check' name='items[]' value='" . $order->OrderID . "'>
             </td>";
             // echo "<td><img src=image/OrderLogo/" . str_replace(' ', '', $Order->OrderName) . ".jpg /></td>";
-            echo "<td><a href=/RollinAdmin/Order/Detail/$order->OrderID>$order->OrderID</a></td>";
+            echo "<td><a href=/RollinAdmin/Order/Detail/$order->OrderID>".sprintf('%08d', $order->OrderID)."</a></td>";
             // echo "<td>$order->UserID</td>";
             echo "<td>$order->UserName</td>";
             echo "<td>$order->PaymentName</td>";
             echo "<td>$order->OrderDate</td>";
             echo "<td $TypedisplayC>$order->CheckedDate
                   <button class='btn btn-sm btn-primary' $displayC
-                  type='submit' name='updateCheckedDate' value= '".$order->OrderID."' > 
+                  type='submit' name='updateCheckedDate' value= '".$order->OrderID."' >
                   <i class='fa fa-box'>&nbsp</i>理貨</button></a>
                   </td>";
             echo "<td $TypedisplayS>$order->ShippedDate
                   <button class='btn btn-sm btn-primary' $displayS
-                  type='submit' name='updateshippedDate' value= '".$order->OrderID."' > 
+                  type='submit' name='updateshippedDate' value= '".$order->OrderID."' >
                   <i class='fa fa-truck'>&nbsp</i>出貨</button></a>
                   </td>";
             echo "<td>$order->DeliverDate</td>";
-                  
+
             echo "<td $TypedisplayCancel>$order->CancelDate
                   <button class='btn btn-sm btn-danger' $displayCancel
-                  type='submit' name='updateCancelDate' value= '".$order->OrderID."' > 
+                  type='submit' name='updateCancelDate' value= '".$order->OrderID."' >
                   <i class='fa fa-ban'>&nbsp</i>取消</button></a></td>";
             echo "<td>$order->FinalPrice</td>";
             // echo $Orders->UnitPrice * $Orders->Quantity + $Orders->ShippingPrice;
@@ -437,7 +437,7 @@ require_once 'views/template/header.php';
           $nextPage = $pageNo + 1;
           $preDisabled = $prePage < 1 ? "disabled" : "";
           $nextDisabled = $nextPage > $pagesCount ? "disabled" : "";
-          
+
           echo "<br>";
           echo "<ul class='pagination d-flex justify-content-center'>";
           echo "<li class='page-item $preDisabled'><a href='Order/List?$queryString&pageNo=$prePage' class='page-link'>上一頁</a></li>";
@@ -454,7 +454,7 @@ require_once 'views/template/header.php';
     </div>
     <!-- /.card-body -->
   </div>
-  
+
   <!-- /.card -->
 </div>
 <!-- /.container-fluid -->
@@ -488,14 +488,14 @@ require_once 'views/template/footer.php';
     }
   }
 
-//display 
+//display
   function TestBlack(TagName){
  var obj = document.getElementsByName(TagName);
  for(var item in obj){
     if(obj[item].style.display==""){
     obj[item].style.display = "none";
     }else{
-    obj[item].style.display = ""; 
+    obj[item].style.display = "";
     }
  };
 }

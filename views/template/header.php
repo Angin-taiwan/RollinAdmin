@@ -1,3 +1,23 @@
+<?php
+session_start();
+
+if (isset($_SESSION["username"]) && strtolower($_SESSION["username"]) == "johndoe") {
+
+} else {
+  unset($_SESSION["username"]);
+  header("Location: http://".$_SERVER['HTTP_HOST']."/RollinAdmin/login.php");
+  exit();
+}
+
+if (isset($_POST["logout"])) {
+  echo $_SESSION["username"];
+  unset($_SESSION["username"]);
+  header("Location: http://".$_SERVER['HTTP_HOST']."/RollinAdmin/login.php");
+  exit();
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -40,8 +60,38 @@
             ></a>
           </li>
           <li class="nav-item d-none d-sm-inline-block">
-            <a href="/RollinAdmin" class="nav-link">Home</a>
+            <a href="/RollinAdmin/Home" class="nav-link">Home</a>
           </li>
+        </ul>
+        <!-- Right navbar links -->
+        <ul class="navbar-nav ml-auto">
+          <!-- Login User Info -->
+          <li class="nav-item dropdown user user-menu">
+            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
+              <img src="image/Admin/admin.jpg" class="user-image img-circle elevation-2 alt="User Image">
+              <span class="hidden-xs">John Doe</span>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+              <!-- User image -->
+              <li class="user-header bg-primary">
+                <img src="image/Admin/admin.jpg" class="img-circle elevation-2" alt="User Image">
+                <p>
+                  John Doe
+                  <small>Member since Nov. 2012</small>
+                </p>
+              </li>
+              <!-- Menu Footer-->
+              <li class="user-footer">
+                <div class="">
+                  <a href="javascript:event.preventDefault();" class="btn btn-default btn-flat float-left">Profile</a>
+                  <form method="POST" action="">
+                    <input type="submit" name="logout" class="btn btn-default btn-flat float-right" value="Log out">
+                  </form>
+                </div>
+              </li>
+            </ul>
+          </li>
+          <!-- / Login User Info -->
         </ul>
       </nav>
       <!-- /.navbar -->
@@ -49,32 +99,17 @@
       <!-- Main Sidebar Container -->
       <aside class="main-sidebar sidebar-dark-primary elevation-4">
         <!-- Brand Logo -->
-        <a href="/RollinAdmin" class="brand-link">
+        <a href="/RollinAdmin/Home" class="brand-link">
           <img
-            src="dist/img/AdminLTELogo.png"
-            alt="AdminLTE Logo"
+            src="image/Admin/rollinlogo.png"
+            alt="Rollin Logo"
             class="brand-image img-circle elevation-3"
             style="opacity: .8"
           />
           <span class="brand-text font-weight-light">Rollin Skate Shop</span>
         </a>
-
         <!-- Sidebar -->
         <div class="sidebar">
-          <!-- Sidebar user panel (optional) -->
-          <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-            <div class="image">
-              <img
-                src="dist/img/user2-160x160.jpg"
-                class="img-circle elevation-2"
-                alt="User Image"
-              />
-            </div>
-            <div class="info">
-              <a href="/RollinAdmin" class="d-block">Rollin Admin</a>
-            </div>
-          </div>
-
           <!-- Sidebar Menu -->
           <nav class="mt-2">
             <ul
@@ -89,21 +124,21 @@
                 <a href="#" class="nav-link <?php if ($pageDir == 'News') {echo 'active';}?> ">
                   <i class="nav-icon fas fa-newspaper"></i>
                   <p>
-                    News
-                    <i class="right fas fa-angle-left"></i>
+                    消息管理
+                  <i class="right fas fa-angle-left"></i>
                   </p>
                 </a>
                 <ul class="nav nav-treeview">
                   <li class="nav-item">
                     <a href="/RollinAdmin/News/List" class="nav-link <?php if ($pageTitle == 'News List') {echo 'active';}?> ">
                       <i class="far fa-circle nav-icon"></i>
-                      <p>News List</p>
+                      <p>消息清單</p>
                     </a>
                   </li>
                   <li class="nav-item">
                     <a href="/RollinAdmin/News/Create" class="nav-link <?php if ($pageTitle == 'News Create') {echo 'active';}?> ">
                       <i class="far fa-circle nav-icon"></i>
-                      <p>News Create</p>
+                      <p>消息新增</p>
                     </a>
                   </li>
                 </ul>
@@ -112,7 +147,7 @@
                 <a href="#" class="nav-link <?php if ($pageDir == 'Course') {echo 'active';}?> ">
                   <i class="nav-icon fas fa-school"></i>
                   <p>
-                    Course
+                    課程管理
                     <i class="fas fa-angle-left right"></i>
                   </p>
                 </a>
@@ -120,13 +155,13 @@
                   <li class="nav-item">
                     <a href="/RollinAdmin/Course/List" class="nav-link <?php if ($pageTitle == 'Course List') {echo 'active';}?> ">
                       <i class="far fa-circle nav-icon"></i>
-                      <p>Course List</p>
+                      <p>課程清單</p>
                     </a>
                   </li>
                   <li class="nav-item">
                     <a href="/RollinAdmin/Course/Create" class="nav-link <?php if ($pageTitle == 'Course Create') {echo 'active';}?> ">
                       <i class="far fa-circle nav-icon"></i>
-                      <p>Course Create</p>
+                      <p>課程新增</p>
                     </a>
                   </li>
                 </ul>
@@ -135,7 +170,7 @@
                 <a href="#" class="nav-link <?php if ($pageDir == 'User') {echo 'active';}?> ">
                   <i class="nav-icon fas fa-users"></i>
                   <p>
-                    User
+                    會員管理
                     <i class="right fas fa-angle-left"></i>
                   </p>
                 </a>
@@ -143,13 +178,13 @@
                   <li class="nav-item">
                     <a href="/RollinAdmin/User/List" class="nav-link <?php if ($pageTitle == 'User List') {echo 'active';}?> ">
                       <i class="far fa-circle nav-icon"></i>
-                      <p>User List</p>
+                      <p>會員清單</p>
                     </a>
                   </li>
                   <li class="nav-item">
                     <a href="/RollinAdmin/User/Create" class="nav-link <?php if ($pageTitle == 'User Create') {echo 'active';}?> ">
                       <i class="far fa-circle nav-icon"></i>
-                      <p>User Create</p>
+                      <p>會員新增</p>
                     </a>
                   </li>
                 </ul>
@@ -158,7 +193,7 @@
                 <a href="#" class="nav-link <?php if ($pageDir == 'Product') {echo 'active';}?> ">
                   <i class="nav-icon fas fa-shopping-bag"></i>
                   <p>
-                    Product
+                    商品管理
                     <i class="fas fa-angle-left right"></i>
                   </p>
                 </a>
@@ -166,13 +201,13 @@
                   <li class="nav-item">
                     <a href="/RollinAdmin/Product/List" class="nav-link <?php if ($pageTitle == 'Product List') {echo 'active';}?> ">
                       <i class="far fa-circle nav-icon"></i>
-                      <p>Product List</p>
+                      <p>商品清單</p>
                     </a>
                   </li>
                   <li class="nav-item">
                     <a href="/RollinAdmin/Product/Create" class="nav-link <?php if ($pageTitle == 'Product Create') {echo 'active';}?> ">
                       <i class="far fa-circle nav-icon"></i>
-                      <p>Product Create</p>
+                      <p>商品新增</p>
                     </a>
                   </li>
                 </ul>
@@ -181,7 +216,7 @@
                 <a href="#" class="nav-link <?php if ($pageDir == 'Order') {echo 'active';}?> ">
                   <i class="nav-icon fas fa-clipboard-check"></i>
                   <p>
-                    Order
+                    訂單管理
                     <i class="fas fa-angle-left right"></i>
                   </p>
                 </a>
@@ -189,22 +224,22 @@
                   <li class="nav-item">
                     <a href="/RollinAdmin/Order/List" class="nav-link <?php if ($pageTitle == 'Order List') {echo 'active';}?> ">
                       <i class="far fa-circle nav-icon"></i>
-                      <p>Order List</p>
+                      <p>訂單清單</p>
                     </a>
                   </li>
-                  <li class="nav-item">
+                  <!-- <li class="nav-item">
                     <a href="/RollinAdmin/Order/Create" class="nav-link <?php if ($pageTitle == 'Order Create') {echo 'active';}?> ">
                       <i class="far fa-circle nav-icon"></i>
                       <p>Order Create</p>
                     </a>
-                  </li>
+                  </li> -->
                 </ul>
               </li>
               <li class="nav-item has-treeview <?php if ($pageDir == 'Coupon') {echo 'menu-open';}?> ">
                 <a href="#" class="nav-link <?php if ($pageDir == 'Coupon') {echo 'active';}?> ">
                   <i class="nav-icon fas fa-gift"></i>
                   <p>
-                    Coupon
+                    折價券管理
                     <i class="fas fa-angle-left right"></i>
                   </p>
                 </a>
@@ -212,22 +247,22 @@
                   <li class="nav-item">
                     <a href="/RollinAdmin/Coupon/List" class="nav-link <?php if ($pageTitle == 'Coupon List') {echo 'active';}?> ">
                       <i class="far fa-circle nav-icon"></i>
-                      <p>Coupon List</p>
+                      <p>折價券清單</p>
                     </a>
                   </li>
                   <li class="nav-item">
                     <a href="/RollinAdmin/Coupon/Create" class="nav-link <?php if ($pageTitle == 'Coupon Create') {echo 'active';}?> ">
                       <i class="far fa-circle nav-icon"></i>
-                      <p>Coupon Create</p>
+                      <p>折價券新增</p>
                     </a>
                   </li>
                 </ul>
               </li>
-              <li class="nav-item has-treeview <?php if ($pageDir == 'Marketing') {echo 'menu-open';}?> ">
+              <!-- <li class="nav-item has-treeview <?php if ($pageDir == 'Marketing') {echo 'menu-open';}?> ">
                 <a href="#" class="nav-link <?php if ($pageDir == 'Marketing') {echo 'active';}?> ">
                   <i class="nav-icon fas fa-bullhorn"></i>
                   <p>
-                    Marketing
+                    行銷管理
                     <i class="fas fa-angle-left right"></i>
                   </p>
                 </a>
@@ -235,22 +270,22 @@
                   <li class="nav-item">
                     <a href="/RollinAdmin/Marketing/List" class="nav-link <?php if ($pageTitle == 'Marketing List') {echo 'active';}?> ">
                       <i class="far fa-circle nav-icon"></i>
-                      <p>Marketing List</p>
+                      <p>全店優惠清單</p>
                     </a>
                   </li>
                   <li class="nav-item">
                     <a href="/RollinAdmin/Marketing/Create" class="nav-link <?php if ($pageTitle == 'Marketing Create') {echo 'active';}?> ">
                       <i class="far fa-circle nav-icon"></i>
-                      <p>Marketing Create</p>
+                      <p>全店優惠新增</p>
                     </a>
                   </li>
                 </ul>
-              </li>
+              </li> -->
               <li class="nav-item has-treeview <?php if ($pageDir == 'Brand') {echo 'menu-open';}?> ">
                 <a href="#" class="nav-link <?php if ($pageDir == 'Brand') {echo 'active';}?> ">
                   <i class="nav-icon fas fa-store"></i>
                   <p>
-                    Brand
+                    品牌管理
                     <i class="fas fa-angle-left right"></i>
                   </p>
                 </a>
@@ -258,13 +293,13 @@
                   <li class="nav-item">
                     <a href="/RollinAdmin/Brand/List" class="nav-link <?php if ($pageTitle == 'Brand List') {echo 'active';}?> ">
                       <i class="far fa-circle nav-icon"></i>
-                      <p>Brand List</p>
+                      <p>品牌清單</p>
                     </a>
                   </li>
                   <li class="nav-item">
                     <a href="/RollinAdmin/Brand/Create" class="nav-link <?php if ($pageTitle == 'Brand Create') {echo 'active';}?> ">
                       <i class="far fa-circle nav-icon"></i>
-                      <p>Brand Create</p>
+                      <p>品牌新增</p>
                     </a>
                   </li>
                 </ul>
@@ -273,7 +308,7 @@
                 <a href="#" class="nav-link <?php if ($pageDir == 'Category') {echo 'active';}?> ">
                   <i class="nav-icon fas fa-boxes"></i>
                   <p>
-                    Category
+                    類別管理
                     <i class="fas fa-angle-left right"></i>
                   </p>
                 </a>
@@ -281,15 +316,15 @@
                   <li class="nav-item">
                     <a href="/RollinAdmin/Category/List" class="nav-link <?php if ($pageTitle == 'Category List') {echo 'active';}?> ">
                       <i class="far fa-circle nav-icon"></i>
-                      <p>Category List</p>
+                      <p>類別清單</p>
                     </a>
                   </li>
-                  <li class="nav-item">
+                  <!-- <li class="nav-item">
                     <a href="/RollinAdmin/Category/Create" class="nav-link <?php if ($pageTitle == 'Category Create') {echo 'active';}?> ">
                       <i class="far fa-circle nav-icon"></i>
-                      <p>Category Create</p>
+                      <p>類別新增</p>
                     </a>
-                  </li>
+                  </li> -->
                 </ul>
               </li>
             </ul>
@@ -311,7 +346,7 @@
               <!-- /.col -->
               <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
-                  <li class="breadcrumb-item"><a href="/RollinAdmin">Home</a></li>
+                  <li class="breadcrumb-item"><a href="/RollinAdmin/Home">Home</a></li>
                   <?php if ($pageDir !== ""): ?>
                     <li class="breadcrumb-item active"><?= isset($pageDirTW) ? $pageDirTW : $pageDir ?></li>
                   <?php endif;?>

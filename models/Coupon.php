@@ -6,7 +6,7 @@ class Coupon extends DB
   public $CouponTypeName;
   public $keyword, $sort;
   public $CouponID, $UserID;
-  
+  public $page, $pagesize;
 
   function getAll()
   {

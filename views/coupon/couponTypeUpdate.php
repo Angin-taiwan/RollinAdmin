@@ -52,7 +52,7 @@ require_once 'views/template/header.php';
             </form>
         </div>
         <div class="card-footer">
-            <a href="/RollinAdmin/Coupon/TypeDetail"><button class="btn btn-dark float-right btn-sm">返回</button></a>
+            <a href="/RollinAdmin/Coupon/TypeDetail"><button class="btn btn-outline-secondary float-right btn-sm">返回</button></a>
         </div>
     </div>
 </div>

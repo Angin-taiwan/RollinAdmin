@@ -1,8 +1,5 @@
 <?php
 
-$method = $_SERVER['REQUEST_METHOD'];
-$url = explode("/", rtrim($_GET["url"], "/") );
-
 class Category extends DB {
   public $CategoryID;
   public $CategoryName;
@@ -14,23 +11,30 @@ class Category extends DB {
     );
   }
 
+  function getParents() {
+    return $this->selectDB(
+      "SELECT * FROM Category WHERE ParentID IS NULL ORDER BY CategoryID ASC"
+    );
+  }
+
+  function getChildren($parentID) {
+    return $this->selectDB(
+      "SELECT * FROM Category WHERE ParentID = ? ORDER BY CategoryID ASC",
+      [$parentID]
+    );
+  }
+
   function create($category) {
-    $categoryName = trim($category->categoryName);
-    if ($categoryName=="") {return "error: 類別名稱不可為空白";}
-    $parentID = NULL;
-    if (!is_null($category->parentID) && is_int($category->parentID)) {
-      $parentID = $category->parentID;
-    }
     return $this->insertDB(
       "INSERT INTO Category (CategoryName, ParentID) VALUES (?, ?) ;",
-      [$categoryName, $parentID]
+      [$category->CategoryName, $category->ParentID]
     );
   }
 
   function update($category) {
-    return $this->updateDB(
-      "UPDATE Category SET ParentID = ? WHERE CategoryID = ? ;",
-      ["$category->ParentID", "$category->CategoryID"]
+    return $this->updateDB (
+      "UPDATE Category SET CategoryName = ?, ParentID = ? WHERE CategoryID = ? ;",
+      [$category->CategoryName, $category->ParentID, $category->CategoryID]
     );
   }
 

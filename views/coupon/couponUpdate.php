@@ -160,7 +160,7 @@ require_once 'views/template/header.php';
                       <br>';
                 ?>
                 <button type="submit" name="update" class="btn btn-primary btn-sm">修改</button>
-                <button type="submit" onclick="deletealert();" name="delete" class="btn btn-danger btn-sm">刪除</button>
+                <button type="submit" onclick="return deletealert();" name="delete" class="btn btn-danger btn-sm">刪除</button>
             </form>
         </div>
         <div class="card-footer">

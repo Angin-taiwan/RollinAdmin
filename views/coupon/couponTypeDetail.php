@@ -30,6 +30,15 @@ if (isset($_POST['deleteOne'])) {
 require_once 'views/template/header.php';
 
 ?>
+<style>
+  th {
+    color: #ffffff;
+    background-color: #5289AE;
+  }
+  tr{
+    text-align: center;
+  }
+</style>
 <div class="container-fluid">
   <div class="card">
     <div class="card-header">
@@ -38,7 +47,7 @@ require_once 'views/template/header.php';
     <div class="card-body" style="overflow:auto;">
       <form method="post">
         <button type="submit" class="btn btn-danger btn-sm mb-2" name="delete">刪除</button>
-        <table class="table table-bordered table-hover" style="width: 80%;">
+        <table class="table table-bordered table-hover" style="width: auto;">
           <thead>
             <?php
             echo '<th scope="col"><input type="checkbox" id="selectallcheckbox" onclick="selectall();"></th>';
@@ -65,7 +74,7 @@ require_once 'views/template/header.php';
       </form>
     </div>
     <div class="card-footer">
-      <a href=<?= '/RollinAdmin/Coupon/List' ?>><button class="btn btn-dark float-right btn-sm">返回</button></a>
+      <a href=<?= '/RollinAdmin/Coupon/List' ?>><button class="btn btn-outline-secondary float-right btn-sm">返回</button></a>
     </div>
   </div>
 </div>

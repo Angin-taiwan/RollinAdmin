@@ -12,12 +12,12 @@ $Product = $data->getDetail($data->id);
 $Stocks = $data->getStock($Product->ProductID);
 # ----------------------------------------------------------
 
-function updateProduct($Product) {
-  return $this->updateDB(
-    "UPDATE Product SET ProductName = ?,UnitPrice = ? , PDescription = ? WHERE ProductID = ? ;",
-    ["$Product->ProductName", "$Product->UnitPrice", "$Product->PDescription", $Product->ProductID]
-  );
-}
+// function updateProduct($Product) {
+//   return $this->updateDB(
+//     "UPDATE Product SET ProductName = ?,UnitPrice = ? , PDescription = ? WHERE ProductID = ? ;",
+//     ["$Product->ProductName", "$Product->UnitPrice", "$Product->PDescription", $Product->ProductID]
+//   );
+// }
 
 if (isset($_POST['submit'])) {
 
@@ -30,7 +30,7 @@ if (isset($_POST['submit'])) {
 
   // update Product
   $Product->ProductName = $_POST['ProductName'];
-  $Product->Description = $_POST['PDescription'];
+  $Product->PDescription = $_POST['PDescription'];
   $Product->ProductID = $_POST['ProductID'];
   $Product->UnitPrice = $_POST['UnitPrice'];
   $data->updateProduct($Product);
@@ -51,30 +51,23 @@ if (isset($_POST['submit'])) {
   }
 }
 
-// 刪除功能 尚未改寫
-// if (isset($_POST['delete'])) {
-//   // delete brand
-//   $Product->ProductID = $_POST['BrandID'];
-//   $data->delete([$brand->BrandID]);
-
-//   // delete brand image if exists
-//   $target_dir = "image/BrandImage/";
-//   $file_name = $brand->BrandID . '.jpg';
-//   $target_file = $target_dir . $file_name;
-//   if (file_exists($target_file)) { 
-//     unlink($target_file);
-//   }
-
-//   // 換到 list 頁顯示
-//   header("Location: ../List");
-//   exit();
-// }
 
 # ----------------------------------------------------------
 
 require_once 'views/template/header.php';
 
 ?>
+
+<style>
+  th {
+    color: #ffffff;
+    background-color: #5289AE;
+  }
+  input:disabled {
+    color: black;
+  background: #ccc;
+}
+  </style>
 
 <div class="container-fluid">
 
@@ -130,20 +123,27 @@ require_once 'views/template/header.php';
                   <td>$Product->UnitPrice</td>
                   <td>$Product->Date</td>
                   </tr>
-                  here;
+here;
               #表身
+              $checkboxcount =1;
                   foreach ($Stocks as $pdst) { 
+
+                    $SizeName ="One Size" ;
+                    if(isset($pdst->SizeName)){
+                      $SizeName = "$pdst->SizeName";
+                    }
                     echo  <<<here
                     <tr>
-                    <td></td>
-                    <td>Size:$pdst->SizeID </td>
-                    <td>Color:$pdst->ColorID </td>
-                    <td>pdst:$pdst->UnitInStock</td>
+                    <td><input type="checkbox" id="checkbtn$checkboxcount" name = "checkbtn" value="$checkboxcount" onclick="checkedAll()"></td>
+                    <td><input type="text" id="SN$checkboxcount" name = "check$checkboxcount" value="$SizeName" disabled></td>
+                    <td><input type="text" id="CR$checkboxcount" name = "check$checkboxcount" value="$pdst->Color" disabled></td>
+                    <td><input type="text" id="US$checkboxcount" name = "check$checkboxcount" value="$pdst->UnitInStock" disabled></td>
                     <td></td>
                     <td></td>
                     <td></td>
                     </tr>
-                    here;
+here;
+$checkboxcount++;
                   }
                   echo "";
       ?>
@@ -174,6 +174,26 @@ require_once 'views/template/header.php';
 
 </div>
 <!-- /.container-fluid -->
+<script>
+
+  
+  //checked
+    function checkedAll() {
+      for(j=1; j<4; j++){
+        let checkedBtn = document.getElementById("checkbtn"+j).checked;
+        let checks = document.getElementsByName("check"+j);
+        for (let i = 0; i < checks.length; i++) {
+
+            if (checkedBtn == true) {
+              checks[i].disabled = false;
+            } else {
+              checks[i].disabled = true;
+            }
+      }
+    }
+  }
+</script>
+
 
 <?php
 

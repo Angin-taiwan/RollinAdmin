@@ -27,7 +27,9 @@ CREATE TABLE `rollin`.`OrderDetail` (
 -- Dumping data for table `OrderDetail`
 --
 INSERT INTO `orderdetail` (`OrderID`, `ProductID`, `SizeID`, `ColorID`, `DiscountGroupID`, `UnitPrice`, `Quantity`) VALUES
+(1, 1, 0, 0, 0, 3000, 1),
 (1, 2, 0, 0, 0, 2580, 1),
+(1, 3, 0, 0, 0, 2000, 1),
 (2, 2, 0, 0, 0, 2580, 2),
 (3, 2, 0, 0, 0, 2580, 1),
 (4, 2, 0, 0, 0, 2580, 1),

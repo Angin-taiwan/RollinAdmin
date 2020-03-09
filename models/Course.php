@@ -84,19 +84,27 @@ class Course extends DB
     );
   }
 
-  function getAllLikeCount($Title)
+  // function getAllLikeCount($Title)
+  // {  //  COUNT(*) 回傳 資料筆數   ,  LIKE 後 變成  收尋 Title 回傳的資料筆數
+  //   return $this->selectDB(
+  //     "SELECT COUNT(*) Count FROM Course WHERE Title LIKE CONCAT('%',?,'%') ;",
+  //     [$Title]
+  //   )[0];
+  // }
+
+  function getAllLikeCount($Categorysearch, $keyword)
   {  //  COUNT(*) 回傳 資料筆數   ,  LIKE 後 變成  收尋 Title 回傳的資料筆數
     return $this->selectDB(
-      "SELECT COUNT(*) Count FROM Course WHERE Title LIKE CONCAT('%',?,'%') ;",
-      [$Title]
+      "SELECT COUNT(*) Count FROM Course WHERE $Categorysearch LIKE CONCAT('%',?,'%') ;",
+      [$keyword]
     )[0];
   }
 
-  function getAllLike($Title, $startIndex = 0, $pageSize = 3)
-  {  // concat函數用來合併多個欄位的值
+  function getAllLike($Categorysearch, $keyword, $startIndex = 0, $pageSize = 3)// concat函數用來合併多個欄位的值
+  {  
     return $this->selectDB(
-      "SELECT * FROM Course WHERE Title LIKE CONCAT('%',?,'%') ORDER BY CourseID ASC LIMIT ?, ? ;",
-      [$Title, $startIndex, $pageSize]
+      "SELECT * FROM Course WHERE $Categorysearch LIKE CONCAT('%',?,'%') ORDER BY CourseID ASC LIMIT ?,?  ;",
+      [$keyword, $startIndex, $pageSize]
     );
   }
 

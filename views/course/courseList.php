@@ -192,6 +192,10 @@ require_once 'views/template/header.php';
                     $CourseStartEnd = "(已結訓)";
                   }
                 }
+                $free = "";
+                if ($Course->Price == 0){
+                  $free = "(免費)";
+                }
                 echo "<tr>";
                 echo "<td  style='vertical-align:middle;text-align:center'>
                  <input type='checkbox' id='check' name='items[]' value='" . $Course->CourseID . "'>
@@ -199,7 +203,7 @@ require_once 'views/template/header.php';
                 echo "<td>" .  $Course->CourseID . "</td>";
                 echo "<td>" .  $Course->Title . "  " . $full . " " . $CourseStartEnd . "</td>";
                 echo "<td class='col1'>" .  $Course->Description . "</td>";
-                echo "<td>" .  '$ ' . $Course->Price . "</td>";
+                echo "<td>" .  '$ ' . $Course->Price . " ".$free."</td>";
                 echo "<td>" .  $Course->StartDate . "</td>";
                 echo "<td>" .  $Course->EndDate . "</td>";
                 echo "<td>" .  $Course->CreateDate . "</td>";

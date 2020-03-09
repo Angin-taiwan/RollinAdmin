@@ -14,7 +14,7 @@ class Order extends DB {
      )[0];
   }
 
-  function getAllLikeCount($keywords,$Searchtext, $startDate, $endDate , $pageStartIndex = 0, $pageSize = 3) {
+  function getAllLikeCount($ordertype,$keywords,$Searchtext, $startDate, $endDate , $pageStartIndex = 0, $pageSize = 3) {
     // echo "getAllLikeCount";
     // echo $Searchtext;
     // var_dump($startDate);
@@ -24,6 +24,7 @@ class Order extends DB {
       join `User` U on (U.UserId = O.UserId)
       join Payment Pay on (Pay.PaymentID = O.PaymentID)
       WHERE  $keywords LIKE CONCAT('%$Searchtext%')
+      $ordertype
       and OrderDate >= '$startDate' AND OrderDate <= '$endDate'
       ORDER BY O.OrderID ASC LIMIT $pageStartIndex, $pageSize;")[0];
   }
@@ -40,8 +41,9 @@ class Order extends DB {
       "SELECT O.*, U.UserName, Pay.PaymentName FROM `Order` O
       join `User` U on (U.UserId = O.UserId)
       join Payment Pay on (Pay.PaymentID = O.PaymentID)
-      WHERE $ordertype
-      $keywords LIKE CONCAT('%$Searchtext%')
+      WHERE 
+      $keywords LIKE CONCAT('%$Searchtext%') 
+      $ordertype
       and OrderDate >= '$startDate' AND OrderDate <= '$endDate'
       ORDER BY OrderID ASC LIMIT $pageStartIndex, $pageSize ;");
   }

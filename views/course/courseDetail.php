@@ -20,6 +20,11 @@ if ($GetCourse->StartDate <= date("Y-m-d")) {
   }
 }
 
+$free = "";
+if ($GetCourse->Price == 0) {
+  $free = "(免費)";
+}
+
 require_once 'views/template/header.php';
 $Course = new Course();
 ?>
@@ -66,12 +71,12 @@ $Course = new Course();
 
             <tr>
               <td>課程名稱</td>
-              <td><?= $GetCourse->Title . $full .$CourseStart ?></td>
+              <td><?= $GetCourse->Title . $full . $CourseStart ?></td>
             </tr>
 
             <tr>
               <td>課程金額</td>
-              <td>$<?= $GetCourse->Price ?></td>
+              <td>$<?= $GetCourse->Price  . $free?></td>
             </tr>
 
             <tr>
@@ -104,7 +109,7 @@ $Course = new Course();
         <div class="mt-3">
           <a href="/RollinAdmin/Course/Update/<?= $GetCourse->CourseID ?>"><button type="button" class="btn btn-info">修改資料</button></a>
           <a href="/RollinAdmin/Course/List"><button type="button" class="btn btn-primary">返回清單</button></a>
-          <a href="/RollinAdmin/Course/Student/<?= $GetCourse->CourseID ?>"><button type="button" class="btn btn-danger float-right">報名會員</button></a>
+          <a href="/RollinAdmin/Course/Student/<?= $GetCourse->CourseID ?>"><button type="button" class="btn btn-primary float-right">報名會員</button></a>
         </div>
 
       </div>

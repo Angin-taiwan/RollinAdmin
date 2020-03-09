@@ -76,11 +76,17 @@ require_once 'views/template/header.php';
     color: red;
     font-size: 10pt;
   }
-  .coupontable{
-    text-align:center;
+
+  .coupontable {
+    text-align: center;
   }
-  .coupontable a{
-    color:black;
+
+  .coupontable a {
+    color: black;
+  }
+  th {
+    color: #ffffff;
+    background-color: #5289AE;
   }
 </style>
 
@@ -103,7 +109,7 @@ require_once 'views/template/header.php';
     <div class="card-body" style="overflow:auto;">
       <form method="post" action=''>
         <button type="submit" class="btn btn-danger btn-sm mb-2" onclick="return deletealert();" name="delete">刪除</button>
-        <table class="table table-bordered table-hover coupontable" style="width: auto; table-layout:fit-content; white-space: nowrap">
+        <table class="table table-bordered table-hover coupontable">
           <thead>
             <tr>
               <th scope="col"><input type="checkbox" id='selectallcheckbox' onclick="selectall();"></th>
@@ -209,7 +215,7 @@ require_once 'views/template/header.php';
   ?>
   <script>
     function deletealert() {
-      return confirm('是否確定刪除?\n註:擁有此券的使用者資料會一同刪除')
+      return confirm('是否確定刪除?\n')
     }
 
     function selectall() {

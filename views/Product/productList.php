@@ -237,8 +237,8 @@ th {
     <?php createPagination($pagesCount, $pageNo, $query); ?></div>
     <div class=""> <!-- button -->
         <input type="button" class="btn btn-sm btn-outline-secondary mb-1" id="checkedRevBtn" value="反選">
-        <button type="submit" class="btn btn-sm btn-outline-info mb-1" name="ONsale">一鍵上架</button>
-        <button type="submit" class="btn btn-sm btn-danger  mb-1" name="OFFsale">下架</button>
+        <button type="submit" class="btn btn-sm btn-outline-info mb-1" name="ONsale" onclick="myconfirm()">一鍵上架</button>
+        <button type="submit" class="btn btn-sm btn-danger  mb-1" name="OFFsale" onclick="myconfirm()">下架</button>
         <!-- <input type="submit" class="btn btn-outline-danger" id="checkedDeleteBtn" name="checkedDeleteBtn" value="勾選下架" onclick="return confirm('是否確認刪除勾選資料')"> -->
       </div>
       <table id="listTable" class="table table-bordered table-hover">
@@ -265,9 +265,14 @@ th {
             }
             $too =$data->findmyTotalonOreder($pd->ProductID);
             $myStockOnOrder="0";
-            if(isset($too->StockOnOrder)){
+            if(isset($too->StockOnOrder)) {
               $myStockOnOrder = "$too->StockOnOrder";
             }
+            $myTotalStock="0";
+            if(isset($pd->TotalStock)) {
+              $myTotalStock = "$pd->TotalStock";
+            }
+
             //  onclick=\"window.location='/RollinAdmin/Product/Detail/" . $pd->ProductID . "'\"
             echo "<tr ondblclick=\"displayMore('$pd->ProductID');\">";
             echo '<td><input type="checkbox" id="checkbox' . $pd->ProductID . '" name = "check[]" value="' . $pd->ProductID . '"></td>';
@@ -276,7 +281,7 @@ th {
             echo "<td>".$pd->BrandName."</td>";
             echo "<td>$pd->CategoryName</td>";
             echo "<td>" . substr($pd->PDescription,0,69) . "</td>";
-            echo "<td>$pd->TotalStock</td>";
+            echo "<td>".$myTotalStock."</td>";
             echo "<td>".$myStockOnOrder."</td>";
             echo "<td>$pd->UnitPrice</td>";
             echo "<td>$pd->Date</td>";
@@ -288,6 +293,10 @@ th {
                     if(isset($pdst->SizeName)){
                       $SizeName = "$pdst->SizeName";
                     }
+                    $myUnitInStock="0";
+                    if(isset($pdst->UnitInStock)) {
+                      $myUnitInStock = "$pdst->UnitInStock";
+                    }
                     echo  <<<here
                     <tr name='$pd->ProductID' style='display: none;' >
                     <td bgcolor="#778899"></td>
@@ -296,7 +305,7 @@ th {
                     <td bgcolor="#778899">Size:<br>$SizeName </td>
                     <td bgcolor="#778899">Color:$pdst->Color </td>
                     <td bgcolor="#778899"></td>
-                    <td bgcolor="#778899">pdst:$pdst->UnitInStock</td>
+                    <td bgcolor="#778899">$myUnitInStock</td>
                     <td bgcolor="#778899"></td>
                     <td bgcolor="#778899"></td>
                     <td bgcolor="#778899"></td>
@@ -362,4 +371,17 @@ let checkedRevBtn = document.getElementById("checkedRevBtn");
         }
       }
     }
+
+ 
+  // alert  return confirm('是否確認修改販售狀態')
+  function myconfirm(){
+    var myconfirm = document.getElementsByName("check[]");
+    var counter =0;
+    for (var i = 0; i < myconfirm.length; i++) {
+      if (myconfirm[i].checked == true){
+        counter++;
+      }
+    }
+    return confirm("共選取"+counter+"項\n是否確認修改販售狀態");
+  }
 </script>

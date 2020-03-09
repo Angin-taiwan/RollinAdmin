@@ -180,7 +180,7 @@ require_once 'views/template/header.php';
 
         <div class= "form-group d-flex align-items-center col-12 pl-0 ">
           <div class = "col-6 pl-0 mr-5">
-            <div type=submit  class="btn-group btn-group-toggle col-9  ml-0" data-toggle="buttons">
+            <div type="submit" class="btn-group btn-group-toggle col-9  ml-0" data-toggle="buttons">
               <label onclick="return confirm" class="btn btn-outline-info <?= $ordertype == "" ? active : ""   ?>">
                 <input onclick="return confirm" type="radio" name="ordertype" id="option1" value="" > 全部訂單
               </label>
@@ -248,7 +248,6 @@ require_once 'views/template/header.php';
         </div>
       </div>
 
-      <br>
       <?php //上方分頁按鈕
         if($pagesCount>1){
           $queries = array(
@@ -268,7 +267,6 @@ require_once 'views/template/header.php';
           $preDisabled = $prePage < 1 ? "disabled" : "";
           $nextDisabled = $nextPage > $pagesCount ? "disabled" : "";
 
-          echo "<br>";
           echo "<ul class='pagination d-flex justify-content-center'>";
           echo "<li class='page-item $preDisabled'><a href='Order/List?$queryString&pageNo=$prePage' class='page-link'>上一頁</a></li>";
           for($i=1 ; $i<= $pagesCount ; $i++){
@@ -423,7 +421,6 @@ require_once 'views/template/header.php';
           $preDisabled = $prePage < 1 ? "disabled" : "";
           $nextDisabled = $nextPage > $pagesCount ? "disabled" : "";
 
-          echo "<br>";
           echo "<ul class='pagination d-flex justify-content-center'>";
           echo "<li class='page-item $preDisabled'><a href='Order/List?$queryString&pageNo=$prePage' class='page-link'>上一頁</a></li>";
           for($i=1 ; $i<= $pagesCount ; $i++){

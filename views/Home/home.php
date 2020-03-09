@@ -15,7 +15,7 @@ require_once 'views/template/header.php';
 
 <style>
   :root {
-    --home-image-size: 180px;
+    --home-image-size: 220px;
   }
   .home-card-wrap {
     width: var(--home-image-size);
@@ -157,7 +157,7 @@ require_once 'views/template/header.php';
       <div class="card mb-4 shadow-sm">
         <img src="image/Home/Category.jpg" class="home-images" alt="">
         <div class="card-body">
-          <p class="card-text">類別管理<span class="count float-right"><?=$allCounts['CategoryCount']?>:<?=$allCounts['SubCategoryCount']?></span></p>
+          <p class="card-text">類別管理<span class="count float-right"><?=$allCounts['CategoryCount']?>\<?=$allCounts['SubCategoryCount']?></span></p>
           <div class="d-flex justify-content-between align-items-center">
             <div class="btn-group">
               <a href="Category/List" class="btn btn-sm btn-outline-secondary" role="button" aria-pressed="true">清單</a>

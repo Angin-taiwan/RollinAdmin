@@ -90,7 +90,7 @@ require_once 'views/template/header.php';
                         </div>
                     </div>
                     <div class="float-right form-group d-flex">
-                        <input class="form-control mr-2" type="text" placeholder="search" name="keyword">
+                        <input class="form-control mr-2" type="text" placeholder="輸入姓名關鍵字" name="keyword">
                         <input type="submit" class="btn btn-dark" value="搜尋" name="searchButton" onchange="this.form.submit()">
                     </div>
                     <div class="row">

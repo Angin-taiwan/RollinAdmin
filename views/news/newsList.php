@@ -20,7 +20,7 @@ if (isset($_POST["delete"])) {
 if (isset($_GET["searchButton"])) {
   $keyword = $_GET["keyword"];
   $Categorysearch = $_GET["Categorysearch"];
-  $startIndex = "0";
+  $startIndex = 0;
   $pageSize = $_GET["pageSize"];
   $newsGet = $data->getAllLike($Categorysearch, $keyword, $startIndex, $pageSize);
 }
@@ -36,15 +36,12 @@ if (isset($_POST["checkedDeleteBtn"])) {
   // header("location: /RollinAdmin/News/List");
 }
 
-
-
 //get set querystring
 parse_str($_SERVER['QUERY_STRING'], $query);
-$Categorysearch = isset($query["Categorysearch"]) ? ($query["Categorysearch"]) : "Title";
-
 $pageSize = isset($query["pageSize"]) ? ($query["pageSize"]) : 3;
 $keyword = isset($query["keyword"]) ? $query["keyword"] : "";
 $pageNo = isset($query["pageNo"]) ? $query["pageNo"] : 1;
+$Categorysearch = isset($query["Categorysearch"]) ? ($query["Categorysearch"]) : "";
 
 //for pagination
 $startIndex = ($pageNo - 1) * $pageSize;
@@ -120,7 +117,7 @@ require_once 'views/template/header.php';
         <label class="float-right">搜尋到 : <?= $NewsCount ?>資料</label>
       </div>
       <div class="row">
-        <form method="get" action="">
+        <form method="get">
           <div class="form-group">
             <div class="d-flex align-items-end float-left">
               <label for="pageSize">每頁顯示多少筆 : </label>
@@ -135,11 +132,13 @@ require_once 'views/template/header.php';
       </div>
 
       <div class="float-right form-group d-flex">
-        <input class="form-control mr-2" type="text" placeholder="search" name="keyword">
+        <input class="form-control mr-2" type="text" placeholder="輸入查詢關鍵字" name="keyword">
+
         <select class="form-control mr-2" style="width:130px" name="Categorysearch">
-          <option value="Title">Title</option>
-          <option value="CreateDate">CreateDate</option>
+          <option value="Title"<?= ($Categorysearch == "Title") ? "selected=selected" : ""; ?>>標題</option>
+          <option value="CreateDate"<?= ($Categorysearch == "CreateDate") ? "selected=selected" : ""; ?>>創建時間</option>
         </select>
+
         <input type="submit" class="btn btn-dark" value="搜尋" name="searchButton" onchange="this.form.submit()">
       </div>
       </form>
@@ -163,11 +162,14 @@ require_once 'views/template/header.php';
                 if ($pagesCount > 1) {
                   $queryString = "?";
                   if ($pageSize != "") {
-                    $queryString .= "pageSize" . $pageSize;
+                    $queryString .= "pageSize=$pageSize";
                   };
                   if ($keyword != "") {
                     $queryString .= "&keyword=$keyword";
                   };
+                  if ($Categorysearch !=""){
+                    $queryString .= "&Categorysearch=$Categorysearch"; //如果加了很多搜索條件 就要再加上去 不然下一頁會出問題
+                  }
                   $prevous = $pageNo - 1;
                   $next = $pageNo + 1;
                   $prevousDisabled = $prevous <= 0 ? "disabled" : "";
@@ -195,7 +197,7 @@ require_once 'views/template/header.php';
                 <th>消息內容</th>
                 <th>創建時間</th>
                 <th>更新時間</th>
-                <th width="25%">功能</th>
+                <th width="28%">功能</th>
               </tr>
             </thead>
 
@@ -235,11 +237,14 @@ require_once 'views/template/header.php';
               if ($pagesCount > 1) {
                 $queryString = "?";
                 if ($pageSize != "") {
-                  $queryString .= "pageSize" . $pageSize;
+                  $queryString .= "pageSize" . '='. $pageSize;
                 };
                 if ($keyword != "") {
                   $queryString .= "&keyword=$keyword";
                 };
+                if ($Categorysearch !=""){
+                  $queryString .= "&Categorysearch=$Categorysearch"; //如果加了很多搜索條件 就要再加上去
+                }
                 $prevous = $pageNo - 1;
                 $next = $pageNo + 1;
                 $prevousDisabled = $prevous <= 0 ? "disabled" : "";

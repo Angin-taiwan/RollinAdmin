@@ -26,3 +26,9 @@ insert into `userCoupon` (UserID, CouponID, OrderID) values(1,1,null);
 insert into `userCoupon` (UserID, CouponID, OrderID) values(1,2,null);
 insert into `userCoupon` (UserID, CouponID, OrderID) values(2,2,null);
 insert into `userCoupon` (UserID, CouponID, OrderID) values(3,2,null);
+-- new
+update `userCoupon` set OrderID='1' where UserID=1 and CouponID=1;
+insert into `userCoupon` (UserID, CouponID, OrderID) values(4,1,null);
+insert into `userCoupon` (UserID, CouponID, OrderID) values(4,2,null);
+insert into `userCoupon` (UserID, CouponID, OrderID) values(2,1,null);
+insert into `userCoupon` (UserID, CouponID, OrderID) values(2,3,null);

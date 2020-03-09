@@ -12,15 +12,21 @@ $page = 1;
 $pagesize = 10;
 
 if (isset($_POST['page'])) {
-  $page = $_POST['page'];
+  if ($_POST['page'] == '«' && isset($_POST['pagel']))
+    $page = $_POST['pagel'];
+  else if ($_POST['page'] == '»' && isset($_POST['pager']))
+    $page = $_POST['pager'];
+  else
+    $page = $_POST['page'];
 }
 
 if (isset($_POST['pagesize'])) {
   $pagesize = $_POST['pagesize'];
   $data->pagesize = $_POST['pagesize'];
   $data->page = 1;
-} else if ($data->pagesize != null)
-  $pagesize = $data->pagesize;
+} else if (isset($_POST['lastpage'])) {
+  $pagesize = $_POST['lastpage'];
+}
 
 
 if (isset($_POST['key'])) {
@@ -31,10 +37,9 @@ if (isset($_POST['key'])) {
 } else if (isset($_POST['keyword'])) {
   $data->keyword = $_POST['keyword'];
   $coupons  = $data->getCouponList($data);
-  // $pagesize = count($coupons);
   $key = $_POST['keyword'];
 }
-
+// echo $page;
 $pagenum = count($coupons);
 $showpageLB = ($page - 1) * $pagesize + 1;
 $showpageUB = $page * $pagesize;
@@ -355,8 +360,6 @@ if (isset($_POST['thead'])) {
     }
   }
 }
-
-
 if (isset($_SERVER['QUERY_STRING']) && strrpos($_SERVER['QUERY_STRING'], 'page') != false) {
   $p = $_SERVER['QUERY_STRING'];
   $page = '';
@@ -415,6 +418,9 @@ require_once 'views/template/header.php';
   th {
     color: #ffffff;
     background-color: #5289AE;
+  }
+  .coupontable {
+    text-align: center;
   }
 </style>
 <?php
@@ -481,9 +487,10 @@ require_once 'views/template/header.php';
                                                     else
                                                       echo '""'; ?>>
 
+        <input type="hidden" name="lastpage" value=<?= $pagesize ?>>
       </form>
       <!-- button to coupontype and usercoupon -->
-      <div class="form-group float-right">
+      <div class="form-group float-right mb-0">
         <a href='/RollinAdmin/Coupon/TypeDetail'><button class="btn btn-primary btn-sm">折價券類型</button></a>
         <a href='/RollinAdmin/Coupon/User/all'><button class="btn btn-primary btn-sm">折價券領取/使用狀況</button></a>
       </div>
@@ -495,24 +502,35 @@ require_once 'views/template/header.php';
           <nav aria-label="Page navigation" class="m-auto">
             <ul class="pagination">
               <li class="page-item">
-                <a class="page-link" aria-label="Previous">
-                  <span aria-hidden="true">&laquo;</span>
-                  <span class="sr-only">Previous</span>
-                </a>
+                <span class="page-link">
+                  <?php
+                  if ($page > 1) {
+                    echo '<input type="submit" name="page" value="&laquo;" style="color:blue;border:none;background-color:white;padding:0;">';
+                    echo '<input type="hidden" name="pagel" value="' . ($page - 1) . '"></input>';
+                  } else
+                    echo '<span style="color:gray;">&laquo;</span>'; ?>
+                  </input></span>
               </li>
               <?php
               for ($i = 1; $i <= ceil($pagenum / $pagesize); $i++) {
                 if ($i == $page)
                   echo '<li class="page-item active"><span class="page-link">' . $i . '<span class="sr-only">(current)</span></span></li>';
                 else
-                  echo '<li class="page-item"><span class="page-link"><input type="submit" name="page" value="' . $i . '" style="border:none;background-color:white;"></span></li>';
+                  echo '<li class="page-item"><span class="page-link"><input type="submit" name="page" value="' . $i . '" style="color:blue;border:none;background-color:white;padding:0"></span></li>';
               }
               ?>
               <li class="page-item">
-                <a class="page-link" aria-label="Next">
+                <span class="page-link">
+                  <?php if ($page < ceil($pagenum / $pagesize)) {
+                    echo '<input type="submit" name="page" value="&raquo;" style="border:none;background-color:white;padding:0;color:blue;">';
+                    echo '<input type="hidden" name="pager" value="' . ($page + 1) . '"></input>';
+                  } else
+                    echo '<span style="color:gray;">&raquo;</span>'; ?>
+                  </input></span>
+                <!-- <a class="page-link" aria-label="Next">
                   <span aria-hidden="true">&raquo;</span>
                   <span class="sr-only">Next</span>
-                </a>
+                </a> -->
               </li>
             </ul>
           </nav>
@@ -520,7 +538,7 @@ require_once 'views/template/header.php';
         <!-- delete -->
         <button type="submit" class="btn btn-danger btn-sm mb-2" name="delete">刪除</button>
         <!-- table -->
-        <table class="table table-bordered table-hover" style="width: auto; table-layout:fit-content; white-space: nowrap">
+        <table class="table table-bordered table-hover coupontable" style="width: auto; table-layout:fit-content; white-space: nowrap">
           <thead>
             <tr>
               <th scope="col"><input type="checkbox" id='selectallcheckbox' onclick="selectall();"></th>
@@ -763,29 +781,41 @@ require_once 'views/template/header.php';
                                                       echo '"' . $_POST['lastorder'] . '"';
                                                     else
                                                       echo '""'; ?>>
+        <input type="hidden" name="lastpage" value=<?= $pagesize ?>>
         <!-- page -->
         <div class='row'>
           <nav aria-label="Page navigation" class="m-auto">
             <ul class="pagination">
               <li class="page-item">
-                <a class="page-link" aria-label="Previous">
-                  <span aria-hidden="true">&laquo;</span>
-                  <span class="sr-only">Previous</span>
-                </a>
+                <span class="page-link">
+                  <?php
+                  if ($page > 1) {
+                    echo '<input type="submit" name="page" value="&laquo;" style="color:blue;border:none;background-color:white;padding:0;">';
+                    echo '<input type="hidden" name="pagel" value="' . ($page - 1) . '"></input>';
+                  } else
+                    echo '<span style="color:gray;">&laquo;</span>'; ?>
+                  </input></span>
               </li>
               <?php
               for ($i = 1; $i <= ceil($pagenum / $pagesize); $i++) {
                 if ($i == $page)
                   echo '<li class="page-item active"><span class="page-link">' . $i . '<span class="sr-only">(current)</span></span></li>';
                 else
-                  echo '<li class="page-item"><span class="page-link"><input type="submit" name="page" value="' . $i . '" style="border:none;background-color:white;"></span></li>';
+                  echo '<li class="page-item"><span class="page-link"><input type="submit" name="page" value="' . $i . '" style="color:blue;border:none;background-color:white;padding:0"></span></li>';
               }
               ?>
               <li class="page-item">
-                <a class="page-link" aria-label="Next">
+                <span class="page-link">
+                  <?php if ($page < ceil($pagenum / $pagesize)) {
+                    echo '<input type="submit" name="page" value="&raquo;" style="border:none;background-color:white;padding:0;color:blue;">';
+                    echo '<input type="hidden" name="pager" value="' . ($page + 1) . '"></input>';
+                  } else
+                    echo '<span style="color:gray;">&raquo;</span>'; ?>
+                  </input></span>
+                <!-- <a class="page-link" aria-label="Next">
                   <span aria-hidden="true">&raquo;</span>
                   <span class="sr-only">Next</span>
-                </a>
+                </a> -->
               </li>
             </ul>
           </nav>

@@ -40,7 +40,7 @@ INSERT INTO `Category` (CategoryName, ParentID) VALUES ("Griptape", 1);
 
 INSERT INTO `Category` (CategoryName, ParentID) VALUES ("Skate Shoes", 2);
 INSERT INTO `Category` (CategoryName, ParentID) VALUES ("Sneakers", 2);
-INSERT INTO `Category` (CategoryName, ParentID) VALUES ("Winter Shoes For Skaters", 2);
+INSERT INTO `Category` (CategoryName, ParentID) VALUES ("Winter Shoes", 2);
 
 INSERT INTO `Category` (CategoryName, ParentID) VALUES ("T-Shirts", 3);
 INSERT INTO `Category` (CategoryName, ParentID) VALUES ("Hoodies", 3);

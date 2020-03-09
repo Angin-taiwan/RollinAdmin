@@ -113,7 +113,7 @@ th>a:hover {
   height: 150px;
 }
 .list-brandname {
-  font-size: 1.3em;
+  font-size: 1.1em;
 }
 .grid-img-wrap {
   width: 150px;

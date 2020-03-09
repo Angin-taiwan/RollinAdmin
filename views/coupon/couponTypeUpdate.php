@@ -41,12 +41,14 @@ require_once 'views/template/header.php';
     <div class="card">
         <div class="card-body" style="overflow:auto;">
             <form method="post" action="">
-                <?php
-                echo '<label for="couponTypeName" class="col-md-4 col-sm-12">折價券類型名稱</i></label>
-                      <input class="col-md-4 col-sm-8" type="text" name="couponTypeName" value="' . $coupons->CouponTypeName . '" required>';
-                echo '<span class="error col-4">' . $nameErr . '</span>';
-                echo '<br>';
-                ?>
+                <div class="form-group col-6 mb-0">
+                    <?php
+                    echo '<label for="couponTypeName">折價券類型名稱</i></label>
+                      <input class="form-control" type="text" name="couponTypeName" value="' . $coupons->CouponTypeName . '" required>';
+                    echo '<span class="error col-4">' . $nameErr . '</span>';
+                    echo '<br>';
+                    ?>
+                </div>
                 <button type="submit" name="update" class="btn btn-primary btn-sm">修改</button>
                 <button type="submit" onclick="return deletealert();" name="delete" class="btn btn-danger btn-sm">刪除</button>
             </form>
@@ -59,7 +61,7 @@ require_once 'views/template/header.php';
 <!-- /.container-fluid -->
 <script>
     function deletealert() {
-        return confirm('是否確定刪除?\n註:擁有此券的使用者資料會一同刪除')
+        return confirm('是否確定刪除?\n註:此類別的折價券與擁有的使用者資料會一同刪除')
     }
 </script>
 <?php

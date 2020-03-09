@@ -3,6 +3,9 @@
 $pageDir = "Product";
 $pageTitle = "Product Detail";
 
+$pageDirTW = "商品管理";
+$pageTitleTW = "商品細節";
+
 $Product = $data->getDetail($data->id);
 $Stocks = $data->getStock($Product->ProductID);
 
@@ -99,7 +102,7 @@ require_once 'views/template/header.php';
 
       <!--按鈕-->    <form name="form" method="post" action="">
       <div class="w-100 mt-5">       <!-- end -->
-        <button type="button" class="btn btn-outline-dark " onclick="location.href='Product/List'">上一頁</button>
+        <button type="button" class="btn btn-outline-dark " onclick="location.href='Product/List'">返回清單</button>
         <button type="submit" class="btn btn-danger" name="OFFsale" onclick="return confirm('是否確認修改販售狀態')">上/下架</button>
         <a class='btn btn-outline-primary float-right' href=/RollinAdmin/Product/Update/<?="$Product->ProductID>"?>修改</a>
       </div>

@@ -25,7 +25,7 @@ require_once 'views/template/header.php';
     object-fit: cover;
   }
   .brand-desc {
-    font-size: 1.2em;
+    font-size: 1.1em;
     min-height: 150px;
   }
 </style>

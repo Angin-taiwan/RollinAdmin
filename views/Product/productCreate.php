@@ -3,6 +3,9 @@
 $pageDir = "Product";
 $pageTitle = "Product Create";
 
+$pageDirTW = "商品管理";
+$pageTitleTW = "商品新增";
+
 require_once 'views/template/header.php';
 
 // 建立商品
@@ -141,7 +144,7 @@ $hidInputs = [
           
           <?php
             $findmyCldCategoryName = $data->findmyCldCategoryName($CatID_M);
-            echo  "<option disabled name=\"ParentTitle\">－－－$CatID_M - CategoryName!! －－－</option>" ;
+            echo  "<option hidden name=\"ParentTitle\">－－－$CatID_M - $mcn->CategoryName!! －－－</option>" ;
             $mynumber=1;
             foreach ($findmyCldCategoryName as $ccn) {
               echo  <<<here
@@ -186,7 +189,7 @@ $hidInputs = [
       </div>
       <div class="form-group col-md-3">
         <label for="txtUnitPrice">單價</label>
-        <input type="number" min="0" class="form-control" name="UnitPrice" id="txtUnitPrice" placeholder="UnitPrice" onchange="this.form.submit()">
+        <input type="number" min="0" class="form-control" name="UnitPrice" id="txtUnitPrice" placeholder="UnitPrice">
       </div>
   </div>
 
@@ -236,10 +239,12 @@ $count++;
         <select class="form-control" name="ColorID$x" id="txtColorID$x">
           <option value="0" selected>None Color</option>
 here;
+$count =1;
           foreach ($findmyColorName as $cn) {
             echo  <<<here
-            <option value="$cn->ColorID">$cn->Color</option>
+            <option value="$cn->ColorID">$count - $cn->Color</option>
 here;
+$count++;
           }
           echo <<<here
           </select>
@@ -266,8 +271,10 @@ here;
 
   <!-- btn -->
   <div>
-    <button type="submit" class="btn btn-success" name="insertButton" id="insertButton">新增資料</button>
-    <button type="reset" class="btn btn-danger">清除資料</button>
+  <button type="button" class="btn btn-outline-dark " onclick="location.href='Product/List'">返回清單</button>
+  <button type="reset" class="btn btn-danger ">清除資料</button>
+    <button type="submit" class="btn btn-info float-right" name="insertButton" id="insertButton">新增資料</button>
+    
   </div>
 
   </form>

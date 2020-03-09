@@ -3,6 +3,9 @@
 $pageDir = "Product";
 $pageTitle = "Product Create";
 
+$pageDirTW = "商品管理";
+$pageTitleTW = "商品新增";
+
 require_once 'views/template/header.php';
 
 // 建立商品

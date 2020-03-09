@@ -3,6 +3,9 @@
 $pageDir = "Product";
 $pageTitle = "Product Detail";
 
+$pageDirTW = "商品管理";
+$pageTitleTW = "商品細節";
+
 $Product = $data->getDetail($data->id);
 $Stocks = $data->getStock($Product->ProductID);
 

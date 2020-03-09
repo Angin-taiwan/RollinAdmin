@@ -133,11 +133,11 @@ require_once 'views/template/header.php';
             </div>
             <div class="form-group form-check">
               <input type="checkbox" class="form-check-input" id="isChild" name="isChild">
-              <label class="form-check-label" for="isChild" >成為下方父類別的子類別</label>
+              <label class="form-check-label" for="isChild" >成為下方主類別的子類別</label>
             </div>
             <fieldset id="fieldset" disabled>
               <div class="form-group">
-                <label for="parentCategoryID">要加入的父類別名稱</label>
+                <label for="parentCategoryID">要加入的主類別名稱</label>
                 <select class="form-control" id="parentCategoryID" name="parentCategoryID">
                   <?php
                   foreach($parents as $parent) {
@@ -176,11 +176,11 @@ require_once 'views/template/header.php';
             <div id="editShow">
               <div class="form-group form-check">
                 <input type="checkbox" class="form-check-input" id="editIsChild" name="editIsChild">
-                <label class="form-check-label" for="editIsChild" >成為下方父類別的子類別</label>
+                <label class="form-check-label" for="editIsChild" >成為下方主類別的子類別</label>
               </div>
               <fieldset id="editFieldset" disabled>
                 <div class="form-group">
-                  <label for="editParentCategoryID">要加入的父類別名稱</label>
+                  <label for="editParentCategoryID">要加入的主類別名稱</label>
                   <select class="form-control" id="editParentCategoryID" name="editParentCategoryID">
                     <?php
                     foreach($parents as $parent) {

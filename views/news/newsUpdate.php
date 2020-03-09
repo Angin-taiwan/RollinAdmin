@@ -34,26 +34,26 @@ require_once 'views/template/header.php';
 
         <div class="form-group">
             <label for="Title" class="text">
-                NewsID : <?= $news->NewsID ?>
+                編號 : <?= $news->NewsID ?>
             </label>
         </div>
         <div class="form-group">
             <label for="Title" class="text">
-                Createdate : <?= $news->CreateDate ?>
+                創建時間 : <?= $news->CreateDate ?>
             </label>
         </div>
 
         <div class="form-group">
             <label for="Title" class="text">
-                Title :
+                消息標題 :
             </label>
             <input type="text" class="form-control" name="Title" id="Title" placeholder="輸入修改標題" required="required" value="<?= $news->Title ?>">
         </div>
         <div class="form-group">
             <label for="Description" class="text">
-                Description :
+                消息內容 :
             </label>
-            <textarea type="text" class="form-control" name="Description" id="Description" placeholder="輸入標題內容" style="height:200px"  required="required"><?= $news->Description ?></textarea>
+            <textarea type="text" class="form-control" name="Description" id="Description" placeholder="輸入標題內容" style="height:200px" required="required"><?= $news->Description ?></textarea>
         </div>
 
         <input name="action" type="hidden" value="id">
@@ -64,7 +64,7 @@ require_once 'views/template/header.php';
 </div>
 <!-- /.container-fluid -->
 
-<?php  
+<?php
 
 require_once 'views/template/footer.php';
 

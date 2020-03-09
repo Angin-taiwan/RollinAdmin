@@ -14,50 +14,53 @@ class Order extends DB {
      )[0];
   }
 
-  function getAllLikeCount($OrderID) {
-    return $this->selectDB(
-      "SELECT COUNT(*) Count FROM `Order` O
-      join `User` U on (U.UserId = O.UserId)  
-      WHERE OrderID LIKE CONCAT('%',?,'%') ;",
-      [$OrderID]
-    )[0];
-  }
-
-  function getAllLike($UserName, $startDate, $endDate, $startIndex = 0, $pageSize = 3) {
+  function getAllLikeCount($keywords,$Searchtext, $startDate, $endDate , $pageStartIndex = 0, $pageSize = 3) {
+    // echo $keywords;
+    echo $Searchtext;
     var_dump($startDate);
     var_dump($endDate);
     return $this->selectDB(
-      "SELECT O.*, U.UserName, Pay.PaymentName, P.ProductName FROM `Order` O 
-      join `User` U on (U.UserId = O.UserId)
-      join Orderdetail Od on (Od.OrderID   = O.OrderID)
-      join Product P on (P.ProductID = Od.ProductID)
+      "SELECT COUNT(*) Count FROM `Order` O
+     join `User` U on (U.UserId = O.UserId)
       join Payment Pay on (Pay.PaymentID = O.PaymentID)
-      WHERE UserName LIKE CONCAT('%$UserName%')  
+      WHERE  $keywords LIKE CONCAT('%$Searchtext%')
       and OrderDate >= '$startDate' AND OrderDate <= '$endDate'
-      ORDER BY OrderID ASC LIMIT $startIndex, $pageSize ;",
-     
-    );
+      ORDER BY O.OrderID ASC LIMIT $pageStartIndex, $pageSize;");
   }
-  // -- and OrderDate >= '?' AND OrderDate <= '?' 
+
+  function getAllLike($ordertype,$keywords,$Searchtext, $startDate, $endDate,  $pageStartIndex = 0, $pageSize = 3) {
+    echo $ordertype ;
+    echo $keywords;
+    echo $Searchtext;
+    // var_dump($startDate);
+    // var_dump($endDate);
+
+    return $this->selectDB(
+      "SELECT O.*, U.UserName, Pay.PaymentName FROM `Order` O
+      join `User` U on (U.UserId = O.UserId)
+      join Payment Pay on (Pay.PaymentID = O.PaymentID)
+      WHERE $ordertype and
+      $keywords LIKE CONCAT('%$Searchtext%')
+      and OrderDate >= '$startDate' AND OrderDate <= '$endDate'
+      ORDER BY OrderID ASC LIMIT $pageStartIndex, $pageSize ;",);
+  }
+  // -- and OrderDate >= '?' AND OrderDate <= '?'
 
   function getOrderByorderdate($startDate,$endDate) {
+
     return $this->selectDB("SELECT * FROM `Order` O
     join User      U on (U.UserID    = O.UserID)
     join Payment   Pay on (Pay.PaymentID = O.PaymentID)
     join recipient r on (r.OrderID   = O.OrderID)
-    join Orderdetail Od on (Od.OrderID   = O.OrderID)
-    join Product P on (P.ProductID = Od.ProductID)
     join shipping      S on (S.shippingID    = O.shippingID)
     WHERE OrderDate <= ?
       AND OrderDate >= ? ;", [$startDate,$endDate]);
   }
-    
+
 
   function getAll($startIndex = 0, $pageSize = 3) {
     return $this->selectDB("SELECT * from `Order` O
     join `User` U on (U.UserId = O.UserId)
-    join Orderdetail Od on (Od.OrderID   = O.OrderID)
-    join Product P on (P.ProductID = Od.ProductID)
     join Payment Pay on (Pay.PaymentID = O.PaymentID)
     ORDER BY O.OrderID
     asc LIMIT ?, ? ;",[$startIndex, $pageSize]
@@ -70,12 +73,21 @@ class Order extends DB {
     join User      U on (U.UserID    = O.UserID)
     join Payment   Pay on (Pay.PaymentID = O.PaymentID)
     join recipient r on (r.OrderID   = O.OrderID)
-    join Orderdetail Od on (Od.OrderID   = O.OrderID)
-    join Product P on (P.ProductID = Od.ProductID)
     join shipping      S on (S.shippingID    = O.shippingID)
     WHERE O.OrderID = ? ;", [$id])[0];
   }
 
+
+  //顯示未理貨訂單
+  function getOrderByUnshipped($id) {
+    return $this->selectDB("SELECT * FROM `Order` O
+    join User      U on (U.UserID    = O.UserID)
+    join Payment   Pay on (Pay.PaymentID = O.PaymentID)
+    join recipient r on (r.OrderID   = O.OrderID)
+    join shipping      S on (S.shippingID    = O.shippingID)
+    WHERE O.OrderID = ?
+    and shippedDate is null ;", [$id])[0];
+  }
 
 
   function create($Order) {
@@ -121,7 +133,7 @@ class Order extends DB {
       "UPDATE `Order` SET CancelDate = current_timestamp() where orderID in (" . str_repeat("?,", count($ids) -1) . "?);",
       $ids);
   }
-  
+
 
 
 
@@ -151,5 +163,15 @@ class Order extends DB {
       "DELETE FROM `Order` WHERE OrderID IN (" . str_repeat("?,", count($ids) - 1) . "?);",
       $ids);
   }
+
+  # 組長做的
+  # ===================== for order detail page =====================
+  function getOrderDetail($orderID) {
+    return $this->selectDB(
+      "SELECT od.OrderID, p.ProductID, p.ProductName, od.UnitPrice, od.Quantity FROM OrderDetail od JOIN Product p ON od.ProductID = p.ProductID WHERE od.OrderID = ?",
+      [$orderID]
+    );
+  }
+  # =================================================================
 
 }

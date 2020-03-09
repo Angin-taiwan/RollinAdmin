@@ -3,7 +3,8 @@
 class CategoryController extends Controller {
 
   function index() {
-    $this->view("category/categoryList");
+    $category = $this->model("Category");
+    $this->view("category/categoryList", $category);
   }
 
   function list() {

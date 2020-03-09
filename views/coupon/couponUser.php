@@ -145,9 +145,9 @@ require_once 'views/template/header.php';
     <div class="card-footer">
       <?php
       if ($data->id == 'all')
-        echo '<a href=/RollinAdmin/Coupon/List><button class="btn btn-dark float-right btn-sm">返回</button></a>';
+        echo '<a href=/RollinAdmin/Coupon/List><button class="btn btn-outline-dark float-right btn-sm">返回</button></a>';
       else
-        echo '<a href=/RollinAdmin/Coupon/Detail/' . $data->id . '><button class="btn btn-dark float-right btn-sm">返回</button></a>';
+        echo '<a href=/RollinAdmin/Coupon/Detail/' . $data->id . '><button class="btn btn-outline-dark float-right btn-sm">返回</button></a>';
       ?>
 
     </div>

@@ -6,7 +6,7 @@ class App {
 
     $url = $this->parseUrl();
 
-    $controllerName = ($url == null) ? "" : "{$url[0]}Controller";
+    $controllerName = ($url == null) ? "HomeController" : "{$url[0]}Controller";
 
     if (!file_exists("controllers/$controllerName.php")) {
       return;

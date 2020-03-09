@@ -6,9 +6,28 @@ $pageTitle = "Product Detail";
 $Product = $data->getDetail($data->id);
 $Stocks = $data->getStock($Product->ProductID);
 
+$Productsubtitle = "";
+if($Product->Discontinued==1){
+  $Productsubtitle = "(未上架)";
+}
+// 
+if (isset($_POST['OFFsale'])) {
+  $SaleSitu = $Product->Discontinued==1 ? 0 :1 ;
+  $data->OFFsaleONE($Product->ProductID,$SaleSitu);
+  header("Location: ./$Product->ProductID");
+  exit();
+}
+
 require_once 'views/template/header.php';
 
 ?>
+
+<style>
+  th {
+    color: #ffffff;
+    background-color: #5289AE;
+  }
+  </style>
 
 <div class="container-fluid">
 
@@ -19,7 +38,7 @@ require_once 'views/template/header.php';
     
       <div class="d-flex">
         <div class="py-2 w-100 align-self-center">
-          <h3 class="mb-0"><span class="text-dark"><?=$Product->ProductName?></span></h3>
+          <h3 class="mb-0"><span class="text-dark"><?=$Product->ProductName.$Productsubtitle?></span></h3>
         </div>
         <div class="p-2 flex-shrink-1">NT$<h3><?=$Product->UnitPrice?></h3></div>
       </div>
@@ -53,12 +72,20 @@ require_once 'views/template/header.php';
                   </tr>
                   here;
                   foreach ($Stocks as $pdst) {
+                    $SizeName ="One Size" ;
+                    if(isset($pdst->SizeName)){
+                      $SizeName = "$pdst->SizeName";
+                    }
+                    $ColorName ="None Color" ;
+                    if(isset($pdst->Color)){
+                      $ColorName = "$pdst->Color";
+                    }
                     echo  <<<here
                     <tr>
                     <td></td>
-                    <td>Size:$pdst->SizeID </td>
-                    <td>Color:$pdst->ColorID </td>
-                    <td>pdst:$pdst->UnitInStock</td>
+                    <td>$SizeName </td>
+                    <td>$ColorName</td>
+                    <td>$pdst->UnitInStock</td>
                     <td></td>
                     <td></td>
                     <td></td>
@@ -70,11 +97,13 @@ require_once 'views/template/header.php';
       </table>
       </div>
 
-      <!--按鈕-->
+      <!--按鈕-->    <form name="form" method="post" action="">
       <div class="w-100 mt-5">       <!-- end -->
-        <button type="button" class="btn btn-outline-dark" onclick="location.href='Product/List'">上一頁</button>
+        <button type="button" class="btn btn-outline-dark " onclick="location.href='Product/List'">上一頁</button>
+        <button type="submit" class="btn btn-danger" name="OFFsale" onclick="return confirm('是否確認修改販售狀態')">上/下架</button>
         <a class='btn btn-outline-primary float-right' href=/RollinAdmin/Product/Update/<?="$Product->ProductID>"?>修改</a>
       </div>
+                </form>
     </div> <!--/card-body-->
 
     <div class="card-body d-flex flex-column align-items-start">

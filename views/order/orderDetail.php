@@ -11,6 +11,11 @@ $pageTitleTW = "訂單細節";
 # ----------------------------------------------------------
 // get 物件
 $order = $data->getOrderById($data->id);
+$orderDetail = $data->getOrderDetail($data->id);
+
+$display = is_null($order->CancelDate) ? "d-none" : "" ;
+$odIndex = 1;
+$totalPrice = 0;
 
 $order_status = [
   '收到訂單' => $order->OrderDate,
@@ -26,6 +31,28 @@ require_once 'views/template/header.php';
 ?>
 
 <style>
+
+.btn-print {
+  position: absolute;
+  right: 25px;
+  top: 5px;
+}
+
+
+.cancelled {
+  position: absolute;
+  top: 80px;
+  left: 240px;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-weight: 700;
+  font-size:2em;
+  color: red;
+  padding: 15px;
+  z-index: 99;
+  box-shadow:inset 0px 0px 0px 8px red;
+  transform: rotate(-30deg);
+}
+
 
 #progress-wrap {
   width: 800px;
@@ -107,11 +134,22 @@ a.bs-wizard-dot.yellow::after {
 
 </style>
 
+<style media=print type="text/css">
+  .noprint {
+    visibility:hidden
+  }
+}
+
+</style>
+
 <div class="container-fluid">
-  <div class="card">
-    <h5 class="card-header">訂單狀態</h5>
+  <div class="card position-relative">
+    <h5 class="card-header">訂單編號：<?= sprintf('%08d', $data->id); ?><span class="ml-3 <?= $display ?>">(已取消)</span></h5>
+    <a href="javascript:window.print()" class="btn btn-outline-dark btn-print noprint" rel="external nofollow" target="_self">列印出貨單</a>
+    <div class="cancelled <?= $display ?>">
+      CANCELLED
+    </div>
     <div class="card-body">
-      <!-- <h5 class="card-title">訂單狀態</h5> -->
       <div id="progress-wrap my-auto">
         <div class="row">
         <?php
@@ -134,7 +172,7 @@ a.bs-wizard-dot.yellow::after {
         <div class="card">
           <div class="card-header" id="headingOne">
             <h5 class="mb-0">
-              <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+              <button class="btn btn-link text-dark" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
                 商品明細
               </button>
             </h5>
@@ -146,36 +184,30 @@ a.bs-wizard-dot.yellow::after {
                   <tr>
                     <th scope="col">#</th>
                     <th scope="col">商品名稱</th>
-                    <th class="text-right" scope="col">單價</th>
                     <th class="text-right" scope="col">數量</th>
+                    <th class="text-right" scope="col">單價</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <th scope="row">1</th>
-                    <td><a href="/RollinAdmin/Product/Detail/1">Fashion Board</a></td>
-                    <td class="text-right">3000</td>
-                    <td class="text-right">1</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">2</th>
-                    <td><a href="/RollinAdmin/Product/Detail/1">Biggy Bag</a></td>
-                    <td class="text-right">2580</td>
-                    <td class="text-right">1</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">3</th>
-                    <td><a href="/RollinAdmin/Product/Detail/1">VANDAL Defame合作LOGO板身</a></td>
-                    <td class="text-right">1700</td>
-                    <td class="text-right">1</td>
-                  </tr>
+                  <?php
+                    foreach($orderDetail as $od) {
+                      echo "<tr>";
+                      echo "<th scope='row'>$odIndex</th>";
+                      echo "<td><a href='/RollinAdmin/Product/Detail/$od->ProductID'>$od->ProductName</a></td>";
+                      echo "<td class='text-right'>$od->Quantity</td>";
+                      echo "<td class='text-right'>$od->UnitPrice</td>";
+                      echo "</tr>";
+                      $odIndex++;
+                      $totalPrice += $od->UnitPrice * $od->Quantity;
+                    }
+                  ?>
                 </tbody>
                 <tfoot>
                 <tr>
                   <td></td>
-                  <td class="text-right">總價</td>
-                  <td class="text-right">7280</td>
                   <td class="text-right"></td>
+                  <td class="text-right"></td>
+                  <td class="text-right">總價：<?= $totalPrice ?></td>
                 </tr>
                 </tfoot>
               </table>
@@ -186,10 +218,10 @@ a.bs-wizard-dot.yellow::after {
         <div class="card">
           <div class="card-header" id="headingTwo">
             <h5 class="mb-0">
-              <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo show">
+              <button class="btn btn-link text-dark" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo show">
                 收件者資訊
               </button>
-              <a class="btn btn-outline-primary float-right" href="/RollinAdmin/User/Detail/<?=$order->UserID?>">訂購者資訊</a>
+              <a class="btn btn-outline-dark float-right noprint" href="/RollinAdmin/User/Detail/<?=$order->UserID?>">訂購者資訊</a>
             </h5>
           </div>
           <div id="collapseTwo" class="collapse show" aria-labelledby="headingTwo">

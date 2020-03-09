@@ -132,11 +132,11 @@ require_once 'views/template/header.php';
       </div>
 
       <div class="float-right form-group d-flex">
-        <input class="form-control mr-2" type="text" placeholder="search" name="keyword">
+        <input class="form-control mr-2" type="text" placeholder="輸入查詢關鍵字" name="keyword">
 
         <select class="form-control mr-2" style="width:130px" name="Categorysearch">
-          <option value="Title"<?= ($Categorysearch == "Title") ? "selected=selected" : ""; ?>>Title</option>
-          <option value="CreateDate"<?= ($Categorysearch == "CreateDate") ? "selected=selected" : ""; ?>>CreateDate</option>
+          <option value="Title"<?= ($Categorysearch == "Title") ? "selected=selected" : ""; ?>>標題</option>
+          <option value="CreateDate"<?= ($Categorysearch == "CreateDate") ? "selected=selected" : ""; ?>>創建時間</option>
         </select>
 
         <input type="submit" class="btn btn-dark" value="搜尋" name="searchButton" onchange="this.form.submit()">
@@ -168,7 +168,7 @@ require_once 'views/template/header.php';
                     $queryString .= "&keyword=$keyword";
                   };
                   if ($Categorysearch !=""){
-                    $queryString .= "&Categorysearch=$Categorysearch"; //如果加了很多搜索條件 就要再加上去
+                    $queryString .= "&Categorysearch=$Categorysearch"; //如果加了很多搜索條件 就要再加上去 不然下一頁會出問題
                   }
                   $prevous = $pageNo - 1;
                   $next = $pageNo + 1;
@@ -237,7 +237,7 @@ require_once 'views/template/header.php';
               if ($pagesCount > 1) {
                 $queryString = "?";
                 if ($pageSize != "") {
-                  $queryString .= "pageSize" . $pageSize;
+                  $queryString .= "pageSize" . '='. $pageSize;
                 };
                 if ($keyword != "") {
                   $queryString .= "&keyword=$keyword";

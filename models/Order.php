@@ -29,11 +29,12 @@ class Order extends DB {
       ORDER BY O.OrderID ASC LIMIT $pageStartIndex, $pageSize;")[0];
   }
 
-  function getAllLike($ordertype,$keywords,$Searchtext, $startDate, $endDate,  $pageStartIndex = 0, $pageSize = 3) {
+  function getAllLike($ordertype,$keywords,$Searchtext, $startDate, $endDate, $pageStartIndex = 0, $pageSize = 3) {
     // echo "getAllLike";
     // echo $ordertype ;
     // echo $keywords;
     // echo $Searchtext;
+  
     // var_dump($startDate);
     // var_dump($endDate);
 

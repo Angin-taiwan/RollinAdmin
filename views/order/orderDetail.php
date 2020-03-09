@@ -38,7 +38,6 @@ require_once 'views/template/header.php';
   top: 5px;
 }
 
-
 .cancelled {
   position: absolute;
   top: 80px;
@@ -53,6 +52,11 @@ require_once 'views/template/header.php';
   transform: rotate(-30deg);
 }
 
+#btn-back{
+  position: absolute;
+  top: -60px;
+  left: 140px;
+}
 
 #progress-wrap {
   width: 800px;
@@ -144,6 +148,7 @@ a.bs-wizard-dot.yellow::after {
 
 <div class="container-fluid">
   <div class="card position-relative">
+    <a id="btn-back" class="btn btn-outline-dark float-left" href="Order/List">返回清單</a>
     <h5 class="card-header">訂單編號：<?= sprintf('%08d', $data->id); ?><span class="ml-3 <?= $display ?>">(已取消)</span></h5>
     <a href="javascript:window.print()" class="btn btn-outline-dark btn-print noprint" rel="external nofollow" target="_self">列印出貨單</a>
     <div class="cancelled <?= $display ?>">

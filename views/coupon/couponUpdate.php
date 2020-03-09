@@ -166,7 +166,7 @@ require_once 'views/template/header.php';
                 echo '</div>';
                 echo '<div class="form-group col-4">';
                 echo '<label for="couponEndDate">結束領取時間</label>
-                      <input class="form-control type="datetime-local" id="couponEndDate" name="couponEndDate" value="' . date('Y-m-d\TH:i:s', strtotime($coupons->EndDate)) . '" required>
+                      <input class="form-control" type="datetime-local" id="couponEndDate" name="couponEndDate" value="' . date('Y-m-d\TH:i:s', strtotime($coupons->EndDate)) . '" required>
                       <span class="error">' . $enddateErr . '</span>';
                 echo '</div>';
                 echo '<div class="form-group col-4">';

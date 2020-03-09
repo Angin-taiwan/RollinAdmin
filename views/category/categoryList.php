@@ -17,7 +17,7 @@ if(isset($_POST['submit'])) {
     $category = new Category();
 
     $category->CategoryName = trim($_POST['categoryName']);
-    $category->ParentID = $_POST['isChild'] ? $_POST['parentCategoryID'] : NULL;
+    $category->ParentID = isset($_POST['isChild']) ? $_POST['parentCategoryID'] : NULL;
 
     $data->create($category);
   }
@@ -29,7 +29,7 @@ if(isset($_POST['editSubmit'])) {
 
   $category->CategoryID = $_POST['editID'];
   $category->CategoryName = trim($_POST['editCategoryName']);
-  $category->ParentID = $_POST['editIsChild'] ? $_POST['editParentCategoryID'] : NULL;
+  $category->ParentID = isset($_POST['editIsChild']) ? $_POST['editParentCategoryID'] : NULL;
 
   $data->update($category);
 }
@@ -48,6 +48,9 @@ require_once 'views/template/header.php';
 ?>
 
 <style>
+.category-row {
+  font-size: 1em;
+}
 .list-group-item {
   color: #000;
   border: none;
@@ -67,7 +70,7 @@ require_once 'views/template/header.php';
 
 <div class="container-fluid">
 
-  <div class="row">
+  <div class="row category-row">
     <div class="col-6">
       <div class="just-padding">
         <div class="list-group list-group-root">
@@ -82,6 +85,7 @@ require_once 'views/template/header.php';
             echo "<div class='btn-group btn-group-sm category-btn-group'>";
             echo "<button type='button' class='btn btn-outline-secondary btn-edit' data-toggle='modal' data-target='#editModal' data-name='$parent->CategoryName' data-id='$parent->CategoryID'>修改</button>";
             echo "<button type='button' class='btn btn-outline-danger btn-delete' data-toggle='modal' data-target='#deleteModal' data-name='$parent->CategoryName' data-id='$parent->CategoryID'>刪除</button>";
+            echo "<button type='button' class='btn btn-outline-primary btn-new' data-toggle='modal' data-target='#newModal' >新增</button>";
             echo "</div>";
             echo "</div>";
             echo "<div class='list-group collapse' id='item-$parent->CategoryName'>";
@@ -91,6 +95,7 @@ require_once 'views/template/header.php';
               echo "<div class='btn-group btn-group-sm category-btn-group'>";
               echo "<button type='button' class='btn btn-outline-secondary btn-edit' data-toggle='modal' data-target='#editModal' data-name='$child->CategoryName' data-id='$child->CategoryID' data-pid='$child->ParentID'>修改</button>";
               echo "<button type='button' class='btn btn-outline-danger btn-delete' data-toggle='modal' data-target='#deleteModal' data-name='$child->CategoryName' data-id='$child->CategoryID' data-pid='$child->ParentID'>刪除</button>";
+              echo "<button type='button' class='btn btn-outline-primary btn-new' data-toggle='modal' data-target='#newModal' >新增</button>";
               echo "</div>";
               echo "</div>";
             }
@@ -103,9 +108,9 @@ require_once 'views/template/header.php';
     <!--/.col -->
     <div class="col-6">
       <!-- Button trigger modal -->
-      <button type="button" class="btn btn-primary mt-1" data-toggle="modal" data-target="#newModal">
+      <!-- <button type="button" class="btn btn-outline-primary mt-1 btn-sm" data-toggle="modal" data-target="#newModal">
         新增類別
-      </button>
+      </button> -->
     </div>
     <!--/.col -->
   </div>

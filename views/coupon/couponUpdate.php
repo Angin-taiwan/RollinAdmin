@@ -98,14 +98,19 @@ require_once 'views/template/header.php';
         <div class="card-body" style="overflow:auto;">
             <form method="post" action="">
                 <?php
-                echo '<label for="couponName" class="col-md-4 col-sm-12">名稱</i></label>
-                      <input class="col-md-4 col-sm-8" type="text" id="couponName" name="couponName" value="' . $coupons->CouponName . '" required>
-                      <br>';
-                echo '<label for="couponCode" class="col-md-4 col-sm-12">折價券代碼</label>
-                      <input class="col-md-4 col-sm-8" type="text" id="couponCode" name="couponCode" value="' . $coupons->CouponCode . '">
-                      <br>';
-                echo '<label for="couponType" class="col-md-4 col-sm-12">類型</label>
-                      <select class="col-md-4 col-sm-8 d-inline" id="couponType" name="couponType" required>';
+                echo '<div class="form-group col-4">';
+                echo '<label for="couponName">名稱</i></label>
+                      <input class="form-control" type="text" id="couponName" name="couponName" value="' . $coupons->CouponName . '" required>';
+                echo '</div>';
+                echo '<div class="form-group col-4">';
+                echo '<label for="couponCode">折價券代碼</label>
+                      <input class="form-control" type="text" id="couponCode" name="couponCode" value="' . $coupons->CouponCode . '">';
+                echo '</div>';
+                echo '<div class="form-group col-4">';
+                echo '<label for="couponType">類型</label>
+                      <select class="form-control" id="couponType" name="couponType" required>';
+                echo '</div>';
+                echo '<div class="form-group col-4">';
                 $types = $data->getCouponType();
                 foreach ($types as $type) {
                     echo '<option value = "' . $type->CouponTypeID . '" ';
@@ -113,18 +118,22 @@ require_once 'views/template/header.php';
                         echo 'selected';
                     echo '>' . $type->CouponTypeName . '</option>';
                 }
-                echo '</select><br>';
-                echo '<label for="couponQuantity" class="col-md-4 col-sm-12">數量(全店適用請填all)</label>
-                     <input class="col-md-4 col-sm-8" type="text" id="couponQuantity" name="couponQuantity" value="';
+                echo '</select>';
+                echo '</div>';
+                echo '<div class="form-group col-4">';
+                echo '<label for="couponQuantity">數量(全店適用請填all)</label>
+                     <input class="form-control" type="text" id="couponQuantity" name="couponQuantity" value="';
                 if ($coupons->Quantity >= 2147483647)
                     echo 'all';
                 else
                     echo $coupons->Quantity;
                 echo '" required>
-                      <span class="error col-4">' . $quantityErr . '</span>
-                      <br>';
-                echo '<label for="priceType" class="col-md-4 col-sm-12">折扣類型</label>
-                      <select class="col-md-4 col-sm-8 d-inline" id="priceType" name="priceType" value="" required>
+                      <span class="error">' . $quantityErr . '</span>';
+                echo '</div>';
+                echo '<div class="row my-0 ml-0">';
+                echo '<div class="form-group col-4">';
+                echo '<label for="priceType" >折扣類型</label>
+                      <select class="form-control" id="priceType" name="priceType" value="" required>
                       <option value="price"';
                 if ($coupons->Price > 1)
                     echo 'selected>';
@@ -132,46 +141,54 @@ require_once 'views/template/header.php';
                 if ($coupons->Price < 1 && $coupons->Price > 0)
                     echo 'selected';
                 echo '>打折</option>
-                      </select>
-                      <br>';
-                echo '<label for="couponPrice" class="col-md-4 col-sm-12">金額(元)/折數(%)</label>
-                      <input class="col-md-4 col-sm-8" type="text" id="couponPrice" name="couponPrice" value="';
+                      </select>';
+                echo '</div>';
+                echo '<div class="form-group col-4">';
+                echo '<label for="couponPrice">金額(元)/折數(%)</label>
+                      <input class="form-control" type="text" id="couponPrice" name="couponPrice" value="';
                 if ($coupons->Price < 1)
                     echo $coupons->Price * 100;
                 else
                     echo $coupons->Price;
                 echo '" required>
-                        <span class="error col-4">' . $priceErr . '</span>
-                        <br>';
-                echo '<label for="couponPriceCondition" class="col-md-4 col-sm-12">滿額可用</label>
-                      <input class="col-md-4 col-sm-8" type="text" id="couponPriceCondition" name="couponPriceCondition" value="' . $coupons->PriceCondition . '" required>
-                      <span class="error col-4">' . $priceconditionErr . '</span>
-                      <br>';
-                echo '<label for="couponStartDate" class="col-md-4 col-sm-12">開始領取/使用時間</label>
-                      <input class="col-md-4 col-sm-8" type="datetime-local" id="couponStartDate" name="couponStartDate" value="' . date('Y-m-d\TH:i:s', strtotime($coupons->StartDate)) . '" required>
-                      <br>';
-                echo '<label for="couponEndDate" class="col-md-4 col-sm-12">結束領取時間</label>
-                      <input class="col-md-4 col-sm-8" type="datetime-local" id="couponEndDate" name="couponEndDate" value="' . date('Y-m-d\TH:i:s', strtotime($coupons->EndDate)) . '" required>
-                      <span class="error col-4">' . $enddateErr . '</span>
-                      <br>';
-                echo '<label for="couponExpEndDate" class="col-md-4 col-sm-12">結束時間</label>
-                      <input class="col-md-4 col-sm-8" type="datetime-local" id="couponxpEndDate" name="couponExpEndDate" value="' . date('Y-m-d\TH:i:s', strtotime($coupons->ExpEndDate)) . '" required>
-                      <span class="error col-4">' . $expenddateErr . '</span>
-                      <br>';
+                        <span class="error">' . $priceErr . '</span>';
+                echo '</div>';
+                echo '</div>';
+                echo '<div class="form-group col-4">';
+                echo '<label for="couponPriceCondition">折扣限制(滿額可用)</label>
+                      <input class="form-control" type="text" id="couponPriceCondition" name="couponPriceCondition" value="' . $coupons->PriceCondition . '" required>
+                      <span class="error">' . $priceconditionErr . '</span>';
+                echo '</div>';
+                echo '<div class="row ml-0">';
+                echo '<div class="form-group col-4">';
+                echo '<label for="couponStartDate">開始領取/使用時間</label>
+                      <input class="form-control" type="datetime-local" id="couponStartDate" name="couponStartDate" value="' . date('Y-m-d\TH:i:s', strtotime($coupons->StartDate)) . '" required>';
+                echo '</div>';
+                echo '<div class="form-group col-4">';
+                echo '<label for="couponEndDate">結束領取時間</label>
+                      <input class="form-control type="datetime-local" id="couponEndDate" name="couponEndDate" value="' . date('Y-m-d\TH:i:s', strtotime($coupons->EndDate)) . '" required>
+                      <span class="error">' . $enddateErr . '</span>';
+                echo '</div>';
+                echo '<div class="form-group col-4">';
+                echo '<label for="couponExpEndDate">結束時間</label>
+                      <input class="form-control" type="datetime-local" id="couponxpEndDate" name="couponExpEndDate" value="' . date('Y-m-d\TH:i:s', strtotime($coupons->ExpEndDate)) . '" required>
+                      <span class="error">' . $expenddateErr . '</span>';
+                echo '</div>';
+                echo '</div>';
                 ?>
                 <button type="submit" name="update" class="btn btn-primary btn-sm">修改</button>
                 <button type="submit" onclick="return deletealert();" name="delete" class="btn btn-danger btn-sm">刪除</button>
             </form>
         </div>
         <div class="card-footer">
-            <a href="/RollinAdmin/Coupon/Detail/<?= $data->id?>"><button class="btn btn-dark float-right btn-sm">返回</button></a>
+            <a href="/RollinAdmin/Coupon/Detail/<?= $data->id ?>"><button class="btn btn-outline-dark float-right btn-sm">返回</button></a>
         </div>
     </div>
 </div>
 <!-- /.container-fluid -->
 <script>
     function deletealert() {
-        return confirm('是否確定刪除?');
+        return confirm('是否確定刪除?\n註:擁有此券的使用者資料會一同刪除');
     }
 </script>
 <?php

@@ -14,24 +14,27 @@ class Order extends DB {
      )[0];
   }
 
-  function getAllLikeCount($keywords,$Searchtext, $startDate, $endDate , $pageStartIndex = 0, $pageSize = 3) {
-    // echo $keywords;
-    echo $Searchtext;
-    var_dump($startDate);
-    var_dump($endDate);
+  function getAllLikeCount($ordertype,$keywords,$Searchtext, $startDate, $endDate , $pageStartIndex = 0, $pageSize = 3) {
+    // echo "getAllLikeCount";
+    // echo $Searchtext;
+    // var_dump($startDate);
+    // var_dump($endDate);
     return $this->selectDB(
       "SELECT COUNT(*) Count FROM `Order` O
-     join `User` U on (U.UserId = O.UserId)
+      join `User` U on (U.UserId = O.UserId)
       join Payment Pay on (Pay.PaymentID = O.PaymentID)
       WHERE  $keywords LIKE CONCAT('%$Searchtext%')
+      $ordertype
       and OrderDate >= '$startDate' AND OrderDate <= '$endDate'
-      ORDER BY O.OrderID ASC LIMIT $pageStartIndex, $pageSize;");
+      ORDER BY O.OrderID ASC LIMIT $pageStartIndex, $pageSize;")[0];
   }
 
-  function getAllLike($ordertype,$keywords,$Searchtext, $startDate, $endDate,  $pageStartIndex = 0, $pageSize = 3) {
-    echo $ordertype ;
-    echo $keywords;
-    echo $Searchtext;
+  function getAllLike($ordertype,$keywords,$Searchtext, $startDate, $endDate, $pageStartIndex = 0, $pageSize = 3) {
+    // echo "getAllLike";
+    // echo $ordertype ;
+    // echo $keywords;
+    // echo $Searchtext;
+  
     // var_dump($startDate);
     // var_dump($endDate);
 
@@ -39,10 +42,11 @@ class Order extends DB {
       "SELECT O.*, U.UserName, Pay.PaymentName FROM `Order` O
       join `User` U on (U.UserId = O.UserId)
       join Payment Pay on (Pay.PaymentID = O.PaymentID)
-      WHERE $ordertype and
-      $keywords LIKE CONCAT('%$Searchtext%')
+      WHERE 
+      $keywords LIKE CONCAT('%$Searchtext%') 
+      $ordertype
       and OrderDate >= '$startDate' AND OrderDate <= '$endDate'
-      ORDER BY OrderID ASC LIMIT $pageStartIndex, $pageSize ;",);
+      ORDER BY OrderID ASC LIMIT $pageStartIndex, $pageSize ;");
   }
   // -- and OrderDate >= '?' AND OrderDate <= '?'
 

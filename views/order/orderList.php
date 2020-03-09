@@ -115,7 +115,7 @@ $endDate = isset($_GET['endDate']) && $_GET['endDate'] != "" ? $_GET['endDate'] 
 $pageStartIndex = ($pageNo - 1) * $pageSize;
 $OrdersTotal = get_object_vars($data->getAllCount())["Total"];
 $Orders = $Searchtext  == "" && $ordertype == "" && isset($_GET['endDate']) != 1 && isset($_GET['startDate']) != 1 ? $data->getAll($pageStartIndex, $pageSize) : $data->getAllLike($ordertype, $keywords, $Searchtext, $startDate, $endDate, $pageStartIndex, $pageSize);
-$OrdersCount = $Searchtext == "" && $ordertype == ""? $OrdersTotal : get_object_vars($data->getAllLikeCount($ordertype,$keywords,$Searchtext, $startDate, $endDate))["Count"];
+$OrdersCount = $Searchtext  == "" && $ordertype == "" && isset($_GET['endDate']) != 1 && isset($_GET['startDate']) != 1 ? $OrdersTotal : get_object_vars($data->getAllLikeCount($ordertype,$keywords,$Searchtext, $startDate, $endDate))["Count"];
 $pagesCount = ceil((int) $OrdersCount / (int) $pageSize);
 
 

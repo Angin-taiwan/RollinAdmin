@@ -113,7 +113,7 @@ require_once 'views/template/header.php';
 
             <input name="action" type="hidden" value="id">
             <button type="submit" class="btn btn-info" name="updateButton" id="updateButton">修改送出</button>
-            <button type="submit" class="btn btn-danger" name="BackToList">取消</button>
+            <button type="submit" class="btn btn-secondary" name="BackToList">取消</button>
         </form>
     </div>
 </div>

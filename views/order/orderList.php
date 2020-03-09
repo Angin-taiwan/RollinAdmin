@@ -83,44 +83,10 @@ if (isset($_GET["checkedshippBtn"])) {
     // header("location: /RollinAdmin/order/List");
   }
 
-  $www = '' ;
-  $Date =  date('Y-m-d');
-  $Date1 = date('Y-m-d', strtotime($Date.' + 1 days'));
-  $Date60 = date('Y-m-d', strtotime($Date.' - 60 days'));
-
-
-//for nav
-$activeall= '';
-$activeunc= '';
-$activeuns= '';
-$activeuncan= '';
-// $haha= 1 ;
-// $Nav = array(" ",'and shippedDate is null');
-// $Navtype= $Nav[$haha];
-// echo $Navtype, "<br>";
-
-// switch($_GET['Navbarha']){
-//   case 1:
-//     $Navtype = '';
-//     $activeall= 'active';
-//     break;
-
-//   case 2:
-//     $Navtype = 'checkedDate is not null';
-//     $activeunc= 'active';
-//     break;
-
-//   case 3:
-//     $Navtype = 'shippedDate is not null';
-//     $activeuns= 'active';
-//     break;
-
-//   case 4:
-//     $Navtype = 'CancelDate is not null';
-//     $activeuncan= 'active';
-//     break;
-// }
-
+$www = '' ;
+$Date =  date('Y-m-d');
+$Date1 = date('Y-m-d', strtotime($Date.' + 1 days'));
+$Date60 = date('Y-m-d', strtotime($Date.' - 60 days'));
 
 
 // get set querystring
@@ -138,8 +104,7 @@ $ordertype = isset($query["ordertype"]) ? $query["ordertype"] : "";
 $startDate = isset($_GET['startDate']) && $_GET['startDate'] != "" ? $_GET['startDate'] : $Date60;
 $endDate = isset($_GET['endDate']) && $_GET['endDate'] != "" ? $_GET['endDate'] : $Date1 ;
 
-// echo $startDate, "<br>";
-// echo $endDate, "<br>";
+
 // echo  $keywords, "<br>";
 // echo  $Searchtext, "<br>";
 // echo $ordertype, "<br>" ;
@@ -149,7 +114,7 @@ $endDate = isset($_GET['endDate']) && $_GET['endDate'] != "" ? $_GET['endDate'] 
 // for pagination
 $pageStartIndex = ($pageNo - 1) * $pageSize;
 $OrdersTotal = get_object_vars($data->getAllCount())["Total"];
-$Orders = $Searchtext  == "" && $ordertype == "" ? $data->getAll($pageStartIndex, $pageSize) : $data->getAllLike($ordertype, $keywords, $Searchtext, $startDate, $endDate, $pageStartIndex, $pageSize);
+$Orders = $Searchtext  == "" && $ordertype == "" && isset($_GET['endDate']) != 1 && isset($_GET['startDate']) != 1 ? $data->getAll($pageStartIndex, $pageSize) : $data->getAllLike($ordertype, $keywords, $Searchtext, $startDate, $endDate, $pageStartIndex, $pageSize);
 $OrdersCount = $Searchtext == "" && $ordertype == ""? $OrdersTotal : get_object_vars($data->getAllLikeCount($ordertype,$keywords,$Searchtext, $startDate, $endDate))["Count"];
 $pagesCount = ceil((int) $OrdersCount / (int) $pageSize);
 

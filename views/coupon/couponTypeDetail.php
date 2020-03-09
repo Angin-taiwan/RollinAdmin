@@ -47,7 +47,7 @@ require_once 'views/template/header.php';
     <div class="card-body" style="overflow:auto;">
       <form method="post">
         <button type="submit" class="btn btn-danger btn-sm mb-2" name="delete">刪除</button>
-        <table class="table table-bordered table-hover" style="width: auto;">
+        <table class="table table-bordered table-hover">
           <thead>
             <?php
             echo '<th scope="col"><input type="checkbox" id="selectallcheckbox" onclick="selectall();"></th>';

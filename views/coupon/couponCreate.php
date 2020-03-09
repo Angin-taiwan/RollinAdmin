@@ -97,8 +97,11 @@ if (isset($_POST['addCouponType'])) {
     $ccoupontypename = $_POST['couponTypeName2'];
     $coupontypenameErr = '已有"' . $_POST['couponTypeName2'] . '"類別，無法新增';
     $page = 2;
+  } else {
+    header("Location: /RollinAdmin/Coupon/TypeDetail");
+    exit();
   }
-  $page = 2;
+  // $page = 2;
 }
 
 require_once 'views/template/header.php';

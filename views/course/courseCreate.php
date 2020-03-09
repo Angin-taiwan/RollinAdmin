@@ -17,11 +17,11 @@ $PriceValue = "";
 
 if (isset($_POST["insertButton"])) {
   if (is_numeric($_POST["Price"])) {
-    if (intval(($_POST["Price"])) <= 0 && ($_POST["StartDate"] >= $_POST["EndDate"])) {
+    if (intval(($_POST["Price"])) < 0 && ($_POST["StartDate"] >= $_POST["EndDate"])) {
       $TitleValue = $_POST["Title"];
       $DescriptionValue = $_POST["Description"];
       $DateError = "❌開課日期 必須早於 結訓日期";
-      $PriceError = "❌金額必須 > 0";
+      $PriceError = "❌金額必須 >= 0";
     } else {
       if ($_POST["StartDate"] >= $_POST["EndDate"]) {
         $DateError = "❌開課日期 必須早於 結訓日期";
@@ -29,8 +29,8 @@ if (isset($_POST["insertButton"])) {
         $PriceValue = ((int) $_POST["Price"]);
         $DescriptionValue = $_POST["Description"];
       } else {
-        if (intval(($_POST["Price"])) <= 0) {
-          $PriceError = "❌金額必須 > 0";
+        if (intval(($_POST["Price"])) < 0) {
+          $PriceError = "❌金額必須 >= 0";
           $TitleValue = $_POST["Title"];
           $DescriptionValue = $_POST["Description"];
           $StartDateValue = $_POST["StartDate"];

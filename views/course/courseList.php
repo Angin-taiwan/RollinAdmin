@@ -108,11 +108,11 @@ require_once 'views/template/header.php';
         </div>
 
         <div class="float-right form-group d-flex">
-          <input class="form-control mr-2" type="text" placeholder="search" name="keyword">
+          <input class="form-control mr-2" type="text" placeholder="輸入查詢關鍵字" name="keyword">
           <select class="form-control mr-2" style="width:130px" name="Categorysearch">
-            <option value="Title" <?= ($Categorysearch =="Title") ? "selected=selected":""; ?>>Title</option>
-            <option value="Price" <?= ($Categorysearch =="Price") ? "selected=selected":""; ?>>Price</option>
-            <option value="StartDate" <?= ($Categorysearch =="StartDate") ? "selected=selected":""; ?>>StartDate</option>
+            <option value="Title" <?= ($Categorysearch =="Title") ? "selected=selected":""; ?>>課程名稱</option>
+            <option value="Price" <?= ($Categorysearch =="Price") ? "selected=selected":""; ?>>金額</option>
+            <option value="StartDate" <?= ($Categorysearch =="StartDate") ? "selected=selected":""; ?>>開課時間</option>
           </select>
           <input type="submit" class="btn btn-dark" value="搜尋" name="searchButton" onchange="this.form.submit()">
           <br>
@@ -139,7 +139,7 @@ require_once 'views/template/header.php';
                 if ($pagesCount > 1) {
                   $queryString = "?";
                   if ($pageSize != "") {
-                    $queryString .= "pageSize" . $pageSize;
+                    $queryString .= "pageSize" . '=' . $pageSize;
                   };
                   if ($keyword != "") {
                     $queryString .= "&keyword=$keyword";
@@ -227,7 +227,7 @@ require_once 'views/template/header.php';
               if ($pagesCount > 1) {
                 $queryString = "?";
                 if ($pageSize != "") {
-                  $queryString .= "pageSize" . $pageSize;
+                  $queryString .= "pageSize= $pageSize";
                 };
                 if ($keyword != "") {
                   $queryString .= "&keyword=$keyword";

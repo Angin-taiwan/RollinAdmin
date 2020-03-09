@@ -19,8 +19,9 @@ if (isset($_POST['pagesize'])) {
   $pagesize = $_POST['pagesize'];
   $data->pagesize = $_POST['pagesize'];
   $data->page = 1;
-} else if ($data->pagesize != null)
-  $pagesize = $data->pagesize;
+} else if (isset($_POST['lastpage'])) {
+  $pagesize = $_POST['lastpage'];
+}
 
 
 if (isset($_POST['key'])) {
@@ -481,6 +482,7 @@ require_once 'views/template/header.php';
                                                     else
                                                       echo '""'; ?>>
 
+        <input type="hidden" name="lastpage" value=<?= $pagesize ?>>
       </form>
       <!-- button to coupontype and usercoupon -->
       <div class="form-group float-right">
@@ -763,7 +765,7 @@ require_once 'views/template/header.php';
                                                       echo '"' . $_POST['lastorder'] . '"';
                                                     else
                                                       echo '""'; ?>>
-        <!-- page -->
+        <input type="hidden" name="lastpage" value=<?= $pagesize ?>>
         <div class='row'>
           <nav aria-label="Page navigation" class="m-auto">
             <ul class="pagination">

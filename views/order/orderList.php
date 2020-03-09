@@ -137,10 +137,10 @@ $ordertype = isset($query["ordertype"]) ? $query["ordertype"] : "";
 $startDate = isset($_GET['startDate']) && $_GET['startDate'] != "" ? $_GET['startDate'] : $Date60;
 $endDate = isset($_GET['endDate']) && $_GET['endDate'] != "" ? $_GET['endDate'] : $Date ;
 
-echo $startDate, "<br>";
-echo $endDate, "<br>";
-echo  $keywords, "<br>";
-echo  $Searchtext, "<br>";
+// echo $startDate, "<br>";
+// echo $endDate, "<br>";
+// echo  $keywords, "<br>";
+// echo  $Searchtext, "<br>";
 // echo $ordertype, "<br>" ;
 
 
@@ -151,8 +151,6 @@ $OrdersTotal = get_object_vars($data->getAllCount())["Total"];
 $Orders = $Searchtext  == "" && $ordertype == "" ? $data->getAll($pageStartIndex, $pageSize) : $data->getAllLike($ordertype, $keywords, $Searchtext, $startDate, $endDate, $pageStartIndex, $pageSize);
 $OrdersCount = $Searchtext == "" ? $OrdersTotal : get_object_vars($data->getAllLikeCount($keywords,$Searchtext, $startDate, $endDate))["Count"];
 $pagesCount = ceil((int) $OrdersCount / (int) $pageSize);
-
-
 
 
 require_once 'views/template/header.php';
@@ -291,7 +289,7 @@ require_once 'views/template/header.php';
             'startDate' => $startDate,
             'endDate' => $endDate,
             'startDate' => $startDate,
-            'keyword' => $keywords,
+            'keywords' => $keywords,
             'Searchtext' => $Searchtext,
           );
 
@@ -427,7 +425,7 @@ require_once 'views/template/header.php';
             'startDate' => $startDate,
             'endDate' => $endDate,
             'startDate' => $startDate,
-            'keyword' => $keywords,
+            'keywords' => $keywords,
             'Searchtext' => $Searchtext,
           );
 

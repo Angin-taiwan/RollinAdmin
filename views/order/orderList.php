@@ -84,7 +84,8 @@ if (isset($_GET["checkedshippBtn"])) {
   }
 
   $www = '' ;
-  $Date = date("Y-m-d");
+  $Date =  date('Y-m-d');
+  $Date1 = date('Y-m-d', strtotime($Date.' + 1 days'));
   $Date60 = date('Y-m-d', strtotime($Date.' - 60 days'));
 
 
@@ -135,7 +136,7 @@ $ordertype = isset($query["ordertype"]) ? $query["ordertype"] : "";
 
 
 $startDate = isset($_GET['startDate']) && $_GET['startDate'] != "" ? $_GET['startDate'] : $Date60;
-$endDate = isset($_GET['endDate']) && $_GET['endDate'] != "" ? $_GET['endDate'] : $Date ;
+$endDate = isset($_GET['endDate']) && $_GET['endDate'] != "" ? $_GET['endDate'] : $Date1 ;
 
 // echo $startDate, "<br>";
 // echo $endDate, "<br>";
@@ -149,7 +150,7 @@ $endDate = isset($_GET['endDate']) && $_GET['endDate'] != "" ? $_GET['endDate'] 
 $pageStartIndex = ($pageNo - 1) * $pageSize;
 $OrdersTotal = get_object_vars($data->getAllCount())["Total"];
 $Orders = $Searchtext  == "" && $ordertype == "" ? $data->getAll($pageStartIndex, $pageSize) : $data->getAllLike($ordertype, $keywords, $Searchtext, $startDate, $endDate, $pageStartIndex, $pageSize);
-$OrdersCount = $Searchtext == "" ? $OrdersTotal : get_object_vars($data->getAllLikeCount($keywords,$Searchtext, $startDate, $endDate))["Count"];
+$OrdersCount = $Searchtext == "" && $ordertype == ""? $OrdersTotal : get_object_vars($data->getAllLikeCount($ordertype,$keywords,$Searchtext, $startDate, $endDate))["Count"];
 $pagesCount = ceil((int) $OrdersCount / (int) $pageSize);
 
 
@@ -214,23 +215,23 @@ require_once 'views/template/header.php';
 
         <div class= "form-group d-flex align-items-center col-12 pl-0 ">
           <div class = "col-6 pl-0 mr-5">
-            <div type=submit  class="btn-group btn-group-toggle col-8  ml-0" data-toggle="buttons">
+            <div type=submit  class="btn-group btn-group-toggle col-9  ml-0" data-toggle="buttons">
               <label onclick="return confirm" class="btn btn-outline-info <?= $ordertype == "" ? active : ""   ?>">
                 <input onclick="return confirm" type="radio" name="ordertype" id="option1" value="" > 全部訂單
               </label>
-              <label onclick="return confirm" class="btn btn-outline-info <?= $ordertype == "CheckedDate is null" ? active : ""   ?>">
-                <input type="radio" name="ordertype" id="option2" value= "CheckedDate is null"> 未理貨
+              <label onclick="return confirm" class="btn btn-outline-info <?= $ordertype == "and CheckedDate is null" ? active : ""   ?>">
+                <input type="radio" name="ordertype" id="option2" value= "and CheckedDate is null"> 未理貨
               </label>
-              <label onclick="return confirm" class="btn btn-outline-info <?= $ordertype == "shippeddate is null" ? active  : ""   ?>">
-                <input type="radio" name="ordertype" id="option3" value="shippeddate is null" > 未出貨
+              <label onclick="return confirm" class="btn btn-outline-info <?= $ordertype == "and shippeddate is null" ? active  : ""   ?>">
+                <input type="radio" name="ordertype" id="option3" value="and shippeddate is null" > 未出貨
               </label>
-              <label onclick="return confirm" class="btn btn-outline-info <?= $ordertype == "canceldate is not null" ? active  : ""   ?>" >
-                <input type="radio" name="ordertype" id="option4" value="canceldate is not null"> 已取消
+              <label onclick="return confirm" class="btn btn-outline-info <?= $ordertype == "and canceldate is not null" ? active  : ""   ?>" >
+                <input type="radio" name="ordertype" id="option4" value="and canceldate is not null"> 已取消
               </label>
             </div>
           </div>
 
-          <select name="keywords" class="form-control col-sm-1 ml-5">
+          <select name="keywords" class="form-control col-1 ml-4">
             <option value="O.orderID" <?= ($keywords == "O.orderID") ? "selected=selected" : ""; ?>>編號</option>
             <option value="UserName" <?= ($keywords == "UserName") ? "selected=selected" : ""; ?>>姓名</option>
           </select>
@@ -267,22 +268,23 @@ require_once 'views/template/header.php';
         <i class='fa fa-ban'>&nbsp</i>取消</button></a>
       </div>
       <div id="CancelModal" class="modal" role="dialog">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header"></div>
-                        <div class="modal-body">
-                            <p class="ml-3 mt-2">確定要取消這幾筆訂單？</p>
-                        </div>
-                        <div class="modal-footer">
-                            <a class="btn btn-secondary" href="Order/List" >返回</a>
-                            <button type="submit" name="checkedBtn" class="btn btn-danger" value="3">確定刪除</button>
-                        </div>
-                    </div>
-                </div>
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header"></div>
+              <div class="modal-body">
+                <p class="ml-3 mt-2">確定取消已勾選訂單？</p>
+              </div>
+              <div class="modal-footer">
+                  <a class="btn btn-secondary" href="Order/List" >返回</a>
+                  <button type="submit" name="checkedBtn" class="btn btn-danger" value="3">確定刪除</button>
+              </div>
             </div>
+          </div>
+        </div>
+      </div>
 
       <br>
-      <?php //下方分頁按鈕
+      <?php //上方分頁按鈕
         if($pagesCount>1){
           $queries = array(
             'pageSize' => $pageSize,
@@ -291,6 +293,7 @@ require_once 'views/template/header.php';
             'startDate' => $startDate,
             'keywords' => $keywords,
             'Searchtext' => $Searchtext,
+            'ordertype' => $ordertype,
           );
 
           $queryString = http_build_query($queries,'','&');
@@ -318,17 +321,17 @@ require_once 'views/template/header.php';
       $TypedisplayCancel = '';
 
       switch($ordertype){
-              case "CheckedDate is null":
+              case "and CheckedDate is null":
                 $TypedisplayC = "";
                 $TypedisplayS = "class='d-none'";
                 $TypedisplayCancel = "class='d-none'";
               break;
-              case "shippeddate is null":
+              case "and shippeddate is null":
                 $TypedisplayC = "class='d-none'";
                 $TypedisplayS = "";
                 $TypedisplayCancel = "class='d-none'";
               break;
-              case "canceldate is not null":
+              case "and canceldate is not null":
                 $TypedisplayC = "class='d-none'";
                 $TypedisplayS = "class='d-none'";
                 $TypedisplayCancel = "";
@@ -337,19 +340,19 @@ require_once 'views/template/header.php';
 
 
 
-      echo "<table id='listTable' class='table table-bordered table-hover table-sm'>";
+      echo "<table id='listTable' class='table table-bordered table-hover table-xs'>";
       echo "<thead>";
       echo "<tr class='text-center'>";
-      echo "<th></th>";
-      echo "<th>訂單編號</th>";
+      echo "<th width='1%'></th>";
+      echo "<th width='7%'>訂單編號</th>";
 
-      echo "<th>訂購者</th>";
-      echo "<th>付款方式</th>";
-      echo "<th>下訂日期</th>";
-      echo "<th $TypedisplayC>理貨日期</th>";
-      echo "<th $TypedisplayS>出貨日期</th>";
-      echo "<th>送達日期</th>";
-      echo "<th $TypedisplayCancel>取消日期</th>";
+      echo "<th width='10%'>訂購者</th>";
+      echo "<th width='10%'>付款方式</th>";
+      echo "<th width='12%'>下訂日期</th>";
+      echo "<th width='12%' $TypedisplayC>理貨日期</th>";
+      echo "<th width='12%' $TypedisplayS>出貨日期</th>";
+      echo "<th width='12%'>送達日期</th>";
+      echo "<th width='12%'$TypedisplayCancel>取消日期</th>";
       echo "<th>總價</th>";
 
       echo "</tr>";
@@ -406,14 +409,32 @@ require_once 'views/template/header.php';
 
             echo "<td $TypedisplayCancel>$order->CancelDate
                   <button class='btn btn-sm btn-danger' $displayCancel
-                  type='submit' name='updateCancelDate' value= '".$order->OrderID."' >
+                  type='button' data-toggle='modal' data-target='#sCancelModal$order->OrderID' >
                   <i class='fa fa-ban'>&nbsp</i>取消</button></a></td>";
             echo "<td>$order->FinalPrice</td>";
-            // echo $Orders->UnitPrice * $Orders->Quantity + $Orders->ShippingPrice;
-            // echo "</td>";
+        //     <button type="button" class="btn btn-danger btn-sm mr-1" data-toggle="modal" data-target="#CancelModal">
+        // <i class='fa fa-ban'>&nbsp</i>取消</button></a>
             echo "</tr>";
-          }
+          
+          echo "<div id='sCancelModal$order->OrderID' class='modal' role='dialog'>";
+          echo "<div class='modal-dialog'>";
+            echo "<div class='modal-content'>";
+              echo "<div class='modal-header'></div>";
+                echo "<div class='modal-body'>";
+                  echo "<p class='ml-3 mt-2'>確定取消這筆訂單？</p>";
+                  
+                echo "</div>";
+                echo "<div class='modal-footer'>";
+                    echo "<a class='btn btn-secondary' href='Order/List'>返回</a>";
+                    echo "<button type='submit' name='updateCancelDate' class='btn btn-danger' value='".$order->OrderID."'>確定刪除</button>";
+                echo "</div>";
+              echo "</div>";
+            echo "</div>";
+          echo "</div>";
+        echo "</div>";  
+      }
           ?>
+          
         </tbody>
       </table>
       </form>
@@ -427,6 +448,7 @@ require_once 'views/template/header.php';
             'startDate' => $startDate,
             'keywords' => $keywords,
             'Searchtext' => $Searchtext,
+            'ordertype' => $ordertype,
           );
 
           $queryString = http_build_query($queries,'','&');
@@ -447,6 +469,7 @@ require_once 'views/template/header.php';
           echo "</ul>";
         };
       ?>
+      
         </tfoot>
         </div>
     </div>

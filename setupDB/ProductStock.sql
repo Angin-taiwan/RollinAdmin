@@ -32,6 +32,23 @@ INSERT INTO `productstock` (`ProductID`, `SizeID`, `ColorID`, `UnitInStock`, `Un
 (4, 0, 0, 0, 0),
 (5, 0, 0, 0, 0);
 
+
+INSERT INTO `productstock` (`ProductID`, `SizeID`, `ColorID`, `UnitInStock`, `UnitsOnOrder`) VALUES
+(6, 26, 1, 13, 0),
+(6, 26, 2, 13, 0),
+(6, 26, 3, 13, 0),
+(6, 27, 1, 20, 0),
+(6, 27, 2, 20, 0),
+(6, 27, 3, 20, 0),
+(6, 28, 1, 20, 0),
+(6, 28, 2, 20, 0),
+(6, 28, 3, 20, 0),
+(6, 29, 1, 10, 0),
+(6, 29, 2, 10, 0),
+(6, 29, 3, 10, 0),
+(6, 30, 1, 6, 0),
+(6, 30, 2, 6, 0),
+(6, 30, 3, 6, 0);
 --
 -- Dumping data for table `ProductStock`
 --

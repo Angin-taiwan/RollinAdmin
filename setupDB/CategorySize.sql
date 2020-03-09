@@ -48,22 +48,54 @@ LOCK TABLES `CategorySize` WRITE;
     INSERT INTO `CategorySize` (`CategoryID`, `SizeID`) VALUES ('5', '21');
     INSERT INTO `CategorySize` (`CategoryID`, `SizeID`) VALUES ('5', '22');
 
- -- 鞋子 CategoryID = '2' ; US 7- ~ US 13+
-    INSERT INTO `CategorySize` (`CategoryID`, `SizeID`) VALUES ('2', '23');
-    INSERT INTO `CategorySize` (`CategoryID`, `SizeID`) VALUES ('2', '24');
-    INSERT INTO `CategorySize` (`CategoryID`, `SizeID`) VALUES ('2', '25');
-    INSERT INTO `CategorySize` (`CategoryID`, `SizeID`) VALUES ('2', '26');
-    INSERT INTO `CategorySize` (`CategoryID`, `SizeID`) VALUES ('2', '27');
-    INSERT INTO `CategorySize` (`CategoryID`, `SizeID`) VALUES ('2', '28');
-    INSERT INTO `CategorySize` (`CategoryID`, `SizeID`) VALUES ('2', '29');
-    INSERT INTO `CategorySize` (`CategoryID`, `SizeID`) VALUES ('2', '30');
-    INSERT INTO `CategorySize` (`CategoryID`, `SizeID`) VALUES ('2', '31');
-    INSERT INTO `CategorySize` (`CategoryID`, `SizeID`) VALUES ('2', '32');
-    INSERT INTO `CategorySize` (`CategoryID`, `SizeID`) VALUES ('2', '33');
-    INSERT INTO `CategorySize` (`CategoryID`, `SizeID`) VALUES ('2', '34');
-    INSERT INTO `CategorySize` (`CategoryID`, `SizeID`) VALUES ('2', '35');
-    INSERT INTO `CategorySize` (`CategoryID`, `SizeID`) VALUES ('2', '36');
-    INSERT INTO `CategorySize` (`CategoryID`, `SizeID`) VALUES ('2', '37');
+ -- 鞋子 CategoryID = '11','12','13' ; US 7- ~ US 13+
+    INSERT INTO `CategorySize` (`CategoryID`, `SizeID`) VALUES ('11', '23');
+    INSERT INTO `CategorySize` (`CategoryID`, `SizeID`) VALUES ('11', '24');
+    INSERT INTO `CategorySize` (`CategoryID`, `SizeID`) VALUES ('11', '25');
+    INSERT INTO `CategorySize` (`CategoryID`, `SizeID`) VALUES ('11', '26');
+    INSERT INTO `CategorySize` (`CategoryID`, `SizeID`) VALUES ('11', '27');
+    INSERT INTO `CategorySize` (`CategoryID`, `SizeID`) VALUES ('11', '28');
+    INSERT INTO `CategorySize` (`CategoryID`, `SizeID`) VALUES ('11', '29');
+    INSERT INTO `CategorySize` (`CategoryID`, `SizeID`) VALUES ('11', '30');
+    INSERT INTO `CategorySize` (`CategoryID`, `SizeID`) VALUES ('11', '31');
+    INSERT INTO `CategorySize` (`CategoryID`, `SizeID`) VALUES ('11', '32');
+    INSERT INTO `CategorySize` (`CategoryID`, `SizeID`) VALUES ('11', '33');
+    INSERT INTO `CategorySize` (`CategoryID`, `SizeID`) VALUES ('11', '34');
+    INSERT INTO `CategorySize` (`CategoryID`, `SizeID`) VALUES ('11', '35');
+    INSERT INTO `CategorySize` (`CategoryID`, `SizeID`) VALUES ('11', '36');
+    INSERT INTO `CategorySize` (`CategoryID`, `SizeID`) VALUES ('11', '37');
+
+    INSERT INTO `CategorySize` (`CategoryID`, `SizeID`) VALUES ('12', '23');
+    INSERT INTO `CategorySize` (`CategoryID`, `SizeID`) VALUES ('12', '24');
+    INSERT INTO `CategorySize` (`CategoryID`, `SizeID`) VALUES ('12', '25');
+    INSERT INTO `CategorySize` (`CategoryID`, `SizeID`) VALUES ('12', '26');
+    INSERT INTO `CategorySize` (`CategoryID`, `SizeID`) VALUES ('12', '27');
+    INSERT INTO `CategorySize` (`CategoryID`, `SizeID`) VALUES ('12', '28');
+    INSERT INTO `CategorySize` (`CategoryID`, `SizeID`) VALUES ('12', '29');
+    INSERT INTO `CategorySize` (`CategoryID`, `SizeID`) VALUES ('12', '30');
+    INSERT INTO `CategorySize` (`CategoryID`, `SizeID`) VALUES ('12', '31');
+    INSERT INTO `CategorySize` (`CategoryID`, `SizeID`) VALUES ('12', '32');
+    INSERT INTO `CategorySize` (`CategoryID`, `SizeID`) VALUES ('12', '33');
+    INSERT INTO `CategorySize` (`CategoryID`, `SizeID`) VALUES ('12', '34');
+    INSERT INTO `CategorySize` (`CategoryID`, `SizeID`) VALUES ('12', '35');
+    INSERT INTO `CategorySize` (`CategoryID`, `SizeID`) VALUES ('12', '36');
+    INSERT INTO `CategorySize` (`CategoryID`, `SizeID`) VALUES ('12', '37');
+
+    INSERT INTO `CategorySize` (`CategoryID`, `SizeID`) VALUES ('13', '23');
+    INSERT INTO `CategorySize` (`CategoryID`, `SizeID`) VALUES ('13', '24');
+    INSERT INTO `CategorySize` (`CategoryID`, `SizeID`) VALUES ('13', '25');
+    INSERT INTO `CategorySize` (`CategoryID`, `SizeID`) VALUES ('13', '26');
+    INSERT INTO `CategorySize` (`CategoryID`, `SizeID`) VALUES ('13', '27');
+    INSERT INTO `CategorySize` (`CategoryID`, `SizeID`) VALUES ('13', '28');
+    INSERT INTO `CategorySize` (`CategoryID`, `SizeID`) VALUES ('13', '29');
+    INSERT INTO `CategorySize` (`CategoryID`, `SizeID`) VALUES ('13', '30');
+    INSERT INTO `CategorySize` (`CategoryID`, `SizeID`) VALUES ('13', '31');
+    INSERT INTO `CategorySize` (`CategoryID`, `SizeID`) VALUES ('13', '32');
+    INSERT INTO `CategorySize` (`CategoryID`, `SizeID`) VALUES ('13', '33');
+    INSERT INTO `CategorySize` (`CategoryID`, `SizeID`) VALUES ('13', '34');
+    INSERT INTO `CategorySize` (`CategoryID`, `SizeID`) VALUES ('13', '35');
+    INSERT INTO `CategorySize` (`CategoryID`, `SizeID`) VALUES ('13', '36');
+    INSERT INTO `CategorySize` (`CategoryID`, `SizeID`) VALUES ('13', '37');
 
 -- 衣服CategoryID = '3', T-Shirts = '14', Hoodies = "15", Jackets= "16", Long Sleeves = "17"
     -- 上身 xxS ~ xxL

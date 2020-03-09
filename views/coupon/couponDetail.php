@@ -64,7 +64,7 @@ require_once 'views/template/header.php';
 
 <script>
   function deletealert() {
-    return confirm('是否確定刪除?');
+    return confirm('是否確定刪除?\n註:擁有此券的使用者資料會一同刪除');
   }
 </script>
 

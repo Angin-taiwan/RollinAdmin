@@ -147,4 +147,20 @@ LOCK TABLES `CategorySize` WRITE;
         INSERT INTO `CategorySize` (`CategoryID`, `SizeID`) VALUES ('18', '58');
         INSERT INTO `CategorySize` (`CategoryID`, `SizeID`) VALUES ('18', '59');
 
+        INSERT INTO `CategorySize` (`CategoryID`, `SizeID`) VALUES ('19', '45');
+        INSERT INTO `CategorySize` (`CategoryID`, `SizeID`) VALUES ('19', '46');
+        INSERT INTO `CategorySize` (`CategoryID`, `SizeID`) VALUES ('19', '47');
+        INSERT INTO `CategorySize` (`CategoryID`, `SizeID`) VALUES ('19', '48');
+        INSERT INTO `CategorySize` (`CategoryID`, `SizeID`) VALUES ('19', '49');
+        INSERT INTO `CategorySize` (`CategoryID`, `SizeID`) VALUES ('19', '50');
+        INSERT INTO `CategorySize` (`CategoryID`, `SizeID`) VALUES ('19', '51');
+        INSERT INTO `CategorySize` (`CategoryID`, `SizeID`) VALUES ('19', '52');
+        INSERT INTO `CategorySize` (`CategoryID`, `SizeID`) VALUES ('19', '53');
+        INSERT INTO `CategorySize` (`CategoryID`, `SizeID`) VALUES ('19', '54');
+        INSERT INTO `CategorySize` (`CategoryID`, `SizeID`) VALUES ('19', '55');
+        INSERT INTO `CategorySize` (`CategoryID`, `SizeID`) VALUES ('19', '56');
+        INSERT INTO `CategorySize` (`CategoryID`, `SizeID`) VALUES ('19', '57');
+        INSERT INTO `CategorySize` (`CategoryID`, `SizeID`) VALUES ('19', '58');
+        INSERT INTO `CategorySize` (`CategoryID`, `SizeID`) VALUES ('19', '59');
+
 UNLOCK TABLES;

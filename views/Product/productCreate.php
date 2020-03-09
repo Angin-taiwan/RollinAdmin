@@ -141,7 +141,7 @@ $hidInputs = [
           
           <?php
             $findmyCldCategoryName = $data->findmyCldCategoryName($CatID_M);
-            echo  "<option disabled name=\"ParentTitle\">－－－$CatID_M - CategoryName!! －－－</option>" ;
+            echo  "<option hidden name=\"ParentTitle\">－－－$CatID_M - $mcn->CategoryName!! －－－</option>" ;
             $mynumber=1;
             foreach ($findmyCldCategoryName as $ccn) {
               echo  <<<here

@@ -112,7 +112,7 @@ function getAllLike($ProductName, $column = "p.ProductID", $sort = "ASC", $start
 // U______________________________________________________
   function updateProduct($Product) {
     return $this->updateDB(
-      "UPDATE Product SET ProductName = ?,UnitPrice = ? , PDescription = ? WHERE ProductID = ? ;",
+      "UPDATE Product SET ProductName = ?,UnitPrice = ? , PDescription = ? , Date = current_timestamp() WHERE ProductID = ? ;",
       ["$Product->ProductName", "$Product->UnitPrice", "$Product->PDescription", $Product->ProductID]
     );
   }

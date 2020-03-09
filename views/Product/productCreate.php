@@ -268,8 +268,10 @@ here;
 
   <!-- btn -->
   <div>
-    <button type="submit" class="btn btn-success" name="insertButton" id="insertButton">新增資料</button>
-    <button type="reset" class="btn btn-danger">清除資料</button>
+  <button type="button" class="btn btn-outline-dark " onclick="location.href='Product/List'">返回清單</button>
+  <button type="reset" class="btn btn-danger ">清除資料</button>
+    <button type="submit" class="btn btn-info float-right" name="insertButton" id="insertButton">新增資料</button>
+    
   </div>
 
   </form>

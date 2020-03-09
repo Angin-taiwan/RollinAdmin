@@ -53,11 +53,11 @@ function getAllLike($ProductName, $column = "p.ProductID", $sort = "ASC", $start
 // List
   function getAll(){
     return $this->selectDB(
-      "SELECT *, ps.ProductID P_ID,SUM(UnitInStock) TotalStock from productstock as ps -- 庫存
+      "SELECT p.ProductID,b.BrandName,c.CategoryName,p.PDescription,p.UnitPrice,p.Date,SUM(ps.UnitInStock) TotalStock from productstock as ps -- 庫存
       right outer join Product as p on p.ProductID = ps.ProductID    -- 商品
 			left outer join brand as b on p.BrandID = b.BrandID            -- 品牌
 			left outer join category as c on p.CategoryID = c.CategoryID   -- 類別
-            GROUP BY p.ProductID;"
+            GROUP BY ps.ProductID;"
     );
   }
 

@@ -186,7 +186,7 @@ $hidInputs = [
       </div>
       <div class="form-group col-md-3">
         <label for="txtUnitPrice">單價</label>
-        <input type="number" min="0" class="form-control" name="UnitPrice" id="txtUnitPrice" placeholder="UnitPrice" onchange="this.form.submit()">
+        <input type="number" min="0" class="form-control" name="UnitPrice" id="txtUnitPrice" placeholder="UnitPrice">
       </div>
   </div>
 
@@ -236,10 +236,12 @@ $count++;
         <select class="form-control" name="ColorID$x" id="txtColorID$x">
           <option value="0" selected>None Color</option>
 here;
+$count =1;
           foreach ($findmyColorName as $cn) {
             echo  <<<here
-            <option value="$cn->ColorID">$cn->Color</option>
+            <option value="$cn->ColorID">$count - $cn->Color</option>
 here;
+$count++;
           }
           echo <<<here
           </select>
